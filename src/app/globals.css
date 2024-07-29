@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .roboto-thin {
+    @apply font-roboto-thin font-thin font-normal;
+  }
+  .roboto-light {
+    @apply font-roboto-light font-light font-normal;
+  }
+  .roboto-regular {
+    @apply font-roboto-regular font-regular font-normal;
+  }
+  .roboto-medium {
+    @apply font-roboto-medium font-medium font-normal;
+  }
+  .roboto-bold {
+    @apply font-roboto-bold font-bold font-normal;
+  }
+  .roboto-black {
+    @apply font-roboto-black font-black font-normal;
+  }
+  .roboto-thin-italic {
+    @apply font-roboto-thin-italic font-thin font-italic;
+  }
+  .roboto-light-italic {
+    @apply font-roboto-light-italic font-light font-italic;
+  }
+  .roboto-regular-italic {
+    @apply font-roboto-regular-italic font-regular font-italic;
+  }
+  .roboto-medium-italic {
+    @apply font-roboto-medium-italic font-medium font-italic;
+  }
+  .roboto-bold-italic {
+    @apply font-roboto-bold-italic font-bold font-italic;
+  }
+  .roboto-black-italic {
+    @apply font-roboto-black-italic font-black font-italic;
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
