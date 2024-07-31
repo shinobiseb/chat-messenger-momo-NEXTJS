@@ -1,7 +1,6 @@
-import { MessageReq } from '../src/types/types'
+import { MessageReq } from "@/types/types";
 import Message from "./Message";
-import { ChatBoxProps } from '../src/types/types'
-
+import { ChatBoxProps } from '@/types/types';
 
 export default function ChatBox({ messages }: ChatBoxProps) {
 

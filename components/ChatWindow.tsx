@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import ChatBox from './ChatBox';
 import TextBox from './TextBox';
-import { MessageReq } from '../src/types/types'
+import { MessageReq } from '@/types/types';
 import { DevMessages } from '../assets/DevMessages';
-import { signInProps } from '../src/types/types'
+import { signInProps } from '@/types/types';
 
 export default function ChatWindow() {
 
@@ -20,8 +20,7 @@ export default function ChatWindow() {
   useEffect(() => {
     if (messages.length === 0) {
       setMessages(DevMessages);
-    }
-    console.log(messages);
+    };
   }, [messages]);
 
   return (
