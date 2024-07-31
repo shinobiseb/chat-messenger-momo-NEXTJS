@@ -16,3 +16,7 @@ flowchart TD
     G--Noo-->Z[Create User Account Screen]
     Z--Create/Hash newUser Infoo-->A
 ```
+
+Notes:
+
+Every chat will create a new cluster/collection/object of all the users active chats

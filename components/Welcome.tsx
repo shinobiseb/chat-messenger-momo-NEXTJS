@@ -1,4 +1,4 @@
-import { signInProps } from '../src/types/types'
+import { signInProps } from '@/types/types';
 import GoogleIcon from '../public/GoogleIcon';
 
 export default function Welcome( {setSignedIn, signInState} : signInProps ) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { headerProps, signInProps } from '../src/types/types'
+import { headerProps, signInProps } from '@/types/types';
 import { PiSignOutFill } from "react-icons/pi";
 
 export default function Header( { profilePic, userName} : headerProps, { setSignedIn} : signInProps) {
