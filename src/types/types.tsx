@@ -24,3 +24,10 @@ export type MessageReq = {
 export interface ChatBoxProps {
     messages: MessageReq[] | null;
 }
+
+export interface chatProps {
+  userName: string,
+  profilePic: string,
+  lastMessage: string,
+  timeSent: string
+}
