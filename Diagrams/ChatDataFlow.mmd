@@ -1,0 +1,8 @@
+---
+title: Chat Data Flow
+---
+
+sequenceDiagram
+    User->>ChatCollection: Creates New Chat
+    UserCollection->>ChatCollection: GET Chat Collection
+    ChatCollection-->>UserCollection: Returns User's ChatCollectionID

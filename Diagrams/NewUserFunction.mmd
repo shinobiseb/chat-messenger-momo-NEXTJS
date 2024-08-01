@@ -1,8 +1,9 @@
 sequenceDiagram
 %% Nodes
-UserDatabase->>ChatDatabase: Create User's Collection
-ChatDatabase-->>UserDatabase: Returns User Chat Collection ID for Reference
+    rect rgb(191, 223, 255)
+        UserCollection-)ChatCollection: Create User's Collection
+        ChatCollection--)UserCollection: Returns User Chat Collection ID for Reference
+        UserCollection-)Database: Updates Database
+    end
 
-%% NewUser Function
-%% Chat Interactions
 %% How Users keep their chats
