@@ -11,10 +11,16 @@ function App() {
   const [signedIn, setSignedIn] = useState(true);
   console.log(signedIn)
 
+  console.log('Hi')
+
   return (
     <main className="bg-black w-screen h-screen flex justify-center items-center">
-      {!signedIn ? 
-      <Welcome setSignedIn={setSignedIn} signInState={signedIn} /> : <ActiveChatList/>
+      {
+        !signedIn ? 
+        <Welcome 
+        setSignedIn={setSignedIn} 
+        signInState={signedIn}/> : 
+        <ActiveChatList/>
       }
     </main>
   );
