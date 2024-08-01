@@ -10,7 +10,7 @@ function ActiveChatList() {
           <button>
             <HiMenu size={30}/>
           </button>
-          <h2 className='text-2xl'>MauChat</h2>
+          <h2 className='text-2xl font-semibold'>MauChat</h2>
           <button>
             <FaSearch size={21}/>
           </button>
