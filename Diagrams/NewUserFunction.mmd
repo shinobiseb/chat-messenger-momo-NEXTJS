@@ -1,6 +1,7 @@
 sequenceDiagram
 %% Nodes
     rect rgb(191, 223, 255)
+        NewUserFunction-)UserCollection: Creates new User Collection
         UserCollection-)ChatCollection: Create User's Collection
         ChatCollection--)UserCollection: Returns User Chat Collection ID for Reference
         UserCollection-)Database: Updates Database

@@ -22,7 +22,24 @@ async function listMyDatabases(client: MongoClient) {
 }
 
 async function createUserCollection(client: MongoClient, userObject: Object) {
-  const result = await client.db("ChatMessengerMomo")
+  const result = await client.db("Momo-data").collection("users").insertOne(userObject)
+  console.log(`New Collection created with the following id: ${result.insertedId}`)
+}
+
+export async function defaultRun() {
+  if(uri) {
+    try {
+      const client = new MongoClient(uri)
+      await client.connect()
+      await createUserCollection(client, {
+        userName: "Shinobiseb2113",
+        chats: [],
+        profilePicture: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F827325394036863739%2F&psig=AOvVaw0ee8-OE1xAZyXMz67lOPGu&ust=1722639667873000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPD_gv_y1IcDFQAAAAAdAAAAABAK'
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
 
 export async function GET() {
@@ -31,8 +48,8 @@ export async function GET() {
       const client = new MongoClient(uri)
       await client.connect()
       await listMyDatabases(client)
+      await defaultRun()
       await client.close()
-
       return NextResponse.json({ message: 'Mongoose Connection Complete' });
     } catch (error) {
       console.error('Error:', error);
