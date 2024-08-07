@@ -9,6 +9,10 @@ if(!process.env.NEXT_PUBLIC_URI) {
 
 const uri = process.env.NEXT_PUBLIC_URI;
 
+async function connectToDatabase( client: MongoClient) {
+  
+}
+
 
 // async function listMyDatabases(client: MongoClient) {
 //   const databasesList = await client.db().admin().listDatabases()
