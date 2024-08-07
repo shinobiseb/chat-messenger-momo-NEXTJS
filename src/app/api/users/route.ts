@@ -1,30 +1,26 @@
-// src/app/api/your-route/route.ts
-
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
+import clientPromise from "@/lib/mongo/connect";
 
 const uri = process.env.NEXT_PUBLIC_URI;
 
-async function createUserCollection(client: MongoClient, userObject: Object) {
-    const result = await client.db("Momo-data").collection("users").insertOne(userObject);
-    console.log(`New Collection created with the following id: ${result.insertedId}`);
+async function main() {
+    if (!uri) return;
+    const client = new MongoClient(uri);
+    
+    try {
+        await client.connect();
+        const db = client.db('Momo-Data');
+        const collection = db.collection('users');
+        
+        console.log(collection);
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error);
+    } finally {
+        await client.close();
+    }
+
+    return 
 }
 
-export async function POST(request: Request, response: Response) {
-    // if (uri) {
-    //     try {
-    //         const client = new MongoClient(uri);
-    //         await client.connect();
-    //         await createUserCollection(client, {
-    //             "userName": "Alice",
-    //             "chats": [],
-    //         });
-    //         await client.close();
-    //         return NextResponse.json({ message: 'User created successfully' }, { status: 200 });
-    //     } catch (error) {
-    //         console.error('Connection Failure: ' + error);
-    //         return NextResponse.json({ error: 'Error connecting to database' }, { status: 500 });
-    //     }
-    // }
-    
-}
+main().catch(console.error);
