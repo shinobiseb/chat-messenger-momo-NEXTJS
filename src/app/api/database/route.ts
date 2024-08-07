@@ -3,19 +3,26 @@ import { NextResponse } from 'next/server';
 import mongoose, { ConnectOptions } from 'mongoose'
 import { MongoClient } from 'mongodb';
 
-if(!process.env.NEXT_PUBLIC_URI) {
-  throw new Error('Missing URI! Check .env or variable name')
-}
+if (!process.env.NEXT_PUBLIC_URI) throw new Error('Missing URI! Check .env or variable name')
 
 const uri = process.env.NEXT_PUBLIC_URI;
+if (!uri) throw new Error(`Something's wrong with the URI! URI is ${uri}`)
 
-async function connectToDatabase( client: MongoClient) {
-  
+const client = new MongoClient(uri)
+let clientPromise;
+
+declare global {
+  var _mongoClientPromise: Promise<MongoClient>;
 }
 
+if (process.env.NODE_ENV !== 'production') {
+  if (!globalThis._mongoClientPromise) {
+    globalThis._mongoClientPromise = client.connect();
+  }
+  
+  clientPromise = globalThis._mongoClientPromise
+} else {
+  clientPromise = client.connect()
+}
 
-// async function listMyDatabases(client: MongoClient) {
-//   const databasesList = await client.db().admin().listDatabases()
-//   console.log("Databases: ")
-//   databasesList.databases.forEach(db => console.log(` - ${db.name}`))
-// }
+export default clientPromise
