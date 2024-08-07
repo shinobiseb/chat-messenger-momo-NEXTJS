@@ -24,4 +24,4 @@ if (process.env.NODE_ENV !== 'production') {
   clientPromise = client.connect()
 }
 
-export default clientPromise
+export default clientPromise as Promise<MongoClient>

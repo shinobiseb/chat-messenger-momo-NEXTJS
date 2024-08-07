@@ -1,1 +1,1 @@
-import clientPromise from "../../../lib/mongoDBConnection";
+import clientPromise from "../../../lib/mongo/connect";
