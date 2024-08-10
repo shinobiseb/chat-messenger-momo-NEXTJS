@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Mauchat",
   description: "Chat Messaging Application by ShinobiSeb",
+  icons: {
+    icon: 'public/m.png'
+  }
 };
 
 export default function RootLayout({
@@ -15,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-black">
       <body className={inter.className}>{children}</body>
     </html>
   );

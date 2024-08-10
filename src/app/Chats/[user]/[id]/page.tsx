@@ -4,7 +4,7 @@ import ChatBox from '../../../../../components/ChatBox'
 
 export default function page() {
   return (
-    <div className='bg-black'>
+    <div className=''>
       <ChatWindow/>
     </div>
   )
