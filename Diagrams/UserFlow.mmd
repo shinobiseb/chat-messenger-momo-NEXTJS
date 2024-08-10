@@ -1,5 +1,5 @@
 flowchart TD
-%% Nodes
+
     MongoDB[(MongoDB Data Storage)] 
     MongoDB-->UserData([User Registration Data])--> UserProfile([Registered User Profile])
     UserProfile--> Conversations(User Conversations)
@@ -14,5 +14,3 @@ flowchart TD
     IsRegistered--Yes-->UserProfile
     IsRegistered--No-->SignUpPage[Sign Up Page]
     SignUpPage--Register/Hash New User Info-->MongoDB
-
-    

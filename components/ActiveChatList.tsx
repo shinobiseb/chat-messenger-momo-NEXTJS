@@ -16,14 +16,12 @@ function ActiveChatList() {
           </button>
         </header>
         <ul className='overflow-y-auto'>
-            <li className='activeChat'>
                 <ActiveChat 
                 userName='Momo' 
                 profilePic='https://pbs.twimg.com/profile_images/1555441496278843392/4KcqQrUg_400x400.jpg'
                 lastMessage='I love you so much Seb even if the world stopped being the world Id die for you'
                 timeSent='2:00'
                 />
-            </li>
         </ul>
     </div>
   )

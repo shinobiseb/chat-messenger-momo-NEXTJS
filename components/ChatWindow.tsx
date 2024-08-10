@@ -18,9 +18,6 @@ export default function ChatWindow() {
   const [messages, setMessages] = useState<MessageReq[]>([]);
 
   useEffect(() => {
-    if (messages.length === 0) {
-      setMessages(DevMessages);
-    };
   }, [messages]);
 
   return (
