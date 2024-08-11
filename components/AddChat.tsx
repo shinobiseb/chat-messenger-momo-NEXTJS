@@ -9,7 +9,7 @@ export default function AddChat( { setIsOpen }: AddChatProps ) {
             <input className='rounded-md px-2 py-1 w-5/6' type="text" name="" id="" placeholder='User Name'/>
             <input className='rounded-md px-2 py-1 w-5/6' type="text" name="" id="" placeholder='Password'/>
             <input 
-            className='bg-white px-2 py-1 rounded-md' 
+            className='bg-white px-2 py-1 rounded-md hover:cursor-pointer' 
             type="submit" 
             placeholder='Create' 
             value='Create'
