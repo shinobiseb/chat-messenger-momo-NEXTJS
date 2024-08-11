@@ -3,10 +3,13 @@
 import React, { useEffect, useState } from 'react'
 import ActiveChat from './ActiveChat'
 import { FaSearch } from "react-icons/fa";
+import { FaCirclePlus } from "react-icons/fa6";
 import { HiMenu } from "react-icons/hi";
+import AddChat from './AddChat';
 
 function ActiveChatList() {
 
+  const [isOpen, setIsOpen] = useState(true)
   const [chats, setChats] = useState([])
 
   useEffect(()=> {
@@ -27,8 +30,14 @@ function ActiveChatList() {
           </button>
         </header>
         <ul className='overflow-y-auto'>
-
         </ul>
+        { isOpen ? <AddChat setIsOpen={setIsOpen}/> : null }
+        <button 
+          className='absolute bottom-0 right-0 p-3' 
+          onClick={()=> setIsOpen(true)}
+        >
+          <FaCirclePlus size={45} fill='#F15025'/>
+        </button>
     </div>
   )
 }

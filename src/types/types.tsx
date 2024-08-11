@@ -31,3 +31,7 @@ export interface chatProps {
   lastMessage: string,
   timeSent: string
 }
+
+export interface AddChatProps {
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
