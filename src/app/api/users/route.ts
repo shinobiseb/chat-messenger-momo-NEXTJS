@@ -1,5 +1,4 @@
 import { NextResponse, NextRequest } from "next/server";
-import { MongoClient } from "mongodb";
 import clientPromise from "@/lib/mongo/connect";
 
 export async function GET() {
@@ -38,13 +37,12 @@ export async function POST( req : NextRequest) {
         const body = await req.json()
         const pointer = await client.db('Momo-Data').collection('users').insertOne({
             userName: body.userName,
-            password: body.password
+            password: body.password,
+            email: body.email,
         })
         return Response.json({message: 'Successfully Updated Users'})
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
         return NextResponse.json({ error: 'Connection failed' }, { status: 500 });
     }
-
-    return NextResponse.json({status : 201})
 }

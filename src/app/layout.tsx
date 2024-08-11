@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Mauchat",
   description: "Chat Messaging Application by ShinobiSeb",
   icons: {
-    icon: 'public/m.png'
+    icon: 'https://www.svgrepo.com/show/302639/message.svg'
   }
 };
 
