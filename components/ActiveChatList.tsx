@@ -9,7 +9,7 @@ import AddChat from './AddChat';
 
 function ActiveChatList() {
 
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [chats, setChats] = useState([])
 
   useEffect(()=> {
@@ -31,7 +31,7 @@ function ActiveChatList() {
         </header>
         <ul className='overflow-y-auto'>
         </ul>
-        { isOpen ? <AddChat setIsOpen={setIsOpen}/> : null }
+        { isOpen || chats.length === 0 ? <AddChat setIsOpen={setIsOpen}/> : null }
         <button 
           className='absolute bottom-0 right-0 p-3' 
           onClick={()=> setIsOpen(true)}

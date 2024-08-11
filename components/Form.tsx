@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import { signInProps } from '@/types/types';
-import GoogleIcon from '../public/GoogleIcon';
+"use client"
 
-export default function Form({ setSignedIn, signInState }: signInProps) {
-  const [isPopupVisible, setPopupVisible] = useState(false);
+export default function Form() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -23,20 +20,15 @@ export default function Form({ setSignedIn, signInState }: signInProps) {
       body: JSON.stringify(data),
     });
 
-    if (response.ok) {
-      setPopupVisible(true);
-      setSignedIn(true)
-      setTimeout(() => {
-        setPopupVisible(false);
-      }, 3000); // Hide popup after 3 seconds
-    }
+    history.back()
 
     const result = await response.json();
     console.log(result);
   };
 
   return (
-    <div className="relative bg-orange w-11/12 h-60 rounded-xl flex flex-col justify-around items-center py-12 drop-shadow-md">
+    <div className="relative bg-orange w-11/12 h-72 rounded-xl flex flex-col justify-evenly items-center py-12 drop-shadow-md">
+      <h3 className="text-white py-1 text-2xl">Create an Account</h3>
       <form className="flex flex-col h-full justify-between" onSubmit={handleSubmit}>
         <input
           required
@@ -65,12 +57,6 @@ export default function Form({ setSignedIn, signInState }: signInProps) {
           value="Create"
         />
       </form>
-
-      {isPopupVisible ? (
-        <div id='Confirmation-popup' className="absolute bottom-auto bg-white text-orange p-2 rounded-sm shadow-md text-sm">
-          Signup successful!
-        </div>
-      ): null}
     </div>
   );
 }

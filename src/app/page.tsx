@@ -11,16 +11,9 @@ function App() {
 
   return (
     <main className="w-screen h-screen flex justify-center items-center">
-      {/* {
-        !signedIn ? 
-        <Welcome 
-        setSignedIn={setSignedIn} 
-        signInState={signedIn}/> : 
-        <ActiveChatList/>
-      } */}
       {
         !signedIn ? 
-        <Form 
+        <Welcome 
         setSignedIn={setSignedIn} 
         signInState={signedIn}/> : 
         <ActiveChatList/>
