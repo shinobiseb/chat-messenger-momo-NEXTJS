@@ -19,8 +19,6 @@ export default function AddChat( { setIsOpen }: AddChatProps ) {
       body: JSON.stringify(data),
     });
 
-    // history.back()
-
     const result = await response.json();
     console.log(result);
   };
@@ -28,7 +26,7 @@ export default function AddChat( { setIsOpen }: AddChatProps ) {
   return (
     <div className='w-11/12 h-60 bg-orange rounded-md flex flex-col items-center justify-center self-center m-auto'>
         <h3 className='text-white text-3xl mb-3 font-semibold'>Create a Chat</h3>
-        <form className='flex flex-col justify-between items-center h-1/2 w-full' action="">
+        <form className='flex flex-col justify-between items-center h-1/3 w-full'>
             <input 
             className='rounded-md px-2 py-1 w-5/6' 
             type="text" 
