@@ -34,8 +34,7 @@ function ActiveChatList() {
         { isOpen || chats.length === 0 ? <AddChat setIsOpen={setIsOpen}/> : null }
         <button 
           className='absolute bottom-0 right-0 p-3' 
-          onClick={()=> setIsOpen(true)}
-        >
+          onClick={()=> setIsOpen(true)}>
           <FaCirclePlus size={45} fill='#F15025'/>
         </button>
     </div>

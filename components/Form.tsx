@@ -6,10 +6,25 @@ export default function Form() {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
-    const data = {
-      email: formData.get('email'),
-      username: formData.get('username'),
-      password: formData.get('password'),
+
+    const emailInput = formData.get('email')
+    const userInput = formData.get('userName')
+    const passwordInput = formData.get('password')
+
+    if (!emailInput || !userInput || !passwordInput) {
+      console.error(
+        `Input not found! \n 
+        emailInput: ${emailInput} \n 
+        userInput: ${userInput} \n 
+        passwordInput: ${passwordInput}`
+      );
+      return;
+    }
+
+    let data = {
+      email: emailInput,
+      userName: userInput,
+      password: passwordInput,
     };
 
     const response = await fetch('http://localhost:3000/api/users', {
@@ -27,36 +42,40 @@ export default function Form() {
   };
 
   return (
-    <div className="relative bg-orange w-11/12 h-72 rounded-xl flex flex-col justify-evenly items-center py-12 drop-shadow-md">
-      <h3 className="text-white py-1 text-2xl">Create an Account</h3>
-      <form className="flex flex-col h-full justify-between" onSubmit={handleSubmit}>
+    <div className="relative bg-orange w-11/12 h-72 rounded-xl flex flex-col justify-evenly items-center py-6 drop-shadow-md">
+      <h3 className="text-white py-1 text-2xl font-semibold">Create an Account</h3>
+      <form 
+      className="flex flex-col h-full justify-between" 
+      onSubmit={handleSubmit}
+      >
         <input
           required
-          className="rounded-md p-1"
+          className="rounded-md p-1 px-2"
           type="email"
           name="email"
           placeholder="email"
         />
         <input
           required
-          className="rounded-md p-1"
+          className="rounded-md p-1 px-2"
           type="text"
-          name="username"
+          name="userName"
           placeholder="User"
         />
         <input
           required
-          className="rounded-md p-1"
+          className="rounded-md p-1 px-2"
           type="password"
           name="password"
           placeholder="Password"
         />
         <input
-          className="rounded-md bg-white p-1"
+          className="rounded-md bg-white p-1 px-2"
           type="submit"
           value="Create"
         />
       </form>
+      <button onClick={()=> history.back()} className="rounded-md bg-white py-1 px-4 mt-2">Back</button>
     </div>
   );
 }
