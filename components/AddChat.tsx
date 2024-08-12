@@ -19,8 +19,6 @@ export default function AddChat( { setIsOpen }: AddChatProps ) {
       body: JSON.stringify(data),
     });
 
-    // history.back()
-
     const result = await response.json();
     console.log(result);
   };
