@@ -19,9 +19,9 @@ function ActiveChatList() {
         if(!response.ok) return new Error('Network response was not ok')
         const data = await response.json()
         setChats(data)
-        console.log(chats)
+        const { chats } = data
       } catch(err) {
-          console.error(err)
+        console.error(`Error in ActiveChat ${err}`)
       }
     }
     fetchChats()
@@ -39,8 +39,13 @@ function ActiveChatList() {
           </button>
         </header>
         <ul className='overflow-y-auto'>
+          
         </ul>
-        { isOpen || chats.length === 0 ? <AddChat setIsOpen={setIsOpen}/> : null }
+        { 
+          isOpen || chats.length === 0 ? 
+          <AddChat setIsOpen={setIsOpen}/> : 
+          null
+        }
         <button 
           className='absolute bottom-0 right-0 p-3' 
           onClick={()=> setIsOpen(true)}>
