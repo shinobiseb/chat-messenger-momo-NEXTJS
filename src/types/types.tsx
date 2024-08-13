@@ -36,8 +36,6 @@ export interface AddChatProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-
-
 export type Message = {
     id: string;
     content: string;
@@ -45,19 +43,12 @@ export type Message = {
     timestamp: Date;
   };
 
-export type Chat = {
-  id: string;
-  participants: string[]
-  messages: Message[];
-};
-
 export type ChatPreview = {
+    _id: string;
     id: string;
-    participants: string[]; // e.g., user IDs
     lastMessage: {
       content: string;
-      sent: boolean;
-      timestamp: Date;
     };
-    unreadCount: number; // Number of unread messages for the current user
-  };
+    unreadCount: number;
+    targetUser: string; // Point to User Data in User Collection
+};

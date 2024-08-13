@@ -1,31 +1,46 @@
-"use client"
-
-import React, { useEffect, useState } from 'react'
-import ActiveChat from './ActiveChat'
+import React, { useEffect, useState } from 'react';
+import ActiveChat from './ActiveChat';
 import { FaSearch } from "react-icons/fa";
 import { FaCirclePlus } from "react-icons/fa6";
 import { HiMenu } from "react-icons/hi";
 import AddChat from './AddChat';
+import { ChatPreview } from '@/types/types';
 
 function ActiveChatList() {
 
-  const [isOpen, setIsOpen] = useState(false)
-  const [chats, setChats] = useState([])
+  const [isOpen, setIsOpen] = useState(false);
+  const [chats, setChats] = useState<ChatPreview[]>([]); // Explicitly specify the type here
 
-  useEffect(()=> {
+  function chatMapper(chats: ChatPreview[]) {
+    if (Array.isArray(chats)) {
+      return chats.map(chat => (
+        <li key={chat.id}>
+          <ActiveChat 
+            userName={chat.targetUser} 
+            profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg' 
+            lastMessage={chat.lastMessage.content} 
+            timeSent='4:30' 
+          />
+        </li>
+      ));
+    }
+    return null; // Return null if not an array
+  }
+
+  useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await fetch('/api/chats')
-        if(!response.ok) return new Error('Network response was not ok')
-        const data = await response.json()
-        setChats(data)
-        const { chats } = data
-      } catch(err) {
-        console.error(`Error in ActiveChat ${err}`)
+        const response = await fetch('/api/chats');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        const { chats } = data;
+        setChats(chats)
+      } catch (err) {
+        console.error(`Error in ActiveChat ${err}`);
       }
-    }
-    fetchChats()
-  }, [])
+    };
+    fetchChats();
+  }, []);
 
   return (
     <div className='w-full h-screen flex flex-col overflow-hidden'>
@@ -39,7 +54,7 @@ function ActiveChatList() {
           </button>
         </header>
         <ul className='overflow-y-auto'>
-          
+          { chatMapper(chats) }
         </ul>
         { 
           isOpen || chats.length === 0 ? 
@@ -48,11 +63,11 @@ function ActiveChatList() {
         }
         <button 
           className='absolute bottom-0 right-0 p-3' 
-          onClick={()=> setIsOpen(true)}>
+          onClick={() => setIsOpen(true)}>
           <FaCirclePlus size={45} fill='#F15025'/>
         </button>
     </div>
-  )
+  );
 }
 
-export default ActiveChatList
+export default ActiveChatList;
