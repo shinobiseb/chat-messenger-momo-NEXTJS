@@ -48,7 +48,7 @@ export type ChatPreview = {
     id: string;
     lastMessage: {
       content: string;
-    };
+    } | null;
     unreadCount: number;
     targetUser: string; // Point to User Data in User Collection
 };

@@ -1,13 +1,15 @@
 import React from 'react'
-import { AddChatProps } from '@/types/types'
+import { AddChatProps, ChatPreview } from '@/types/types'
 
-export default function AddChat( { setIsOpen }: AddChatProps ) {
+export default function AddChat(  ) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
     const data = {
-      username: formData.get('userName')
+      targetUser: formData.get('userName') as string,
+      lastMessage: null,
+      unreadCount: 0,
     }
 
     const response = await fetch('http://localhost:3000/api/chats', {
@@ -33,6 +35,7 @@ export default function AddChat( { setIsOpen }: AddChatProps ) {
           type="text" 
           name='userName' 
           placeholder='User Name'
+          required
           />
           <input 
           className='rounded-md bg-white py-1 px-4 mt-2' 

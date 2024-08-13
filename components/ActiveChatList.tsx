@@ -13,16 +13,32 @@ function ActiveChatList() {
 
   function chatMapper(chats: ChatPreview[]) {
     if (Array.isArray(chats)) {
-      return chats.map(chat => (
-        <li key={chat.id}>
-          <ActiveChat 
-            userName={chat.targetUser} 
-            profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg' 
-            lastMessage={chat.lastMessage.content} 
-            timeSent='4:30' 
-          />
-        </li>
-      ));
+      return chats.map(chat => {
+        if (chat.lastMessage) {
+          return (
+            <li key={chat.id}>
+              <ActiveChat 
+                userName={chat.targetUser} 
+                profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg' 
+                lastMessage={chat.lastMessage.content} 
+                timeSent='4:30' 
+              />
+            </li>
+          );
+        } else {
+          return (
+            <li key={chat.id}>
+              <ActiveChat 
+                userName={chat.targetUser} 
+                profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg' 
+                lastMessage={''} 
+                timeSent='4:30' 
+              />
+            </li>
+          )
+        }
+        return null; // Return null if lastMessage is not present
+      }).filter(Boolean); // Filter out null values
     }
     return null; // Return null if not an array
   }
@@ -58,7 +74,7 @@ function ActiveChatList() {
         </ul>
         { 
           isOpen || chats.length === 0 ? 
-          <AddChat setIsOpen={setIsOpen}/> : 
+          <AddChat/> : 
           null
         }
         <button 
