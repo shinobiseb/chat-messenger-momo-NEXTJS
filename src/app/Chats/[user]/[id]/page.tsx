@@ -1,6 +1,5 @@
 import React from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
-import ChatBox from '../../../../../components/ChatBox'
 
 export default function page() {
   return (

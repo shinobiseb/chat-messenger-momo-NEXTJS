@@ -2,7 +2,6 @@ import React from 'react'
 import { AddChatProps } from '@/types/types'
 
 export default function AddChat( { setIsOpen }: AddChatProps ) {
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -25,22 +24,24 @@ export default function AddChat( { setIsOpen }: AddChatProps ) {
 
   return (
     <div className='w-11/12 h-60 bg-orange rounded-md flex flex-col items-center justify-center self-center m-auto'>
-        <h3 className='text-white text-3xl mb-3 font-semibold'>Create a Chat</h3>
-        <form className='flex flex-col justify-between items-center h-1/3 w-full'>
-            <input 
-            className='rounded-md px-2 py-1 w-5/6' 
-            type="text" 
-            name='userName' 
-            placeholder='User Name'
-            />
-            <input 
-            className='bg-white px-2 py-1 rounded-md hover:cursor-pointer' 
-            type='submit' 
-            placeholder='Create'
-            value='Create'
-            onSubmit={handleSubmit}
-            />
-        </form>
+      <h3 className='text-white text-3xl mb-3 font-semibold'>
+        Create a Chat
+      </h3>
+      <form onSubmit={handleSubmit} className='flex flex-col justify-between items-center h-1/3 w-full'>
+          <input 
+          className='rounded-md px-2 py-1 w-5/6' 
+          type="text" 
+          name='userName' 
+          placeholder='User Name'
+          />
+          <input 
+          className='rounded-md bg-white py-1 px-4 mt-2' 
+          type='submit' 
+          placeholder='Create'
+          value='Create'
+          />
+      </form>
+      <button onClick={()=> history.back()} className="rounded-md bg-white py-1 px-4 mt-2">Back</button>
     </div>
   )
 }

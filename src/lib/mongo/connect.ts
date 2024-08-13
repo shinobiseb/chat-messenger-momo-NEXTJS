@@ -1,6 +1,4 @@
 // src/app/api/database/route.ts
-import { NextResponse } from 'next/server';
-import mongoose, { ConnectOptions } from 'mongoose'
 import { MongoClient } from 'mongodb';
 
 if (!process.env.NEXT_PUBLIC_URI) throw new Error('Missing URI! Check .env or variable name')

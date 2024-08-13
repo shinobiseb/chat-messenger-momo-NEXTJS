@@ -13,14 +13,23 @@ function ActiveChatList() {
   const [chats, setChats] = useState([])
 
   useEffect(()=> {
-    if(chats) {
-      console.table(chats)
+    const fetchChats = async () => {
+      try {
+        const response = await fetch('/api/chats')
+        if(!response.ok) return new Error('Network response was not ok')
+        const data = await response.json()
+        setChats(data)
+        console.log(chats)
+      } catch(err) {
+          console.error(err)
+      }
     }
-  }, [chats])
+    fetchChats()
+  }, [])
 
   return (
     <div className='w-full h-screen flex flex-col overflow-hidden'>
-        <header className='flex flex-row items-center justify-between w-full px-4 py-2 top-0 overflow-hidden bg-orange text-white z-10 shadow-lg'>
+        <header className='flex flex-row items-center justify-between w-full px-4 py-2 top-0 bg-orange text-white z-10 shadow-lg'>
           <button>
             <HiMenu size={30}/>
           </button>

@@ -3,12 +3,9 @@ import clientPromise from "@/lib/mongo/connect";
 
 export async function GET() {
     const uri = process.env.NEXT_PUBLIC_URI;
-    if (!uri) {
-        return NextResponse.json({ error: 'URI is missing' }, { status: 400 });
-    }
+    if (!uri) return NextResponse.json({ error: 'URI is missing' }, { status: 400 });
 
     const client = await clientPromise
-
     try {
         await client.connect();
         const db = client.db('Momo-Data');
@@ -26,10 +23,7 @@ export async function GET() {
 
 export async function POST( req : NextRequest) {
     const uri = process.env.NEXT_PUBLIC_URI;
-    if (!uri) {
-        return NextResponse.json({ error: 'URI is missing' }, { status: 400 });
-    }
-
+    if (!uri) return NextResponse.json({ error: 'URI is missing' }, { status: 400 });
     const client = await clientPromise
 
     try {
@@ -44,5 +38,7 @@ export async function POST( req : NextRequest) {
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
         return NextResponse.json({ error: 'Connection failed' }, { status: 500 });
+    } finally {
+        await client.close()
     }
 }
