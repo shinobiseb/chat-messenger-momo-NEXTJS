@@ -10,13 +10,13 @@ function ActiveChatList() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [chats, setChats] = useState<ChatPreview[]>([]); // Explicitly specify the type here
-
+  const [refresh, setRefresh] = useState(false);
   function chatMapper(chats: ChatPreview[]) {
     if (Array.isArray(chats)) {
       return chats.map(chat => {
         if (chat.lastMessage) {
           return (
-            <li key={chat.id}>
+            <li key={chat._id}>
               <ActiveChat 
                 userName={chat.targetUser} 
                 profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg' 
@@ -27,11 +27,11 @@ function ActiveChatList() {
           );
         } else {
           return (
-            <li key={chat.id}>
+            <li key={chat._id}>
               <ActiveChat 
                 userName={chat.targetUser} 
                 profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg' 
-                lastMessage={''} 
+                lastMessage={'Get Chatting!'} 
                 timeSent='4:30' 
               />
             </li>
@@ -74,7 +74,7 @@ function ActiveChatList() {
         </ul>
         { 
           isOpen || chats.length === 0 ? 
-          <AddChat/> : 
+          <AddChat setIsOpen={setIsOpen} setRefresh={setRefresh}/> : 
           null
         }
         <button 

@@ -34,6 +34,7 @@ export interface chatProps {
 
 export interface AddChatProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
+    setRefresh: Dispatch<SetStateAction<boolean>>;
 }
 
 export type Message = {
