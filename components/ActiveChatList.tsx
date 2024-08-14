@@ -9,7 +9,7 @@ import { ChatPreview } from '@/types/types';
 function ActiveChatList() {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [chats, setChats] = useState<ChatPreview[]>([]); // Explicitly specify the type here
+  const [chats, setChats] = useState<ChatPreview[]>([]); 
   const [refresh, setRefresh] = useState(false);
   function chatMapper(chats: ChatPreview[]) {
     if (Array.isArray(chats)) {
