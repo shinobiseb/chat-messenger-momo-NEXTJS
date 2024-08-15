@@ -67,7 +67,7 @@ function ActiveChatList() {
         onClick={async () => {
           await fetch('/api/chats', { method: 'DELETE' });
         }} 
-        className='bg-gray p-3 w-1/4 rounded-md'>
+        className='bg-gray p-2 w-1/4 rounded-md'>
         Delete All Chats
       </button>
     </div>

@@ -59,7 +59,7 @@ export type User = {
     profilePic: string;
     email: string;
     password: string;
-
+    chats: Chat[];
 }
 
 export type Chat = {
