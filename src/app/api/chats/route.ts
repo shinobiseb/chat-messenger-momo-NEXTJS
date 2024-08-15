@@ -45,3 +45,23 @@ export async function POST(req: NextRequest) {
         await client.close(); 
     }
 }
+
+//////////////////////////
+// DELETE REQUEST FUNCTION //
+//////////////////////////
+export async function DELETE(req: NextRequest) {
+    const uri = process.env.NEXT_PUBLIC_URI;
+    if (!uri) return NextResponse.json({ error: 'URI is missing' }, { status: 400 });
+    const client = await clientPromise;
+    try {
+        await client.connect();
+        const db = client.db('Momo-Data');
+        const result = await db.collection('chats').deleteMany({});
+        return NextResponse.json({ message: 'All chats deleted', deletedCount: result.deletedCount });
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error);
+        return NextResponse.json({ error: 'Connection failed' }, { status: 500 });
+    } finally {
+        await client.close(); 
+    }
+}

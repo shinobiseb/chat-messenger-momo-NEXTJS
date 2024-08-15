@@ -34,7 +34,6 @@ export interface chatProps {
 
 export interface AddChatProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    setRefresh: Dispatch<SetStateAction<boolean>>;
 }
 
 export type Message = {
@@ -53,3 +52,20 @@ export type ChatPreview = {
     unreadCount: number;
     targetUser: string; // Point to User Data in User Collection
 };
+
+export type User = {
+    _id: string;
+    userName: string;
+    profilePic: string;
+    email: string;
+    password: string;
+
+}
+
+export type Chat = {
+    _id: string;
+    id: string;
+    messages: Message[];
+    unreadCount: number;
+    participants: User[] | User;
+}

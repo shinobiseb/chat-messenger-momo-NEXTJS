@@ -1,7 +1,7 @@
 import React from 'react'
 import { AddChatProps, ChatPreview } from '@/types/types'
 
-export default function AddChat({ setIsOpen, setRefresh }: AddChatProps) {
+export default function AddChat({ setIsOpen }: AddChatProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
