@@ -1,25 +1,26 @@
-// src/app/api/database/route.ts
-import { MongoClient } from 'mongodb';
+// src/lib/mongo/connect.ts
+import mongoose from 'mongoose';
 
-if (!process.env.NEXT_PUBLIC_URI) throw new Error('Missing URI! Check .env or variable name')
-
+// Ensure the URI is set in the environment variables
 const uri = process.env.NEXT_PUBLIC_URI;
-if (!uri) throw new Error(`Something's wrong with the URI! URI is ${uri}`)
+if (!uri) throw new Error('MongoDB URI is missing in environment variables');
 
-const client = new MongoClient(uri)
-let clientPromise;
-
+// Declare a global variable to hold the MongoDB client promise
 declare global {
-  var _mongoClientPromise: Promise<MongoClient>;
+  var _mongooseConnectionPromise: Promise<typeof mongoose>;
 }
 
-if (process.env.NODE_ENV !== 'production') {
-  if (!globalThis._mongoClientPromise) {
-    globalThis._mongoClientPromise = client.connect();
-  }
-  clientPromise = globalThis._mongoClientPromise
+let connectionPromise: Promise<typeof mongoose>;
+
+if (process.env.NODE_ENV === 'production') {
+  // In production, use a single connection instance
+  connectionPromise = mongoose.connect(uri);
 } else {
-  clientPromise = client.connect()
+  // In development, use a global variable to avoid multiple connections
+  if (!globalThis._mongooseConnectionPromise) {
+    globalThis._mongooseConnectionPromise = mongoose.connect(uri);
+  }
+  connectionPromise = globalThis._mongooseConnectionPromise;
 }
 
-export default clientPromise as Promise<MongoClient>
+export default connectionPromise;

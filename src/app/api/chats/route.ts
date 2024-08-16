@@ -1,48 +1,51 @@
+// src/app/api/chats/route.ts
 import { NextResponse, NextRequest } from "next/server";
-import clientPromise from "@/lib/mongo/connect";
-//
+import connectionPromise from "@/lib/mongo/connect";
+import mongoose from 'mongoose';
+
+// Define the Chat schema and model
+const ChatSchema = new mongoose.Schema({
+    messages: [Object],
+    participants: [String]
+});
+
+const ChatModel = mongoose.models.Chat || mongoose.model('Chat', ChatSchema);
 
 /////////////////////////
-//GET REQUEST FUNCTION //
+// GET REQUEST FUNCTION //
 /////////////////////////
 export async function GET() {
-    const uri = process.env.NEXT_PUBLIC_URI;
-    if (!uri) return NextResponse.json({ error: 'URI is missing' }, { status: 400 });
-    const client = await clientPromise
     try {
-        await client.connect();
-        const db = client.db('Momo-Data');
-        const collection = db.collection('chats');
-        const chats = await collection.find().toArray();
-        return NextResponse.json({chats, success: true})
+        const mongooseConnection = await connectionPromise;
+        const chats = await ChatModel.find().lean(); 
+
+        return NextResponse.json({ chats, success: true });
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
-        return NextResponse.json({ error: 'Connection failed' }, { status: 500 });
+        console.error('Error fetching chats:', error);
+        return NextResponse.json({ error: 'Failed to fetch chats' }, { status: 500 });
     }
 }
 
 //////////////////////////
-//POST REQUEST FUNCTION //
+// POST REQUEST FUNCTION //
 //////////////////////////
-
 export async function POST(req: NextRequest) {
-    const uri = process.env.NEXT_PUBLIC_URI;
-    if (!uri) return NextResponse.json({ error: 'URI is missing' }, { status: 400 });
-    const client = await clientPromise;
     try {
-        await client.connect();
+        const mongooseConnection = await connectionPromise;
         const body = await req.json();
-        const pointer = await client.db('Momo-Data').collection('chats').insertOne({
+
+        const newChat = new ChatModel({
             messages: [],
             ...body // Include any additional data from the request body
         });
-        console.log(body, pointer);
-        return NextResponse.json({ message: 'Successfully updated chats', pointer });
+
+        const savedChat = await newChat.save();
+
+        console.log('New Chat:', savedChat);
+        return NextResponse.json({ message: 'Successfully created chat', chat: savedChat });
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
-        return NextResponse.json({ error: 'Connection failed' }, { status: 500 });
-    } finally {
-        await client.close(); 
+        console.error('Error creating chat:', error);
+        return NextResponse.json({ error: 'Failed to create chat' }, { status: 500 });
     }
 }
 
@@ -50,18 +53,13 @@ export async function POST(req: NextRequest) {
 // DELETE REQUEST FUNCTION //
 //////////////////////////
 export async function DELETE(req: NextRequest) {
-    const uri = process.env.NEXT_PUBLIC_URI;
-    if (!uri) return NextResponse.json({ error: 'URI is missing' }, { status: 400 });
-    const client = await clientPromise;
     try {
-        await client.connect();
-        const db = client.db('Momo-Data');
-        const result = await db.collection('chats').deleteMany({});
+        const mongooseConnection = await connectionPromise;
+        const result = await ChatModel.deleteMany({});
+
         return NextResponse.json({ message: 'All chats deleted', deletedCount: result.deletedCount });
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
-        return NextResponse.json({ error: 'Connection failed' }, { status: 500 });
-    } finally {
-        await client.close(); 
+        console.error('Error deleting chats:', error);
+        return NextResponse.json({ error: 'Failed to delete chats' }, { status: 500 });
     }
 }

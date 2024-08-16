@@ -33,7 +33,7 @@ export default function AddChat({ setIsOpen }: AddChatProps) {
   };
 
   return (
-    <div className='w-11/12 h-60 bg-orange rounded-md flex flex-col items-center justify-center absolute shadow-md z-20 left-1/2 top-1/2 transform transition-all -translate-x-1/2 -translate-y-1/2 border border-black'>
+    <div className='w-11/12 max-w-xl h-60 bg-orange rounded-md flex flex-col items-center justify-center absolute shadow-md z-20 left-1/2 top-1/2 transform transition-all -translate-x-1/2 -translate-y-1/2 border border-black'>
       <h3 className='text-white text-3xl mb-3 font-semibold'>
         Create a Chat
       </h3>

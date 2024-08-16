@@ -54,7 +54,7 @@ export type ChatPreview = {
 };
 
 export type User = {
-    _id: string;
+    _id?: string;
     userName: string;
     profilePic: string;
     email: string;
@@ -63,9 +63,17 @@ export type User = {
 }
 
 export type Chat = {
-    _id: string;
+    _id?: string;
     id: string;
     messages: Message[];
     unreadCount: number;
     participants: User[] | User;
+}
+
+export interface IUser extends Document {
+    email: string;
+    userName: string;
+    password: string;
+    chats: any[]; // Adjust this type based on your data structure
+    profilePic: string;
 }

@@ -1,4 +1,3 @@
 sequenceDiagram
     User->>ChatCollection: Creates New Chat
-    UserCollection->>ChatCollection: GET Chat Collection
-    ChatCollection-->>UserCollection: Returns User's ChatCollectionID
+    ChatCollection->>OtherUser: New Chat Added to OtherUsers DB

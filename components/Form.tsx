@@ -1,5 +1,7 @@
 "use client"
 
+import { User } from "@/types/types";
+
 export default function Form() {
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -7,9 +9,9 @@ export default function Form() {
 
     const formData = new FormData(event.target as HTMLFormElement);
 
-    const emailInput = formData.get('email')
-    const userInput = formData.get('userName')
-    const passwordInput = formData.get('password')
+    const emailInput = formData.get('email') as string
+    const userInput = formData.get('userName') as string
+    const passwordInput = formData.get('password') as string
 
     if (!emailInput || !userInput || !passwordInput) {
       console.error(
@@ -21,10 +23,13 @@ export default function Form() {
       return;
     }
 
-    let data = {
+    let data : User = {
       email: emailInput,
       userName: userInput,
       password: passwordInput,
+      chats: [],
+      profilePic: '',
+      _id: '',
     };
 
     const response = await fetch('http://localhost:3000/api/users', {
