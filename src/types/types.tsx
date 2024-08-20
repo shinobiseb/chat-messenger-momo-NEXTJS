@@ -6,8 +6,8 @@ export type svgProps = {
 }
 
 export type signInProps = {
-    setSignedIn : Dispatch<SetStateAction<boolean>>;
-    signInState : boolean;
+    setSignedIn : Dispatch<SetStateAction<string>>;
+    signInState : string;
 }
 
 export type headerProps = {

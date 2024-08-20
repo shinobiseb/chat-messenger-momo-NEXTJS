@@ -11,7 +11,7 @@ export default function Welcome( {setSignedIn, signInState} : signInProps ) {
           id="SignInButton"
           className="bg-white rounded-xl text-lg font-semibold px-4 p-2 flex flex-row justify-between overflow-hidden items-center drop-shadow-md"
         onClick={()=> {
-            setSignedIn(true)
+            setSignedIn('Sketch')
           }}
         >
           <p className="mr-3">Sign In with Google</p>

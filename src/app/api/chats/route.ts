@@ -15,8 +15,6 @@ const ChatSchema = new mongoose.Schema({
 
 const ChatModel = mongoose.models.Chat || mongoose.model('Chat', ChatSchema);
 
-export default ChatModel
-
 /////////////////////////
 // GET REQUEST FUNCTION //
 /////////////////////////

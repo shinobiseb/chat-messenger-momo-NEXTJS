@@ -7,7 +7,7 @@ import ActiveChatList from '../../components/ActiveChatList';
 import Form from '../../components/Form';
 
 function App() {
-  const [signedIn, setSignedIn] = useState(false)
+  const [signedIn, setSignedIn] = useState('')
 
   return (
     <main className="w-screen h-screen flex justify-center items-center">
