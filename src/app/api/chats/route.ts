@@ -5,11 +5,17 @@ import mongoose from 'mongoose';
 
 // Define the Chat schema and model
 const ChatSchema = new mongoose.Schema({
-    messages: [Object],
-    participants: [String]
+    messages: [{
+        type: Object,
+    }],
+    participants: [{
+        type: String,
+    }]
 });
 
 const ChatModel = mongoose.models.Chat || mongoose.model('Chat', ChatSchema);
+
+export default ChatModel
 
 /////////////////////////
 // GET REQUEST FUNCTION //
@@ -36,7 +42,7 @@ export async function POST(req: NextRequest) {
 
         const newChat = new ChatModel({
             messages: [],
-            ...body // Include any additional data from the request body
+            ...body
         });
 
         const savedChat = await newChat.save();

@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AddChatProps, ChatPreview } from '@/types/types'
 
 export default function AddChat({ setIsOpen }: AddChatProps) {
+
+  const [currentUser, setCurrentUser] = useState('Sketch')
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
     const data = {
-      targetUser: formData.get('userName') as string,
-      lastMessage: null,
-      unreadCount: 0,
+      participants: [formData.get('userName') as string, currentUser], // Wrap the participants in an array
     };
 
     const response = await fetch('http://localhost:3000/api/chats', {
