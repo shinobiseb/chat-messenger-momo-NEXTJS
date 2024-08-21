@@ -4,20 +4,18 @@ import { FaSearch } from 'react-icons/fa';
 import { FaCirclePlus } from 'react-icons/fa6';
 import { HiMenu } from 'react-icons/hi';
 import AddChat from './AddChat';
-import { ChatPreview } from '@/types/types';
+import { Chat } from '@/types/types';
 
 function ActiveChatList() {
   const [isOpen, setIsOpen] = useState(false);
-  const [chats, setChats] = useState<ChatPreview[]>([]);
+  const [chats, setChats] = useState<Chat[]>([]);
 
-  function chatMapper(chats: ChatPreview[]) {
+  function chatMapper(chats: Chat[]) {
     return chats.map(chat => (
       <li key={chat._id}>
         <ActiveChat 
-          userName={chat.targetUser} 
-          profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg' 
-          lastMessage={chat.lastMessage?.content || 'Get Chatting!'} 
-          timeSent='4:30' 
+          userName={chat.participants[0]} 
+          profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg'
         />
       </li>
     ));

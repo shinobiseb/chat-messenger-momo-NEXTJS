@@ -1,12 +1,16 @@
 import React from 'react';
 import { useState } from 'react';
-import { chatProps } from '@/types/types';
+import { ActiveChatType } from '@/types/types';
 
-export default function ActiveChat({ userName, profilePic, lastMessage, timeSent }: chatProps) {
-  const [userID, setUserID] = useState('Sketch2113131313131');
+export default function ActiveChat(
+  { userName, profilePic }: ActiveChatType,
+) {
+
+  const [ lastMessage, setLastMessage ] = useState('Get Chatting!')
+  const [ time, settime ] = useState('8:88 AM')
 
   return (
-    <a href={`/chats/${userID}/1`}>
+    <a href={`/chats/${userName}/1`}>
       <div className="transition bg-orange p-2 flex flex-row m-2 rounded-lg items-center">
         <img
           src={profilePic}
@@ -19,7 +23,7 @@ export default function ActiveChat({ userName, profilePic, lastMessage, timeSent
               {userName}
             </h5>
             <span className="text-gray text-sm">
-              {timeSent}
+              {time}
             </span>
           </div>
           <span className="text-xs italic text-gray w-5/6 truncate">

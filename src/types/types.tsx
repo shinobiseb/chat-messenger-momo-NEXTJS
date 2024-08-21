@@ -20,16 +20,8 @@ export type MessageReq = {
     content: string;
 }
 
-
 export interface ChatBoxProps {
     messages: MessageReq[] | null;
-}
-
-export interface chatProps {
-  userName: string,
-  profilePic: string,
-  lastMessage: string,
-  timeSent: string
 }
 
 export interface AddChatProps {
@@ -43,15 +35,6 @@ export type Message = {
     timestamp: Date;
   };
 
-export type ChatPreview = {
-    _id: string;
-    id: string;
-    lastMessage: {
-      content: string;
-    } | null;
-    unreadCount: number;
-    targetUser: string; // Point to User Data in User Collection
-};
 
 export type User = {
     _id?: string;
@@ -67,13 +50,27 @@ export type Chat = {
     id: string;
     messages: Message[];
     unreadCount: number;
-    participants: User[] | User;
+    participants: User['userName'];
 }
+
+export interface ChatPreview extends Chat {
+    _id: string;
+    id: string;
+    targetUsers: string | string[];
+};
 
 export interface IUser extends Document {
     email: string;
     userName: string;
     password: string;
-    chats: any[]; // Adjust this type based on your data structure
+    chats: Chat[]; // Adjust this type based on your data structure
     profilePic: string;
+    _id?: string;
+}
+
+export interface ActiveChatType {
+    userName: string,
+    profilePic: string,
+    lastMessage?: string,
+    timeSent?: string
 }
