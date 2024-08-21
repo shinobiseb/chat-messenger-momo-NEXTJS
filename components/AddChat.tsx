@@ -28,9 +28,7 @@ export default function AddChat({ setIsOpen }: AddChatProps) {
 
     const chat = await response.json();
     console.log('Created chat:', chat);
-
     setIsOpen(false);
-    
   };
 
   return (

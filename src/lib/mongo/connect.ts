@@ -5,20 +5,20 @@ import mongoose from 'mongoose';
 const uri = process.env.NEXT_PUBLIC_URI;
 if (!uri) throw new Error('MongoDB URI is missing in environment variables');
 
-// Declare a global variable to hold the MongoDB client promise
+// Declare a global variable to hold the MongoDB connection promise
 declare global {
-  var _mongooseConnectionPromise: Promise<typeof mongoose>;
+  var _mongooseConnectionPromise: Promise<mongoose.Connection>;
 }
 
-let connectionPromise: Promise<typeof mongoose>;
+let connectionPromise: Promise<mongoose.Connection>;
 
 if (process.env.NODE_ENV === 'production') {
   // In production, use a single connection instance
-  connectionPromise = mongoose.connect(uri);
+  connectionPromise = mongoose.connect(uri).then(mongooseInstance => mongooseInstance.connection);
 } else {
   // In development, use a global variable to avoid multiple connections
   if (!globalThis._mongooseConnectionPromise) {
-    globalThis._mongooseConnectionPromise = mongoose.connect(uri);
+    globalThis._mongooseConnectionPromise = mongoose.connect(uri).then(mongooseInstance => mongooseInstance.connection);
   }
   connectionPromise = globalThis._mongooseConnectionPromise;
 }
