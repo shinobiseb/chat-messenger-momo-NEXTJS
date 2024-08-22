@@ -1,6 +1,5 @@
 import { signInProps } from '@/types/types';
 import GoogleIcon from '../public/GoogleIcon';
-import testConnection from '@/lib/mongo/test-connection';
 
 export default function Welcome( {setSignedIn, signInState} : signInProps ) {
 
