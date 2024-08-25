@@ -1,3 +1,5 @@
+import { url } from "inspector";
+
 export default {
   content: [
     "./index.html",
@@ -17,6 +19,9 @@ export default {
       white: '#FFFFFF',
     },
     extend: {
+      backgroundImage: {
+        'background-svg': "url('https://svgshare.com/i/19gW.svg')",
+      },
       fontFamily: {
         'roboto-thin': ['Roboto', 'sans-serif'],
         'roboto-light': ['Roboto', 'sans-serif'],

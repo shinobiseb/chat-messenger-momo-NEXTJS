@@ -38,7 +38,7 @@ function ActiveChatList() {
   }, []);
 
   return (
-    <div className='w-full h-screen flex flex-col overflow-hidden'>
+    <div className='w-full h-screen flex flex-col overflow-hidden bg-black'>
       <header className='flex flex-row items-center justify-between w-full px-4 py-2 top-0 bg-orange text-white z-10 shadow-lg'>
         <button>
           <HiMenu size={30}/>
