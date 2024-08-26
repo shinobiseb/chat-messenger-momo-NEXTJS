@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
-import { AddChatProps, ChatPreview } from '@/types/types'
+import React, { useState } from 'react';
+import { AddChatProps } from '@/types/types';
 
-export default function AddChat({ setIsOpen }: AddChatProps) {
+export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
 
-  const [currentUser, setCurrentUser] = useState('Sketch')
+  const [currentUser, setCurrentUser] = useState('Sketch');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
     const data = {
-      participants: [formData.get('userName') as string, currentUser], // Wrap the participants in an array
+      participants: [
+        formData.get('userName') as string, 
+        currentUser
+      ]
     };
 
     const response = await fetch('http://localhost:3000/api/chats', {
@@ -27,7 +30,8 @@ export default function AddChat({ setIsOpen }: AddChatProps) {
     }
 
     const chat = await response.json();
-    console.log('Created chat:', chat);
+    console.log('Created chat');
+    fetchChats();
     setIsOpen(false);
   };
 
@@ -50,7 +54,9 @@ export default function AddChat({ setIsOpen }: AddChatProps) {
           value='Create'
         />
       </form>
-      <button onClick={() => setIsOpen(false)} className='rounded-md hover:cursor-pointer hover:bg-yellow transition-all bg-white py-1 px-4 mt-2'>Close</button>
+      <button onClick={() => setIsOpen(false)} className='rounded-md hover:cursor-pointer hover:bg-yellow transition-all bg-white py-1 px-4 mt-2'>
+        Close
+      </button>
     </div>
-  )
+  );
 }

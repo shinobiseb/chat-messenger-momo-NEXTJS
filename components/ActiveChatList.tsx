@@ -11,16 +11,19 @@ function ActiveChatList() {
   const [chats, setChats] = useState<Chat[]>([]);
 
   function chatMapper(chats: Chat[]) {
-    return chats.map(chat => (
-      <li key={chat._id}>
-        <ActiveChat 
-          userName={chat.participants[0]} 
-          profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg'
-        />
-      </li>
-    ));
+    console.table(chats)
+    return chats
+      .filter(chat => chat.participants && chat.participants.length > 0)
+      .map(chat => (
+        <li key={chat._id}>
+          <ActiveChat 
+            userName={chat.participants[0]} 
+            profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg'
+          />
+        </li>
+      ));
   }
-  
+
   async function fetchChats() {
     try {
       const response = await fetch('/api/chats');
@@ -28,6 +31,7 @@ function ActiveChatList() {
       const data = await response.json();
       const { chats } = data;
       setChats(chats);
+      console.table(chats)
     } catch (err) {
       console.error(`Error fetching chats: ${err}`);
     }
@@ -36,6 +40,7 @@ function ActiveChatList() {
   useEffect(() => {
     fetchChats();
   }, []);
+
 
   return (
     <div className='w-full h-screen flex flex-col overflow-hidden bg-black'>
@@ -53,7 +58,7 @@ function ActiveChatList() {
       </ul>
       { 
         isOpen || chats.length === 0 ? 
-        <AddChat setIsOpen={setIsOpen}/> : 
+        <AddChat setIsOpen={setIsOpen} fetchChats={fetchChats}/> : 
         null
       }
       <button 

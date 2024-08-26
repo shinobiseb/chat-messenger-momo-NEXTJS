@@ -26,6 +26,7 @@ export interface ChatBoxProps {
 
 export interface AddChatProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
+    fetchChats: () => void;
 }
 
 export type Message = {
@@ -49,7 +50,6 @@ export type Chat = {
     _id?: string;
     id: string;
     messages: Message[];
-    unreadCount: number;
     participants: User['userName'];
 }
 
