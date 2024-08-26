@@ -4,7 +4,7 @@ import GoogleIcon from '../public/GoogleIcon';
 export default function Welcome( {setSignedIn, signInState} : signInProps ) {
 
   return (
-    <div className="bg-orange w-11/12 h-60 rounded-xl flex flex-col justify-around items-center py-4 drop-shadow-md">
+    <div className="bg-orange w-11/12 max-w-xl h-60 rounded-xl flex flex-col justify-around items-center py-4 drop-shadow-md">
       <h2 className="text-white text-xl uppercase font-semibold mt-4">Welcome to MauChat!</h2>
       <section className='h-2/3 w-5/6 flex flex-col items-center justify-evenly'>
         <button
