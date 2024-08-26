@@ -1,24 +1,12 @@
-import { MongoClient } from 'mongodb'
+import clientPromise from "@/lib/mongo/connect";
+import { NextRequest, NextResponse } from "next/server";
 
-const uri = process.env.NEXT_PUBLIC_URI
-if(!uri){
-    throw new Error("environment variable MONGO_URI is not defined");
+export async function GET(request : NextRequest) {
+  const client = await clientPromise
+  const cursor = await client.db('Momo-Data').collection('chats').find()
+  const chats = await cursor.toArray()
+  console.log(chats)
+  console.log('This is Client Promise: ')
+  console.log(clientPromise)
+  return NextResponse.json({ chats })
 }
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri);
-
-async function run() {
-    try {
-      await client.connect();
-      const cursor = await client.db("Momo-Data").collection("users").find();
-      const array = await cursor.toArray()
-      return array;
-    } finally {
-      await client.close();
-    }
-  }
-export async function GET(request: Request) {
-    const greetings =  await run();
-    return Response.json(greetings)
-  }
