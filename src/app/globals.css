@@ -50,3 +50,34 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+/* Add this to your global CSS file or a module CSS file */
+/* CSS for the popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Ensure the popup is visible when `showError` is true */
+.popup-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}

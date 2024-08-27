@@ -66,13 +66,18 @@ function ActiveChatList() {
         onClick={() => setIsOpen(true)}>
         <FaCirclePlus size={45} fill='#F15025'/>
       </button>
-      <button 
-        onClick={async () => {
-          await fetch('/api/chats', { method: 'DELETE' });
-        }} 
-        className='bg-gray p-2 w-1/4 rounded-md'>
-        Delete All Chats
-      </button>
+
+      { 
+        chats.length !== 0 ? 
+        <button 
+          onClick={async () => {
+            await fetch('/api/chats', { method: 'DELETE' });
+          }} 
+          className='bg-gray p-2 w-40 rounded-md self-center'>
+          Delete All Chats
+        </button> : 
+        null
+      }
     </div>
   );
 }

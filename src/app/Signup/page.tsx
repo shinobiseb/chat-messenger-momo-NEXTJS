@@ -1,10 +1,10 @@
 import React from 'react'
-import Form from '../../../components/Form'
+import SignUpForm from '../../../components/SignUpForm'
 
 export default function page() {
   return (
     <main className='w-full h-full flex items-center justify-center'>
-      <Form/>
+      <SignUpForm/>
     </main>
   )
 }

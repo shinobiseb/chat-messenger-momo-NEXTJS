@@ -2,7 +2,7 @@
 
 import { User } from "@/types/types";
 
-export default function Form() {
+export default function SignUpForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
