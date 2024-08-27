@@ -74,3 +74,9 @@ export interface ActiveChatType {
     lastMessage?: string,
     timeSent?: string
 }
+
+declare namespace JSX {
+    interface IntrinsicElements {
+      'l-ping': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    }
+  }

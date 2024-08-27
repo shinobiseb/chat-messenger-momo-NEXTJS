@@ -13,6 +13,7 @@
     "axios": "^1.7.3",
     "dotenv": "^16.4.5",
     "git-filter-repo": "^0.0.30",
+    "ldrs": "^1.0.2",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.2",
     "next": "14.2.5",

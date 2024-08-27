@@ -3,10 +3,13 @@
 import React, { useState } from 'react';
 import { User } from '@/types/types';
 import userState from '@/lib/userState';
+import { useRouter } from 'next/navigation';
 
 export default function SignInForm() {
     const { setIsSignedIn, setUserName } = userState();
     const [showError, setShowError] = useState(false);
+
+    const router = useRouter();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -41,14 +44,16 @@ export default function SignInForm() {
         const users = result.users;
 
         const user = users.find((user: User) => user.userName === loggedInUser.userName && user.password === loggedInUser.password);
+
         if (user) {
-            setIsSignedIn(true);
-            setUserName(userInput);
-            window.location.href = '/Chats';
+          console.log('User data:', user); // Check the user object
+          setIsSignedIn(true);
+          setUserName(user.userName);
+          router.push('/Chats')
         } else {
             console.error('User not found');
             setShowError(true);
-            setTimeout(() => setShowError(false), 300);
+            setTimeout(() => setShowError(false), 3000); // Hide after 3 seconds
         }
     };
 
@@ -82,13 +87,13 @@ export default function SignInForm() {
 
             <button onClick={() => history.back()} className="rounded-md bg-white py-1 px-4 mt-2">Back</button>
 
-            {showError ? (
-                <div className={`popup-overlay ${showError ? 'show' : ''}`}>
-                    <div className="popup-content">
-                        <p>No!</p>
+            {showError && (
+                <div className="popup-overlay show" onClick={() => setShowError(false)}>
+                    <div className="popup-content bg-yellow ">
+                        <p className='text-black'>Oops! That User or Password is incorrect!</p>
                     </div>
                 </div>
-            ) : null}
+            )}
         </div>
     );
 }

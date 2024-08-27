@@ -4,10 +4,17 @@ import React, { useState, useEffect } from 'react';
 import ActiveChatList from '../../../components/ActiveChatList';
 import userState from '@/lib/userState';
 import { useRouter } from 'next/navigation';
+import 'ldrs/ring'
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    'l-ping': any;
+  }
+}
 
 export default function Page() {
   const router = useRouter();
-  const { isSignedIn, userName } = userState();
+  const { isSignedIn, userName, setUserName } = userState();
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
@@ -22,7 +29,14 @@ export default function Page() {
 
   if (loading) {
     console.log('Loading...')
-    return null; 
+    return (
+      <l-ping
+        size="45"
+        stroke="2"
+        speed="2"
+        color="orange" 
+      ></l-ping>
+    )
   }
 
   return (
