@@ -25,7 +25,6 @@ export async function POST(req: NextRequest) {
             userName: body.userName,
             password: body.password,
             profilePic: body.profilePic,
-            chats: [],
         })
         return NextResponse.json({ id: cursor.insertedId, success: true });
     } catch (error) {

@@ -2,12 +2,15 @@
 
 import React, { useState } from 'react';
 import { User } from '@/types/types';
-import userState from '@/lib/userState';
 import { useRouter } from 'next/navigation';
+import { useLocalStorage } from '@/lib/useLocalStorage';
+import { useUserState } from '@/lib/UserStateContext';
 
 export default function SignInForm() {
-    const { setIsSignedIn, setUserName } = userState();
+  const { userName, setUserName, isSignedIn, setIsSignedIn } = useUserState();
     const [showError, setShowError] = useState(false);
+
+    const { setLoggedInUser } = useLocalStorage('CurrentUser')
 
     const router = useRouter();
 
@@ -21,9 +24,9 @@ export default function SignInForm() {
 
         if (!userInput || !passwordInput) {
             console.error(
-                `Input not found! \n 
-                userInput: ${userInput} \n 
-                passwordInput: ${passwordInput}`
+              `Input not found! \n 
+              userInput: ${userInput} \n 
+              passwordInput: ${passwordInput}`
             );
             return;
         }
@@ -46,14 +49,15 @@ export default function SignInForm() {
         const user = users.find((user: User) => user.userName === loggedInUser.userName && user.password === loggedInUser.password);
 
         if (user) {
-          console.log('User data:', user); // Check the user object
-          setIsSignedIn(true);
+          console.log('User data:', user);
+          setLoggedInUser(user.userName);
           setUserName(user.userName);
-          router.push('/Chats')
+          setIsSignedIn(true);
+          router.push(`/Chats/${user.userName}`)
         } else {
-            console.error('User not found');
-            setShowError(true);
-            setTimeout(() => setShowError(false), 3000); // Hide after 3 seconds
+          console.error('User not found');
+          setShowError(true);
+          setTimeout(() => setShowError(false), 3000)
         }
     };
 

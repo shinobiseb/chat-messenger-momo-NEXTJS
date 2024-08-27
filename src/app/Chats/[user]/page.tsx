@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import ActiveChatList from '../../../components/ActiveChatList';
-import userState from '@/lib/userState';
+import ActiveChatList from '../../../../components/ActiveChatList';
+import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
+import { useLocalStorage } from '@/lib/useLocalStorage';
 import 'ldrs/ring'
 
 declare namespace JSX {
@@ -14,7 +15,8 @@ declare namespace JSX {
 
 export default function Page() {
   const router = useRouter();
-  const { isSignedIn, userName, setUserName } = userState();
+  const { getItem } = useLocalStorage('CurrentUser')
+  const { isSignedIn, userName, setUserName } = useUserState();
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
@@ -22,10 +24,15 @@ export default function Page() {
       console.error('User is not signed in');
       router.push('/SignIn');
     } else {
-      setLoading(false); 
+      setLoading(false);
+      setUserName(getItem())
       console.log('User is signed in', userName);
     }
   }, [isSignedIn, router]);
+
+  useEffect(() => {
+
+  })
 
   if (loading) {
     console.log('Loading...')

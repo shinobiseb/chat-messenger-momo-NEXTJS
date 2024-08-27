@@ -1,9 +1,14 @@
+'use client'
+
 import React, { useState } from 'react';
 import { AddChatProps } from '@/types/types';
+import { useUserState } from '@/lib/UserStateContext';
 
 export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
 
-  const [currentUser, setCurrentUser] = useState('Sketch');
+  const { userName } = useUserState();
+
+  const [currentUser, setCurrentUser] = useState(userName);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
