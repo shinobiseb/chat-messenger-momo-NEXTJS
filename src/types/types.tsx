@@ -43,12 +43,10 @@ export type User = {
     profilePic: string;
     email: string;
     password: string;
-    chats: Chat[];
 }
 
 export type Chat = {
     _id?: string;
-    id: string;
     messages: Message[];
     participants: User['userName'];
 }
@@ -73,6 +71,10 @@ export interface ActiveChatType {
     profilePic: string,
     lastMessage?: string,
     timeSent?: string
+}
+
+export interface ActiveChatListType {
+    user: User | null,
 }
 
 declare namespace JSX {

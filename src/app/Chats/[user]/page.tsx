@@ -6,6 +6,7 @@ import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '@/lib/useLocalStorage';
 import 'ldrs/ring'
+import { User } from '@/types/types';
 
 declare namespace JSX {
   interface IntrinsicElements {
@@ -15,40 +16,63 @@ declare namespace JSX {
 
 export default function Page() {
   const router = useRouter();
-  const { getItem } = useLocalStorage('CurrentUser')
+  const { getItem } = useLocalStorage('CurrentUser');
   const { isSignedIn, userName, setUserName } = useUserState();
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<User | null>(null);
+
+  async function fetchUser() {
+    try {
+      const response = await fetch('/api/users');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      const { users } = data;
+      const currentUser = users.find((user: User) => user.userName === userName);
+      setUserData(currentUser);
+    } catch (error) {
+      console.error(`Error fetching users: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    const currentUserName = getItem();
+    if (currentUserName) {
+      setUserName(currentUserName);
+      fetchUser();
+      console.log(currentUserName)
+    } else {
+      setLoading(false);
+      router.push('/SignIn');
+    }
+  }, []);
 
   useEffect(() => {
     if (!isSignedIn && !loading) {
       console.error('User is not signed in');
       router.push('/SignIn');
-    } else {
-      setLoading(false);
-      setUserName(getItem())
-      console.log('User is signed in', userName);
     }
-  }, [isSignedIn, router]);
-
-  useEffect(() => {
-
-  })
+  }, [isSignedIn, loading, router]);
 
   if (loading) {
-    console.log('Loading...')
     return (
-      <l-ping
-        size="45"
-        stroke="2"
-        speed="2"
-        color="orange" 
-      ></l-ping>
-    )
+      <div className='w-full h-screen flex justify-center items-center'>
+        <l-ping
+          size="45"
+          stroke="2"
+          speed="2"
+          color="orange"
+        ></l-ping>
+      </div>
+    );
   }
 
   return (
     <div>
-      <ActiveChatList />
+      <ActiveChatList user={userData} />
     </div>
   );
 }

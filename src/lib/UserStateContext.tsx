@@ -4,8 +4,8 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface UserStateContextType {
   userName: string;
-  setUserName: (userName: string) => void;
   isSignedIn: boolean;
+  setUserName: (userName: string) => void;
   setIsSignedIn: (isSignedIn: boolean) => void;
 }
 

@@ -8,8 +8,6 @@ export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
 
   const { userName } = useUserState();
 
-  const [currentUser, setCurrentUser] = useState(userName);
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -17,9 +15,11 @@ export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
     const data = {
       participants: [
         formData.get('userName') as string, 
-        currentUser
+        userName
       ]
     };
+
+    console.log(data.participants)
 
     const response = await fetch('http://localhost:3000/api/chats', {
       method: 'POST',

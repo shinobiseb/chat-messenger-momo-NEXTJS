@@ -27,7 +27,6 @@ export default function SignUpForm() {
       email: emailInput,
       userName: userInput,
       password: passwordInput,
-      chats: [],
       profilePic: '',
       _id: '',
     };

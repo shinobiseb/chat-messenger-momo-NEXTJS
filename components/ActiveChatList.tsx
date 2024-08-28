@@ -4,14 +4,14 @@ import { FaSearch } from 'react-icons/fa';
 import { FaCirclePlus } from 'react-icons/fa6';
 import { HiMenu } from 'react-icons/hi';
 import AddChat from './AddChat';
-import { Chat } from '@/types/types';
+import { ActiveChatListType, Chat } from '@/types/types';
 
-function ActiveChatList() {
+function ActiveChatList({ user }: ActiveChatListType) {
   const [isOpen, setIsOpen] = useState(false);
   const [chats, setChats] = useState<Chat[]>([]);
+  const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
 
   function chatMapper(chats: Chat[]) {
-    console.table(chats)
     return chats
       .filter(chat => chat.participants && chat.participants.length > 0)
       .map(chat => (
@@ -24,14 +24,23 @@ function ActiveChatList() {
       ));
   }
 
+  function filterChatsByUser(chats: Chat[], userName: string) {
+    return chats.filter(chat => chat.participants.includes(userName));
+  }
+
+  useEffect(() => {
+    if (user?.userName) {
+      setFilteredChats(filterChatsByUser(chats, user.userName));
+    }
+  }, [chats, user]); // Ensure `chats` and `user` updates trigger the effect
+
   async function fetchChats() {
     try {
       const response = await fetch('/api/chats');
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      const { chats } = data;
-      setChats(chats);
-      console.table(chats)
+      console.log(data);
+      setChats(data.chats); // Set chats once data is fetched
     } catch (err) {
       console.error(`Error fetching chats: ${err}`);
     }
@@ -40,7 +49,6 @@ function ActiveChatList() {
   useEffect(() => {
     fetchChats();
   }, []);
-
 
   return (
     <div className='w-full h-screen flex flex-col overflow-hidden bg-black'>
@@ -54,13 +62,15 @@ function ActiveChatList() {
         </button>
       </header>
       <ul className='overflow-y-auto'>
-        { chatMapper(chats) }
+        { chatMapper(filteredChats) }
       </ul>
+      
       { 
         isOpen || chats.length === 0 ? 
         <AddChat setIsOpen={setIsOpen} fetchChats={fetchChats}/> : 
         null
       }
+
       <button 
         className='absolute bottom-0 right-0 p-3' 
         onClick={() => setIsOpen(true)}>
@@ -68,7 +78,7 @@ function ActiveChatList() {
       </button>
 
       { 
-        chats.length !== 0 ? 
+        filteredChats.length !== 0 ? 
         <button 
           onClick={async () => {
             await fetch('/api/chats', { method: 'DELETE' });
