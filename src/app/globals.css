@@ -50,6 +50,17 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+.button-hover:hover {
+  background-color: #ffc928;
+  transition: 250ms;
+  cursor: pointer;
+}
+
+.welcome-items a {
+  width: 8em;
+}
+
 /* Popup overlay */
 .popup-overlay {
   position: absolute;

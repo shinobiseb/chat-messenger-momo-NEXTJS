@@ -31,7 +31,7 @@ export default function SignUpForm() {
       _id: '',
     };
 
-    const response = await fetch('http://localhost:3000/api/users', {
+    const response = await fetch('/api/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export default function SignUpForm() {
   };
 
   return (
-    <div className="relative bg-orange w-11/12 h-72 rounded-xl flex flex-col justify-evenly items-center py-6 drop-shadow-md">
+    <div className="relative max-w-xl bg-orange w-11/12 h-72 rounded-xl flex flex-col justify-evenly items-center py-6 drop-shadow-md">
       <h3 className="text-white py-1 text-2xl font-semibold">Create an Account</h3>
       <form 
       className="flex flex-col h-full justify-between" 
@@ -74,12 +74,12 @@ export default function SignUpForm() {
           placeholder="Password"
         />
         <input
-          className="rounded-md bg-white p-1 px-2"
+          className="font-bold rounded-md bg-white p-1 px-2 button-hover"
           type="submit"
           value="Create"
         />
       </form>
-      <button onClick={()=> history.back()} className="rounded-md bg-white py-1 px-4 mt-2">Back</button>
+      <button onClick={()=> history.back()} className="font-bold button-hover rounded-md bg-white py-1 px-4 mt-2">Back</button>
     </div>
   );
 }

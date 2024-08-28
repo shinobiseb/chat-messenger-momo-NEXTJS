@@ -17,12 +17,13 @@ function ActiveChatList({ user }: ActiveChatListType) {
       .map(chat => (
         <li key={chat._id}>
           <ActiveChat 
-            userName={chat.participants[0]} 
+            userName={chat.participants[0] === user?.userName ? chat.participants[1] : chat.participants[0]} 
             profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg'
           />
         </li>
       ));
   }
+  
 
   function filterChatsByUser(chats: Chat[], userName: string) {
     return chats.filter(chat => chat.participants.includes(userName));

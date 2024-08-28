@@ -46,7 +46,7 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center bg-orange w-11/12 h-64 rounded-xl p-6 drop-shadow-md">
+    <div className="flex flex-col max-w-xl justify-center items-center bg-orange w-11/12 h-64 rounded-xl p-6 drop-shadow-md">
       <h3 className="text-white py-1 text-2xl font-semibold">Sign In</h3>
       <form className="flex flex-col" onSubmit={handleSubmit}>
         <input
@@ -63,9 +63,9 @@ export default function SignInForm() {
           name="password"
           placeholder="Password"
         />
-        <input className="rounded-md bg-white p-1 px-2 mb-2" type="submit" value="Log In" />
+        <input className="button-hover font-bold rounded-md bg-white p-1 mb-2" type="submit" value="Log In" />
       </form>
-      <button onClick={() => window.history.back()} className="rounded-md bg-white py-1 px-4 mt-2">
+      <button onClick={() => window.history.back()} className="button-hover font-bold rounded-md bg-white py-1 px-4 ">
         Back
       </button>
       {showError && (
