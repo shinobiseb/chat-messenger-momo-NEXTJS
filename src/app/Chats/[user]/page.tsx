@@ -40,13 +40,14 @@ export default function Page() {
 
   useEffect(() => {
     const currentUserName = getItem();
-    if (currentUserName) {
-      setUserName(currentUserName);
-      fetchUser();
-      console.log(currentUserName)
-    } else {
+    if(!currentUserName) {
       setLoading(false);
       router.push('/SignIn');
+    }
+    else {
+      setUserName(currentUserName);
+      fetchUser();
+      console.log(`Current User Name: ${currentUserName}`)
     }
   }, []);
 

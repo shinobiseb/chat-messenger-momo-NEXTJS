@@ -13,17 +13,17 @@ function ActiveChatList({ user }: ActiveChatListType) {
 
   function chatMapper(chats: Chat[]) {
     return chats
-      .filter(chat => chat.participants && chat.participants.length > 0)
+      .filter((chat : Chat) => chat.participants && chat.participants.length > 0 && chat._id !== undefined)
       .map(chat => (
         <li key={chat._id}>
           <ActiveChat 
-            userName={chat.participants[0] === user?.userName ? chat.participants[1] : chat.participants[0]} 
+            targetUserName={ chat.participants[0] === user?.userName ? chat.participants[1] : chat.participants[0] } 
             profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg'
+            chatId={chat._id}
           />
         </li>
       ));
   }
-  
 
   function filterChatsByUser(chats: Chat[], userName: string) {
     return chats.filter(chat => chat.participants.includes(userName));
@@ -33,7 +33,7 @@ function ActiveChatList({ user }: ActiveChatListType) {
     if (user?.userName) {
       setFilteredChats(filterChatsByUser(chats, user.userName));
     }
-  }, [chats, user]); // Ensure `chats` and `user` updates trigger the effect
+  }, [chats, user]);
 
   async function fetchChats() {
     try {
@@ -41,7 +41,7 @@ function ActiveChatList({ user }: ActiveChatListType) {
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       console.log(data);
-      setChats(data.chats); // Set chats once data is fetched
+      setChats(data.chats);
     } catch (err) {
       console.error(`Error fetching chats: ${err}`);
     }

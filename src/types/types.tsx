@@ -67,14 +67,19 @@ export interface IUser extends Document {
 }
 
 export interface ActiveChatType {
-    userName: string,
+    targetUserName: string,
     profilePic: string,
     lastMessage?: string,
-    timeSent?: string
+    timeSent?: string,
+    chatId?: string,
 }
 
 export interface ActiveChatListType {
     user: User | null,
+}
+
+export interface ChatWindowProps {
+    messages: Message[],
 }
 
 declare namespace JSX {

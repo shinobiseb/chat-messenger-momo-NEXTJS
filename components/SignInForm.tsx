@@ -38,7 +38,7 @@ export default function SignInForm() {
       setLoggedInUser(user.userName);
       setUserName(user.userName);
       setIsSignedIn(true);
-      router.push(`/Chats/${user.userName}`);
+      router.push(`/chats/${user.userName}`);
     } else {
       setShowError(true);
       setTimeout(() => setShowError(false), 3000);

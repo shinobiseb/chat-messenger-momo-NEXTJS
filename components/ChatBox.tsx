@@ -3,7 +3,6 @@ import Message from "./Message";
 import { ChatBoxProps } from '@/types/types';
 
 export default function ChatBox({ messages }: ChatBoxProps) {
-
     function messageMapper(messages: MessageReq[]) {
         if (messages.length > 0) {
             return messages.map((message, index) => (
