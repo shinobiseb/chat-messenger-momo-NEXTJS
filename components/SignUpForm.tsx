@@ -1,17 +1,19 @@
-"use client"
+'use client'
 
-import { User } from "@/types/types";
+import React, { useState } from 'react';
+import { User } from '@/types/types';
+import { createUser } from '@/app/api/api';
 
 export default function SignUpForm() {
+  const [showError, setShowError] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    
     const formData = new FormData(event.target as HTMLFormElement);
-
-    const emailInput = formData.get('email') as string
-    const userInput = formData.get('userName') as string
-    const passwordInput = formData.get('password') as string
+    const emailInput = formData.get('email') as string;
+    const userInput = formData.get('userName') as string;
+    const passwordInput = formData.get('password') as string;
 
     if (!emailInput || !userInput || !passwordInput) {
       console.error(
@@ -23,7 +25,7 @@ export default function SignUpForm() {
       return;
     }
 
-    let data : User = {
+    const data: User = {
       email: emailInput,
       userName: userInput,
       password: passwordInput,
@@ -31,33 +33,35 @@ export default function SignUpForm() {
       _id: '',
     };
 
-    const response = await fetch('/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    history.back()
-
-    const result = await response.json();
-    console.log(result);
+    try {
+      const result = await createUser(data);
+      console.log(result);
+      if (result.error) {
+        setShowError(true);
+        setTimeout(() => setShowError(false), 3000);
+      } else {
+        history.back();
+      }
+    } catch (error) {
+      console.error('Error creating user:', error);
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+    }
   };
 
   return (
     <div className="relative max-w-xl bg-orange w-11/12 h-72 rounded-xl flex flex-col justify-evenly items-center py-6 drop-shadow-md">
       <h3 className="text-white py-1 text-2xl font-semibold">Create an Account</h3>
       <form 
-      className="flex flex-col h-full justify-between" 
-      onSubmit={handleSubmit}
+        className="flex flex-col h-full justify-between" 
+        onSubmit={handleSubmit}
       >
         <input
           required
           className="rounded-md p-1 px-2"
           type="email"
           name="email"
-          placeholder="email"
+          placeholder="Email"
         />
         <input
           required
@@ -79,7 +83,14 @@ export default function SignUpForm() {
           value="Create"
         />
       </form>
-      <button onClick={()=> history.back()} className="font-bold button-hover rounded-md bg-white py-1 px-4 mt-2">Back</button>
+      <button onClick={() => history.back()} className="font-bold button-hover rounded-md bg-white py-1 px-4 mt-2">Back</button>
+      {showError && (
+        <div className="popup-overlay show" onClick={() => setShowError(false)}>
+          <div className="popup-content bg-yellow ">
+            <p className='text-black'>An error occurred while creating your account.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

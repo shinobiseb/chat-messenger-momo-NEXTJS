@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '@/lib/useLocalStorage';
 import { useUserState } from '@/lib/UserStateContext';
+import { authenticateUser } from '@/app/api/api';
 
 export default function SignInForm() {
   const { setUserName, setIsSignedIn } = useUserState();
   const [showError, setShowError] = useState(false);
-
   const { setLoggedInUser } = useLocalStorage('CurrentUser');
   const router = useRouter();
 
@@ -23,16 +23,7 @@ export default function SignInForm() {
       return;
     }
 
-    const response = await fetch('http://localhost:3000/api/users', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const { users } = await response.json();
-
-    const user = users.find((user: { userName: string; password: string; }) => user.userName === userInput && user.password === passwordInput);
+    const user = await authenticateUser(userInput, passwordInput);
 
     if (user) {
       setLoggedInUser(user.userName);

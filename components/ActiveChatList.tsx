@@ -5,15 +5,15 @@ import { FaCirclePlus } from 'react-icons/fa6';
 import { HiMenu } from 'react-icons/hi';
 import AddChat from './AddChat';
 import { ActiveChatListType, Chat } from '@/types/types';
+import { User } from '@/types/types';
 
-function ActiveChatList({ user }: ActiveChatListType) {
+function ActiveChatList({ user, chats, fetchChats }: { user: User | null, chats: Chat[], fetchChats: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [chats, setChats] = useState<Chat[]>([]);
   const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
 
   function chatMapper(chats: Chat[]) {
     return chats
-      .filter((chat : Chat) => chat.participants && chat.participants.length > 0 && chat._id !== undefined)
+      .filter(chat => chat.participants && chat.participants.length > 0 && chat._id !== undefined)
       .map(chat => (
         <li key={chat._id}>
           <ActiveChat 
@@ -35,22 +35,6 @@ function ActiveChatList({ user }: ActiveChatListType) {
     }
   }, [chats, user]);
 
-  async function fetchChats() {
-    try {
-      const response = await fetch('/api/chats');
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
-      console.log(data);
-      setChats(data.chats);
-    } catch (err) {
-      console.error(`Error fetching chats: ${err}`);
-    }
-  }
-
-  useEffect(() => {
-    fetchChats();
-  }, []);
-
   return (
     <div className='w-full h-screen flex flex-col overflow-hidden bg-black'>
       <header className='flex flex-row items-center justify-between w-full px-4 py-2 top-0 bg-orange text-white z-10 shadow-lg'>
@@ -65,7 +49,7 @@ function ActiveChatList({ user }: ActiveChatListType) {
       <ul className='overflow-y-auto'>
         { chatMapper(filteredChats) }
       </ul>
-      
+
       { 
         isOpen || chats.length === 0 ? 
         <AddChat setIsOpen={setIsOpen} fetchChats={fetchChats}/> : 
@@ -77,18 +61,6 @@ function ActiveChatList({ user }: ActiveChatListType) {
         onClick={() => setIsOpen(true)}>
         <FaCirclePlus size={45} fill='#F15025'/>
       </button>
-
-      { 
-        filteredChats.length !== 0 ? 
-        <button 
-          onClick={async () => {
-            await fetch('/api/chats', { method: 'DELETE' });
-          }} 
-          className='bg-gray p-2 w-40 rounded-md self-center'>
-          Delete All Chats
-        </button> : 
-        null
-      }
     </div>
   );
 }

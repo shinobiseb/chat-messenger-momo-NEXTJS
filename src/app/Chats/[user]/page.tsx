@@ -6,7 +6,7 @@ import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '@/lib/useLocalStorage';
 import 'ldrs/ring'
-import { User } from '@/types/types';
+import { User, Chat } from '@/types/types';
 
 declare namespace JSX {
   interface IntrinsicElements {
@@ -20,6 +20,7 @@ export default function Page() {
   const { isSignedIn, userName, setUserName } = useUserState();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
+  const [chats, setChats] = useState<Chat[]>([]);
 
   async function fetchUser() {
     try {
@@ -38,16 +39,27 @@ export default function Page() {
     }
   }
 
+  async function fetchChats() {
+    try {
+      const response = await fetch('/api/chats');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      setChats(data.chats);
+    } catch (err) {
+      console.error(`Error fetching chats: ${err}`);
+    }
+  }
+
   useEffect(() => {
     const currentUserName = getItem();
-    if(!currentUserName) {
+    if (!currentUserName) {
       setLoading(false);
       router.push('/SignIn');
-    }
-    else {
+    } else {
       setUserName(currentUserName);
       fetchUser();
-      console.log(`Current User Name: ${currentUserName}`)
+      fetchChats();
+      console.log(`Current User Name: ${currentUserName}`);
     }
   }, []);
 
@@ -73,7 +85,7 @@ export default function Page() {
 
   return (
     <div>
-      <ActiveChatList user={userData} />
+      <ActiveChatList user={userData} chats={chats} fetchChats={fetchChats} />
     </div>
   );
 }

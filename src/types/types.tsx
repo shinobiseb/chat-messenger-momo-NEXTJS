@@ -16,8 +16,9 @@ export type headerProps = {
 }
 
 export type MessageReq = {
-    sent: boolean;
+    id: string;
     content: string;
+    sent: boolean;
 }
 
 export interface ChatBoxProps {
@@ -80,6 +81,11 @@ export interface ActiveChatListType {
 
 export interface ChatWindowProps {
     messages: Message[],
+    userName: string;
+}
+
+export interface textBoxProps {
+    chatId: string;
 }
 
 declare namespace JSX {

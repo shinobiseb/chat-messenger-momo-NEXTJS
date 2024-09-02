@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { ActiveChatType } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
+import { useRouter } from 'next/router';
 
 export default function ActiveChat(
   { targetUserName, profilePic, chatId }: ActiveChatType,
