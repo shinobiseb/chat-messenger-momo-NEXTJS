@@ -38,7 +38,7 @@ export default function page() {
 
   return (
     <div>
-      <ChatWindow messages={messages}/>
+      {/* <ChatWindow messages={messages}/> */}
     </div>
   )
 }
