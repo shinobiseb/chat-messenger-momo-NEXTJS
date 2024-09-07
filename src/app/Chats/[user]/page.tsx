@@ -5,6 +5,7 @@ import ActiveChatList from '../../../../components/ActiveChatList';
 import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '@/lib/useLocalStorage';
+import useCookie from '@/lib/useCookie';
 import 'ldrs/ring'
 import { User, Chat } from '@/types/types';
 
@@ -15,8 +16,8 @@ declare namespace JSX {
 }
 
 export default function Page() {
+  const { getUserNameFromCookies, setUserNameFromCookies } = useCookie()
   const router = useRouter();
-  const { getItem } = useLocalStorage('CurrentUser');
   const { isSignedIn, userName, setUserName } = useUserState();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
@@ -51,12 +52,12 @@ export default function Page() {
   }
 
   useEffect(() => {
-    const currentUserName = getItem();
+    const currentUserName = getUserNameFromCookies();
     if (!currentUserName) {
       setLoading(false);
       router.push('/SignIn');
     } else {
-      setUserName(currentUserName);
+      setUserNameFromCookies(currentUserName);
       fetchUser();
       fetchChats();
       console.log(`Current User Name: ${currentUserName}`);
@@ -78,14 +79,19 @@ export default function Page() {
           stroke="2"
           speed="2"
           color="orange"
-        ></l-ping>
+          >
+        </l-ping>
       </div>
     );
   }
 
   return (
     <div>
-      <ActiveChatList user={userData} chats={chats} fetchChats={fetchChats} />
+      <ActiveChatList 
+      user={userData} 
+      chats={chats} 
+      fetchChats={fetchChats}
+      />
     </div>
   );
 }

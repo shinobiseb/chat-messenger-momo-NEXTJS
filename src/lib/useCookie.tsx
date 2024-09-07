@@ -4,17 +4,25 @@ import Cookies from 'js-cookie'
 
 export default function useCookie() {
 
-    function getUserNameFromCookies( userName:string ) {
-        Cookies.get('userName')
-    }
-
-    function setUserNameFromCookies( userName:string ){
-        if(!Cookies.get('userName')){
-            Cookies.set('userName', userName)
-        } else {
-            console.warn('User already entered')
+    function getUserNameFromCookies(): string {
+        const userName = Cookies.get('userName');
+        if (!userName) {
+            return '';
         }
+        return userName;  // Return the username as a string
     }
 
-    return { getUserNameFromCookies, setUserNameFromCookies }
+    function setUserNameFromCookies(userName: string) {
+        return Cookies.set('userName', userName, { sameSite: 'Strict', expires: 10000});
+    }
+
+    function deleteUserNameFromCookies(userName: string){
+        return Cookies.remove(userName)
+    }
+
+    return { 
+        getUserNameFromCookies, 
+        setUserNameFromCookies, 
+        deleteUserNameFromCookies 
+    };
 }

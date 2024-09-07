@@ -4,10 +4,13 @@ import React, { useEffect, useState } from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
 import { Chat, Message } from '@/types/types'
 import { useUserState } from '@/lib/UserStateContext'
+import useCookie from '@/lib/useCookie'
 
 export default function page() {
   const [ messages, setMessages ] = useState<Message[]>([])
   const [ chatId, setChatId ] = useState('66ce723ee28c7d9e74356e4e')
+  const { getUserNameFromCookies } = useCookie()
+  const [currentUserName, setCurrentUserName] = useState<string>('');
 
   async function fetchMessagesFromChat(chatId: string) {
     try {
@@ -32,13 +35,16 @@ export default function page() {
     }
   }
 
-  useEffect(()=> {
-    fetchMessagesFromChat(chatId)
-  }, [])
+  useEffect(() => {
+    fetchMessagesFromChat(chatId);
+    let userNameFromCookies = getUserNameFromCookies()
+    setCurrentUserName(userNameFromCookies)
+    console.log(`User is ${currentUserName}`)
+}, []);
 
   return (
     <div>
-      {/* <ChatWindow messages={messages}/> */}
+      <ChatWindow userName={currentUserName} messages={messages}/>
     </div>
   )
 }
