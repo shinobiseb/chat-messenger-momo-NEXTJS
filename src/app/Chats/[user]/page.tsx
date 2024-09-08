@@ -9,6 +9,7 @@ import 'ldrs/ring'
 import { User, Chat } from '@/types/types';
 import { ChatInfo } from '@/types/types';
 
+//------- Custom JSX Stuff -------
 declare namespace JSX {
   interface IntrinsicElements {
     'l-ping': any;
@@ -22,14 +23,14 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
   const [chats, setChats] = useState<Chat[]>([]);
-  const [ chatInfo, setChatInfo] = useState<ChatInfo>({
-    chatId: null,
+  const [ selectedChatInfo, setSelectedChatInfo] = useState<ChatInfo>({
+    chatId: '',
     messages: [],
-    targetUser: null, 
+    targetUser: '', 
   })
 
-
-  async function getChatFromChatId( chatId : string){
+//--------- Click Handle ---------
+  async function getChatFromChatId(chatId: string) {
     try {
       const response = await fetch('/api/chats')
       if (!response.ok) {
@@ -45,10 +46,20 @@ export default function Page() {
   }
 
   async function handleChatClick(chatId: string) {
-    let targetChat = await getChatFromChatId(chatId)
-    console.log(targetChat)
+    let targetChat: Chat = await getChatFromChatId(chatId)
+    if (targetChat._id) {
+      setSelectedChatInfo({
+        chatId: targetChat._id,
+        messages: targetChat.messages,
+        targetUser: targetChat.participants[0] !== userName ? 
+          targetChat.participants[0] :
+          targetChat.participants[1]
+      })
+    } else {
+      console.error('Chat has no chatId')
+    }
   }
-
+//---------- Fetchers ----------
   async function fetchUser() {
     try {
       const response = await fetch('/api/users');
@@ -77,6 +88,11 @@ export default function Page() {
     }
   }
 
+//--------- useEffects ---------
+  useEffect(() => {
+    console.table(selectedChatInfo);
+  }, [selectedChatInfo]);
+
   useEffect(() => {
     const currentUserName = getUserNameFromCookies();
     if (!currentUserName) {
@@ -98,6 +114,7 @@ export default function Page() {
     }
   }, [isSignedIn, loading, router]);
 
+//---------- Returns -----------
   if (loading) {
     return (
       <div className='w-full h-screen flex justify-center items-center'>
@@ -106,7 +123,7 @@ export default function Page() {
           stroke="2"
           speed="2"
           color="orange"
-          >
+        >
         </l-ping>
       </div>
     );
@@ -115,10 +132,10 @@ export default function Page() {
   return (
     <div>
       <ActiveChatList
-      handleChatClick={handleChatClick}
-      user={userData} 
-      chats={chats} 
-      fetchChats={fetchChats}
+        handleChatClick={handleChatClick}
+        user={userData} 
+        chats={chats} 
+        fetchChats={fetchChats}
       />
     </div>
   );

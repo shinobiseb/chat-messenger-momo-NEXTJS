@@ -53,9 +53,9 @@ export type Chat = {
 }
 
 export type ChatInfo = {
-    chatId: string | null;
+    chatId: string ;
     messages: Message[];
-    targetUser: User | null;
+    targetUser: string;
 }
 
 // export interface ChatPreview extends Chat {
