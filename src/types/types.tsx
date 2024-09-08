@@ -83,7 +83,10 @@ export interface ActiveChatType {
 }
 
 export interface ActiveChatListType {
-    user: User | null,
+  user: User | null;
+  chats: Chat[];
+  fetchChats: () => void;
+  handleChatClick: (chatId: string) => void;
 }
 
 export interface ChatWindowProps {

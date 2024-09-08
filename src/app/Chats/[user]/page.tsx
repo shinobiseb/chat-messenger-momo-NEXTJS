@@ -22,12 +22,32 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
   const [chats, setChats] = useState<Chat[]>([]);
-
   const [ chatInfo, setChatInfo] = useState<ChatInfo>({
     chatId: null,
     messages: [],
     targetUser: null, 
   })
+
+
+  async function getChatFromChatId( chatId : string){
+    try {
+      const response = await fetch('/api/chats')
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json()
+      const { chats } = data
+      const targetChat = chats.find((chat: Chat) => chat._id === chatId)
+      return targetChat
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function handleChatClick(chatId: string) {
+    let targetChat = await getChatFromChatId(chatId)
+    console.log(targetChat)
+  }
 
   async function fetchUser() {
     try {
@@ -94,7 +114,8 @@ export default function Page() {
 
   return (
     <div>
-      <ActiveChatList 
+      <ActiveChatList
+      handleChatClick={handleChatClick}
       user={userData} 
       chats={chats} 
       fetchChats={fetchChats}
