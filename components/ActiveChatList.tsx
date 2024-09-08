@@ -11,6 +11,26 @@ function ActiveChatList({ user, chats, fetchChats }: { user: User | null, chats:
   const [isOpen, setIsOpen] = useState(false);
   const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
 
+  async function getChatFromChatId( chatId : string){
+    try {
+      const response = await fetch('/api/chats')
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json()
+      const { chats } = data
+      const targetChat = chats.find((chat: Chat) => chat._id === chatId)
+      return targetChat
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function handleChatClick(chatId: string) {
+    let targetChat = await getChatFromChatId(chatId)
+    console.log(targetChat)
+  }
+
   function chatMapper(chats: Chat[]) {
     return chats
       .filter(chat => chat.participants && chat.participants.length > 0 && chat._id !== undefined)
@@ -20,6 +40,7 @@ function ActiveChatList({ user, chats, fetchChats }: { user: User | null, chats:
             targetUserName={ chat.participants[0] === user?.userName ? chat.participants[1] : chat.participants[0] } 
             profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg'
             chatId={chat._id}
+            onClickFunction={handleChatClick}
           />
         </li>
       ));

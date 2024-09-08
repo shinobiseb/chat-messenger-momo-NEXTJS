@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '@/lib/useLocalStorage';
 import { useUserState } from '@/lib/UserStateContext';
 import { authenticateUser } from '@/app/api/api';
+import useCookie from '@/lib/useCookie';
 
 export default function SignInForm() {
+  const { setUserNameFromCookies } = useCookie()
   const { setUserName, setIsSignedIn } = useUserState();
   const [showError, setShowError] = useState(false);
   const { setLoggedInUser } = useLocalStorage('CurrentUser');
@@ -29,11 +31,12 @@ export default function SignInForm() {
       setLoggedInUser(user.userName);
       setUserName(user.userName);
       setIsSignedIn(true);
+      setUserNameFromCookies(user.userName)
       router.push(`/chats/${user.userName}`);
     } else {
       setShowError(true);
       setTimeout(() => setShowError(false), 3000);
-    }
+    };
   };
 
   return (
@@ -42,14 +45,14 @@ export default function SignInForm() {
       <form className="flex flex-col" onSubmit={handleSubmit}>
         <input
           required
-          className="rounded-md p-1 px-2 mb-2"
+          className="rounded-md p-1 px-2 mb-2 w-full"
           type="text"
           name="userName"
           placeholder="User Name"
         />
         <input
           required
-          className="rounded-md p-1 px-2 mb-2"
+          className="rounded-md p-1 px-2 mb-2 w-full"
           type="password"
           name="password"
           placeholder="Password"

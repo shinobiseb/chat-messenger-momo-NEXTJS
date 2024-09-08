@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import ActiveChatList from '../../../../components/ActiveChatList';
 import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
-import { useLocalStorage } from '@/lib/useLocalStorage';
 import useCookie from '@/lib/useCookie';
 import 'ldrs/ring'
 import { User, Chat } from '@/types/types';
+import { ChatInfo } from '@/types/types';
 
 declare namespace JSX {
   interface IntrinsicElements {
@@ -22,6 +22,12 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
   const [chats, setChats] = useState<Chat[]>([]);
+
+  const [ chatInfo, setChatInfo] = useState<ChatInfo>({
+    chatId: null,
+    messages: [],
+    targetUser: null, 
+  })
 
   async function fetchUser() {
     try {
@@ -56,6 +62,7 @@ export default function Page() {
     if (!currentUserName) {
       setLoading(false);
       router.push('/SignIn');
+      console.error('User tried to access chats before User was authenticated')
     } else {
       setUserNameFromCookies(currentUserName);
       fetchUser();

@@ -16,6 +16,7 @@ const UserSchema: Schema<IUser> = new Schema({
     profilePic: { type: String, default: '' },
 });
 
+
 const UserModel: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
 
 export default UserModel;

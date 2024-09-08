@@ -52,11 +52,17 @@ export type Chat = {
     participants: User['userName'];
 }
 
-export interface ChatPreview extends Chat {
-    _id: string;
-    id: string;
-    targetUsers: string | string[];
-};
+export type ChatInfo = {
+    chatId: string | null;
+    messages: Message[];
+    targetUser: User | null;
+}
+
+// export interface ChatPreview extends Chat {
+//     _id: string;
+//     id: string;
+//     targetUsers: string | string[];
+// };
 
 export interface IUser extends Document {
     email: string;
@@ -73,6 +79,7 @@ export interface ActiveChatType {
     lastMessage?: string,
     timeSent?: string,
     chatId?: string,
+    onClickFunction: (chatId: string )=> void
 }
 
 export interface ActiveChatListType {
