@@ -5,8 +5,10 @@ import ChatWindow from '../../../../../components/ChatWindow'
 import { Chat, Message } from '@/types/types'
 import { useUserState } from '@/lib/UserStateContext'
 import useCookie from '@/lib/useCookie'
+import { InferGetStaticPropsType } from 'next'
+import { getServerSideProps } from 'next/dist/build/templates/pages'
 
-export default function page() {
+export default function page( { data }: InferGetStaticPropsType<typeof getServerSideProps>) {
   const [ messages, setMessages ] = useState<Message[]>([])
   const [ chatId, setChatId ] = useState('66ce723ee28c7d9e74356e4e')
   const { getUserNameFromCookies } = useCookie()
@@ -40,6 +42,7 @@ export default function page() {
     let userNameFromCookies = getUserNameFromCookies()
     setCurrentUserName(userNameFromCookies)
     console.log(`User is ${currentUserName}`)
+    console.log(typeof(data))
 }, []);
 
   return (

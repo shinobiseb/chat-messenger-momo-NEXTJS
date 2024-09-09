@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import useCookie from '@/lib/useCookie';
 import 'ldrs/ring'
 import { User, Chat } from '@/types/types';
+import { GetServerSideProps } from 'next';
 import { ChatInfo } from '@/types/types';
 
 //------- Custom JSX Stuff -------
@@ -23,11 +24,6 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
   const [chats, setChats] = useState<Chat[]>([]);
-  const [ selectedChatInfo, setSelectedChatInfo] = useState<ChatInfo>({
-    chatId: '',
-    messages: [],
-    targetUser: '', 
-  })
 
 //--------- Click Handle ---------
   async function getChatFromChatId(chatId: string) {
@@ -39,27 +35,28 @@ export default function Page() {
       const data = await response.json()
       const { chats } = data
       const targetChat = chats.find((chat: Chat) => chat._id === chatId)
-      return targetChat
+      return {
+        props: {
+          chats
+        }
+      }
     } catch (error) {
       console.error(error)
     }
   }
 
-  async function handleChatClick(chatId: string) {
-    let targetChat: Chat = await getChatFromChatId(chatId)
-    if (targetChat._id) {
-      setSelectedChatInfo({
-        chatId: targetChat._id,
-        messages: targetChat.messages,
-        targetUser: targetChat.participants[0] !== userName ? 
-          targetChat.participants[0] :
-          targetChat.participants[1]
-      })
-    } else {
-      console.error('Chat has no chatId')
+//---------- Fetchers ----------
+  async function getServerSideProps() {
+    try {
+      const response = await fetch('/api/chats');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      return{ props: { data }}
+    } catch (error) {
+      console.error('Messed Up in GetServerSideProps Function')
     }
   }
-//---------- Fetchers ----------
+
   async function fetchUser() {
     try {
       const response = await fetch('/api/users');
@@ -87,11 +84,6 @@ export default function Page() {
       console.error(`Error fetching chats: ${err}`);
     }
   }
-
-//--------- useEffects ---------
-  useEffect(() => {
-    console.table(selectedChatInfo);
-  }, [selectedChatInfo]);
 
   useEffect(() => {
     const currentUserName = getUserNameFromCookies();
@@ -132,7 +124,6 @@ export default function Page() {
   return (
     <div>
       <ActiveChatList
-        handleChatClick={handleChatClick}
         user={userData} 
         chats={chats} 
         fetchChats={fetchChats}
