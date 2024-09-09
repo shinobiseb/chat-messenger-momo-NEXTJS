@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect, useState } from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
 import { Chat, Message } from '@/types/types'
@@ -9,11 +7,6 @@ import { InferGetStaticPropsType } from 'next'
 import { getServerSideProps } from 'next/dist/build/templates/pages'
 
 export default function page( { data }: InferGetStaticPropsType<typeof getServerSideProps>) {
-  const [ messages, setMessages ] = useState<Message[]>([])
-  const [ chatId, setChatId ] = useState('66ce723ee28c7d9e74356e4e')
-  const { getUserNameFromCookies } = useCookie()
-  const [currentUserName, setCurrentUserName] = useState<string>('');
-
   async function fetchMessagesFromChat(chatId: string) {
     try {
       const response = await fetch('/api/chats');
@@ -24,8 +17,6 @@ export default function page( { data }: InferGetStaticPropsType<typeof getServer
       if(!targetChat) {
         console.error('Target Chat not found')
       } else {
-        setMessages(targetChat.messages)
-        console.log(messages)
         return targetChat; 
       }
     } catch (err: unknown) {
@@ -37,17 +28,11 @@ export default function page( { data }: InferGetStaticPropsType<typeof getServer
     }
   }
 
-  useEffect(() => {
-    fetchMessagesFromChat(chatId);
-    let userNameFromCookies = getUserNameFromCookies()
-    setCurrentUserName(userNameFromCookies)
-    console.log(`User is ${currentUserName}`)
-    console.log(typeof(data))
-}, []);
+  console.log(data)
 
   return (
     <div>
-      <ChatWindow userName={currentUserName} messages={messages}/>
+      <ChatWindow/>
     </div>
   )
 }
