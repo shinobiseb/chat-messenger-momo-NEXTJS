@@ -7,7 +7,7 @@ import AddChat from './AddChat';
 import { ActiveChatListType } from '@/types/types';
 import { Chat } from '@/types/types';
 
-function ActiveChatList() {
+function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChatListType) {
   const [isOpen, setIsOpen] = useState(false);
   const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
 
