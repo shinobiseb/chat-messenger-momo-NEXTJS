@@ -1,133 +1,69 @@
-'use client'
+import React from 'react';
+import ChatWindow from '../../../../components/ChatWindow';
+import { Chat, Message } from '@/types/types';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-import React, { useState, useEffect } from 'react';
-import ActiveChatList from '../../../../components/ActiveChatList';
-import { useUserState } from '@/lib/UserStateContext';
-import { useRouter } from 'next/navigation';
-import useCookie from '@/lib/useCookie';
-import 'ldrs/ring'
-import { User, Chat } from '@/types/types';
-import { GetServerSideProps } from 'next';
-import { ChatInfo } from '@/types/types';
-
-//------- Custom JSX Stuff -------
-declare namespace JSX {
-  interface IntrinsicElements {
-    'l-ping': any;
-  }
+interface PageProps {
+  messages: Message[];
+  currentUserName: string;
 }
 
-export default function Page() {
-  const { getUserNameFromCookies, setUserNameFromCookies } = useCookie()
-  const router = useRouter();
-  const { isSignedIn, userName, setUserName } = useUserState();
-  const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<User | null>(null);
-  const [chats, setChats] = useState<Chat[]>([]);
-
-//--------- Click Handle ---------
-  async function getChatFromChatId(chatId: string) {
-    try {
-      const response = await fetch('/api/chats')
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json()
-      const { chats } = data
-      const targetChat = chats.find((chat: Chat) => chat._id === chatId)
-      return {
-        props: {
-          chats
-        }
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-//---------- Fetchers ----------
-  async function getServerSideProps() {
-    try {
-      const response = await fetch('/api/chats');
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
-      return{ props: { data }}
-    } catch (error) {
-      console.error('Messed Up in GetServerSideProps Function')
-    }
-  }
-
-  async function fetchUser() {
-    try {
-      const response = await fetch('/api/users');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      const { users } = data;
-      const currentUser = users.find((user: User) => user.userName === userName);
-      setUserData(currentUser);
-    } catch (error) {
-      console.error(`Error fetching users: ${error}`);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function fetchChats() {
-    try {
-      const response = await fetch('/api/chats');
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
-      setChats(data.chats);
-    } catch (err) {
-      console.error(`Error fetching chats: ${err}`);
-    }
-  }
-
-  useEffect(() => {
-    const currentUserName = getUserNameFromCookies();
-    if (!currentUserName) {
-      setLoading(false);
-      router.push('/SignIn');
-      console.error('User tried to access chats before User was authenticated')
-    } else {
-      setUserNameFromCookies(currentUserName);
-      fetchUser();
-      fetchChats();
-      console.log(`Current User Name: ${currentUserName}`);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isSignedIn && !loading) {
-      console.error('User is not signed in');
-      router.push('/SignIn');
-    }
-  }, [isSignedIn, loading, router]);
-
-//---------- Returns -----------
-  if (loading) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center'>
-        <l-ping
-          size="45"
-          stroke="2"
-          speed="2"
-          color="orange"
-        >
-        </l-ping>
-      </div>
-    );
-  }
-
+export default function Page({ messages, currentUserName }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
-      <ActiveChatList
-        user={userData} 
-        chats={chats} 
-        fetchChats={fetchChats}
-      />
+      <ChatWindow userName={currentUserName} messages={messages} />
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+  try {
+    // Retrieve user name from cookies
+    const userName = context.req.cookies.userName || '';
+    if (!userName) {
+      return {
+        redirect: {
+          destination: '/SignIn',
+          permanent: false,
+        },
+      };
+    }
+
+    // Retrieve chat ID from URL params (assuming it's passed in the URL)
+    const { chatId } = context.params || {};
+    if (!chatId) {
+      return {
+        notFound: true,
+      };
+    }
+
+    // Fetch chats data from your API
+    const chatResponse = await fetch(`${process.env.API_URL}/chats`);
+    if (!chatResponse.ok) throw new Error('Error fetching chats');
+    
+    const chatsData = await chatResponse.json();
+    const targetChat = chatsData.chats.find((chat: Chat) => chat._id === chatId);
+
+    if (!targetChat) {
+      return {
+        notFound: true,
+      };
+    }
+
+    // Pass chat messages and user name to the component as props
+    return {
+      props: {
+        messages: targetChat.messages,
+        currentUserName: userName,
+      },
+    };
+  } catch (error) {
+    console.error(`Error fetching chats: ${error}`);
+    return {
+      props: {
+        messages: [],
+        currentUserName: '',
+      },
+    };
+  }
+};

@@ -1,53 +1,66 @@
-'use client'
+import React, { useState } from 'react';
+import ChatWindow from '../../../../../components/ChatWindow';
+import { Chat, Message, User } from '@/types/types';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import useCookie from '@/lib/useCookie';
 
-import React, { useEffect, useState } from 'react'
-import ChatWindow from '../../../../../components/ChatWindow'
-import { Chat, Message } from '@/types/types'
-import { useUserState } from '@/lib/UserStateContext'
-import useCookie from '@/lib/useCookie'
-import { InferGetStaticPropsType } from 'next'
-import { getServerSideProps } from 'next/dist/build/templates/pages'
+interface PageProps {
+  chats: Chat[];
+  currentUserName: string;
+}
 
-export default function page( { data }: InferGetStaticPropsType<typeof getServerSideProps>) {
-  const [ messages, setMessages ] = useState<Message[]>([])
-  const [ chatId, setChatId ] = useState('66ce723ee28c7d9e74356e4e')
-  const { getUserNameFromCookies } = useCookie()
-  const [currentUserName, setCurrentUserName] = useState<string>('');
+export default function Page({ chats, currentUserName }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatId, setChatId] = useState('66ce723ee28c7d9e74356e4e');
 
-  async function fetchMessagesFromChat(chatId: string) {
-    try {
-      const response = await fetch('/api/chats');
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
-      const chats: Chat[] = data.chats;
-      const targetChat = chats.find((chat) => chat._id === chatId);
-      if(!targetChat) {
-        console.error('Target Chat not found')
-      } else {
-        setMessages(targetChat.messages)
-        console.log(messages)
-        return targetChat; 
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error(`Error fetching chats: ${err.message}`);
-      } else {
-        console.error('An unexpected error occurred:', err);
-      }
+  // Find the target chat and set the messages
+  React.useEffect(() => {
+    const targetChat = chats.find((chat) => chat._id === chatId);
+    if (targetChat) {
+      setMessages(targetChat.messages);
+    } else {
+      console.error('Target Chat not found');
     }
-  }
-
-  useEffect(() => {
-    fetchMessagesFromChat(chatId);
-    let userNameFromCookies = getUserNameFromCookies()
-    setCurrentUserName(userNameFromCookies)
-    console.log(`User is ${currentUserName}`)
-    console.log(typeof(data))
-}, []);
+  }, [chatId, chats]);
 
   return (
     <div>
-      <ChatWindow userName={currentUserName} messages={messages}/>
+      <ChatWindow userName={currentUserName} messages={messages} />
     </div>
-  )
+  );
 }
+
+export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+  try {
+    // Get user name from cookies
+    const userName = context.req.cookies.userName || '';
+    if (!userName) {
+      return {
+        redirect: {
+          destination: '/SignIn',
+          permanent: false,
+        },
+      };
+    }
+
+    // Fetch chats data from API
+    const chatResponse = await fetch(`${process.env.API_URL}/chats`);
+    if (!chatResponse.ok) throw new Error('Error fetching chats');
+    const chatsData = await chatResponse.json();
+
+    return {
+      props: {
+        chats: chatsData.chats,
+        currentUserName: userName,
+      },
+    };
+  } catch (error) {
+    console.error(`Error fetching chats: ${error}`);
+    return {
+      props: {
+        chats: [],
+        currentUserName: '',
+      },
+    };
+  }
+};
