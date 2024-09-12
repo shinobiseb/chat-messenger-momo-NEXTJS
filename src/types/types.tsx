@@ -92,6 +92,7 @@ export interface ActiveChatListType {
 export interface ChatWindowProps {
     messages: Message[],
     userName: string;
+    chatID: string;
 }
 
 export interface textBoxProps {

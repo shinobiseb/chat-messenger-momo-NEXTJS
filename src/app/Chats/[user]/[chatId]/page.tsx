@@ -3,12 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
 import { Chat, Message } from '@/types/types'
-import { useUserState } from '@/lib/UserStateContext'
 import useCookie from '@/lib/useCookie'
 import { InferGetStaticPropsType } from 'next'
 import { getServerSideProps } from 'next/dist/build/templates/pages'
 
-export default function page( { data }: InferGetStaticPropsType<typeof getServerSideProps>) {
+export default function page( { params }: { params: { chatId: string } }) {
   const [ messages, setMessages ] = useState<Message[]>([])
   const [ chatId, setChatId ] = useState('66ce723ee28c7d9e74356e4e')
   const { getUserNameFromCookies } = useCookie()
@@ -20,6 +19,10 @@ export default function page( { data }: InferGetStaticPropsType<typeof getServer
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       const chats: Chat[] = data.chats;
+      if(!params.chatId){
+        console.error('No Chat Id found from params')
+      }
+      console.log('Params: ', params.chatId)
       const targetChat = chats.find((chat) => chat._id === chatId);
       if(!targetChat) {
         console.error('Target Chat not found')
@@ -38,7 +41,22 @@ export default function page( { data }: InferGetStaticPropsType<typeof getServer
   }
 
   useEffect(() => {
-    fetchMessagesFromChat(chatId);
+    async function fetchID(){
+      try {
+        const response = await fetch('/api/chats')
+        const { chats }: { chats: Array<Chat> } = await response.json();
+        const targetChatID = chats.find((chat: Chat)=> chat._id === params.chatId)
+        if(!targetChatID){
+          return 'No Chat Found'
+        }
+        return targetChatID
+      } catch (error) {
+        console.error('Error Occurred: ', error)
+      }
+    }
+    fetchID()
+
+    fetchMessagesFromChat(params.chatId);
     let userNameFromCookies = getUserNameFromCookies()
     setCurrentUserName(userNameFromCookies)
     console.log(`User is ${currentUserName}`)
@@ -46,7 +64,7 @@ export default function page( { data }: InferGetStaticPropsType<typeof getServer
 
   return (
     <div>
-      <ChatWindow userName={currentUserName} messages={messages}/>
+      <ChatWindow chatID={chatId} userName={currentUserName} messages={messages}/>
     </div>
   )
 }
