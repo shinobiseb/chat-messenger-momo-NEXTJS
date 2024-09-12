@@ -2,14 +2,13 @@
 
 import React, { useEffect, useState } from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
-import { Chat, Message } from '@/types/types'
+import { Chat, Message, MessageReq } from '@/types/types'
 import useCookie from '@/lib/useCookie'
 import { InferGetStaticPropsType } from 'next'
 import { getServerSideProps } from 'next/dist/build/templates/pages'
 
 export default function page( { params }: { params: { chatId: string } }) {
-  const [ messages, setMessages ] = useState<Message[]>([])
-  const [ chatId, setChatId ] = useState('66ce723ee28c7d9e74356e4e')
+  const [ messages, setMessages ] = useState<MessageReq[]>([])
   const { getUserNameFromCookies } = useCookie()
   const [currentUserName, setCurrentUserName] = useState<string>('');
 
@@ -22,7 +21,7 @@ export default function page( { params }: { params: { chatId: string } }) {
       if(!params.chatId){
         console.error('No Chat Id found from params')
       }
-      console.log('Params: ', params.chatId)
+      console.log('Params: ', params)
       const targetChat = chats.find((chat) => chat._id === chatId);
       if(!targetChat) {
         console.error('Target Chat not found')
@@ -64,7 +63,11 @@ export default function page( { params }: { params: { chatId: string } }) {
 
   return (
     <div>
-      <ChatWindow chatID={chatId} userName={currentUserName} messages={messages}/>
+      <ChatWindow 
+      chatID={params.chatId} 
+      userName={currentUserName} 
+      messages={messages}
+      />
     </div>
   )
 }

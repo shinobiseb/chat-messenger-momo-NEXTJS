@@ -7,9 +7,9 @@ import TextBox from './TextBox';
 import { ChatWindowProps } from '@/types/types';
 import { useRouter } from 'next/router';
 
-export default function ChatWindow({ messages, userName }: ChatWindowProps) {
+export default function ChatWindow({ messages, userName, chatID }: ChatWindowProps) {
   const [messagingContact, setMessagingContact] = useState({
-    userName: 'Momo',
+    userName: userName,
     profilePic: 'https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg',
   });
 
@@ -21,7 +21,7 @@ export default function ChatWindow({ messages, userName }: ChatWindowProps) {
       />
       <section className='h-full w-full flex-col flex overflow-auto'>
         <ChatBox messages={messages}/>
-        <TextBox />
+        <TextBox chatId={chatID}/>
       </section>
     </main>
   );

@@ -33,8 +33,9 @@ export interface AddChatProps {
 export type Message = {
     id: string;
     content: string;
-    sent: boolean;
-    timestamp: Date;
+    sender: string;
+    // sent: boolean;
+    // timestamp: Date;
   };
 
 
@@ -48,7 +49,7 @@ export type User = {
 
 export type Chat = {
     _id?: string;
-    messages: Message[];
+    messages: MessageReq[];
     participants: User['userName'];
 }
 
@@ -90,7 +91,7 @@ export interface ActiveChatListType {
 }
 
 export interface ChatWindowProps {
-    messages: Message[],
+    messages: MessageReq[],
     userName: string;
     chatID: string;
 }

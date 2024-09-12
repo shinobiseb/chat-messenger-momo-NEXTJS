@@ -2,10 +2,12 @@ import { useUserState } from '@/lib/UserStateContext';
 import React, { useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { textBoxProps } from '@/types/types';
+import useCookie from '@/lib/useCookie';
 
 export default function TextBox( { chatId } : textBoxProps ) {
   const [content, setContent] = useState('');
   const { userName } = useUserState();
+  const { getUserNameFromCookies } = useCookie()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
@@ -13,15 +15,19 @@ export default function TextBox( { chatId } : textBoxProps ) {
   };
 
   const sendMessage = async () => {
+    if(content === ''){
+      console.warn('Empty Message')
+      return
+    }
+
     try {
-      const response = await fetch('/api/chats', {
+      const response = await fetch(`/api/chats/${chatId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          chatId: chatId,
-          sender: userName,
+          sender: getUserNameFromCookies(),
           content: content,
         }),
       });

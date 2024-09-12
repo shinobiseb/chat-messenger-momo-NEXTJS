@@ -32,9 +32,9 @@ export default function ActiveChat(
             <h5 className="text-white text-xl">
               {targetUserName}
             </h5>
-            <span className="text-gray text-sm">
+            {/* <span className="text-gray text-sm">
               {time}
-            </span>
+            </span> */}
           </div>
           <span className="text-xs italic text-gray w-5/6 truncate">
             {lastMessage}
