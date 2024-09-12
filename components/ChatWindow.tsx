@@ -29,7 +29,7 @@ export default function ChatWindow({ messages, userName }: ChatWindowProps) {
       />
       <section className='h-full w-full flex-col flex overflow-auto'>
         <ChatBox messages={messages}/>
-        <TextBox/>
+        <TextBox />
       </section>
     </main>
   );

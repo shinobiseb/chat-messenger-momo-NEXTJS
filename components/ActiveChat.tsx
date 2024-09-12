@@ -1,19 +1,26 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ActiveChatType } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function ActiveChat(
-  { targetUserName, profilePic, chatId }: ActiveChatType,
+  { targetUserName, profilePic, chatId, onClickFunction }: ActiveChatType,
 ) {
 
-  const [ lastMessage, setLastMessage ] = useState('Get Chatting!')
-  const [ time, settime ] = useState('8:88 AM')
-  const { userName } = useUserState()
+  const [lastMessage, setLastMessage] = useState('Get Chatting!');
+  const [time, setTime] = useState('8:88 AM');
+  const { userName } = useUserState();
+  const router = useRouter();
+
+  const handleClick = () => {
+    if(chatId){
+      onClickFunction(chatId)
+    }
+    router.push(`/chats/${userName}/${chatId}`);
+  };
 
   return (
-    <a href={`/chats/${userName}/${chatId}`}>
+    <div onClick={handleClick} className="cursor-pointer">
       <div className="transition bg-orange p-2 flex flex-row m-2 rounded-lg items-center">
         <img
           src={profilePic}
@@ -34,6 +41,6 @@ export default function ActiveChat(
           </span>
         </ul>
       </div>
-    </a>
+    </div>
   );
 }

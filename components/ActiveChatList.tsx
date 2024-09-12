@@ -4,10 +4,10 @@ import { FaSearch } from 'react-icons/fa';
 import { FaCirclePlus } from 'react-icons/fa6';
 import { HiMenu } from 'react-icons/hi';
 import AddChat from './AddChat';
-import { ActiveChatListType, Chat } from '@/types/types';
-import { User } from '@/types/types';
+import { ActiveChatListType } from '@/types/types';
+import { Chat } from '@/types/types';
 
-function ActiveChatList({ user, chats, fetchChats }: { user: User | null, chats: Chat[], fetchChats: () => void }) {
+function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChatListType) {
   const [isOpen, setIsOpen] = useState(false);
   const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
 
@@ -20,6 +20,7 @@ function ActiveChatList({ user, chats, fetchChats }: { user: User | null, chats:
             targetUserName={ chat.participants[0] === user?.userName ? chat.participants[1] : chat.participants[0] } 
             profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg'
             chatId={chat._id}
+            onClickFunction={handleChatClick}
           />
         </li>
       ));

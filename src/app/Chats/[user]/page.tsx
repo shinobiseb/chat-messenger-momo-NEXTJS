@@ -4,11 +4,13 @@ import React, { useState, useEffect } from 'react';
 import ActiveChatList from '../../../../components/ActiveChatList';
 import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
-import { useLocalStorage } from '@/lib/useLocalStorage';
 import useCookie from '@/lib/useCookie';
 import 'ldrs/ring'
 import { User, Chat } from '@/types/types';
+import { GetServerSideProps } from 'next';
+import { ChatInfo } from '@/types/types';
 
+//------- Custom JSX Stuff -------
 declare namespace JSX {
   interface IntrinsicElements {
     'l-ping': any;
@@ -22,6 +24,28 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
   const [chats, setChats] = useState<Chat[]>([]);
+
+//--------- Click Handle ---------
+  async function getChatFromChatId(chatId: string) {
+    try {
+      const response = await fetch('/api/chats')
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json()
+      const { chats } = data
+      const targetChat = chats.find((chat: Chat) => chat._id === chatId)
+      return {
+        props: {
+          chats
+        }
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+//---------- Fetchers ----------
 
   async function fetchUser() {
     try {
@@ -56,6 +80,7 @@ export default function Page() {
     if (!currentUserName) {
       setLoading(false);
       router.push('/SignIn');
+      console.error('User tried to access chats before User was authenticated')
     } else {
       setUserNameFromCookies(currentUserName);
       fetchUser();
@@ -71,6 +96,7 @@ export default function Page() {
     }
   }, [isSignedIn, loading, router]);
 
+//---------- Returns -----------
   if (loading) {
     return (
       <div className='w-full h-screen flex justify-center items-center'>
@@ -79,7 +105,7 @@ export default function Page() {
           stroke="2"
           speed="2"
           color="orange"
-          >
+        >
         </l-ping>
       </div>
     );
@@ -87,10 +113,11 @@ export default function Page() {
 
   return (
     <div>
-      <ActiveChatList 
-      user={userData} 
-      chats={chats} 
-      fetchChats={fetchChats}
+      <ActiveChatList
+        handleChatClick={getChatFromChatId}
+        user={userData} 
+        chats={chats} 
+        fetchChats={fetchChats}
       />
     </div>
   );

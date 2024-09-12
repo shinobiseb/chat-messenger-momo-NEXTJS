@@ -1,16 +1,14 @@
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import { AddChatProps } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
 
 export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
 
   const { userName } = useUserState();
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
     const formData = new FormData(event.target as HTMLFormElement);
     const data = {
       participants: [
@@ -18,8 +16,8 @@ export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
         userName
       ]
     };
-
-    console.log(data.participants)
+    
+    console.log(data.participants);
 
     const response = await fetch('http://localhost:3000/api/chats', {
       method: 'POST',
@@ -32,7 +30,7 @@ export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
     if (!response.ok) {
       console.error('Error creating chat:', response.statusText);
       return;
-    }
+    };
 
     const chat = await response.json();
     console.log('Created chat');
@@ -59,7 +57,9 @@ export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
           value='Create'
         />
       </form>
-      <button onClick={() => setIsOpen(false)} className='rounded-md hover:cursor-pointer hover:bg-yellow transition-all bg-white py-1 px-4 mt-2'>
+      <button 
+      onClick={() => setIsOpen(false)} 
+      className='rounded-md hover:cursor-pointer hover:bg-yellow transition-all bg-white py-1 px-4 mt-2'>
         Close
       </button>
     </div>
