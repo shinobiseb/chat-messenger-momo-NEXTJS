@@ -15,7 +15,7 @@ export default function Header( { profilePic, userName} : headerProps, { setSign
           />
           <h3 className='text-2xl ml-3 truncate'>{userName}</h3>
         </div>
-        <button onClick={()=> setSignedIn(false)}>
+        <button>
           <PiSignOutFill size={40} className='transition hover:fill-black'/>
         </button>
     </header>
