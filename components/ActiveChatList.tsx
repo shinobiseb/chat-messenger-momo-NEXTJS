@@ -47,7 +47,7 @@ function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChat
           <FaSearch size={21}/>
         </button>
       </header>
-      <ul className='overflow-y-auto'>
+      <ul className='overflow-y-auto overflow-x-hidden'>
         { chatMapper(filteredChats) }
       </ul>
 
