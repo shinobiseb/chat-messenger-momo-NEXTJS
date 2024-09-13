@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ActiveChatType } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
+import { MdMessage } from "react-icons/md";
 
 export default function ActiveChat(
   { targetUserName, profilePic, chatId, onClickFunction }: ActiveChatType,
@@ -22,11 +23,11 @@ export default function ActiveChat(
   return (
     <div onClick={handleClick} className="cursor-pointer">
       <div className="transition bg-orange p-2 flex flex-row m-2 rounded-lg items-center">
-        <img
+        {/* <img
           src={profilePic}
           alt="Profile Picture"
           className="overflow-hidden rounded-full aspect-square w-14 h-14"
-        />
+        /> */}
         <ul className="w-5/6 sm:w-full flex flex-col px-2">
           <div className="w-full flex flex-row justify-between items-center">
             <h5 className="text-white text-xl">
@@ -36,8 +37,11 @@ export default function ActiveChat(
               {time}
             </span> */}
           </div>
-          <span className="text-xs italic text-gray w-5/6 truncate">
+          {/* <span className="text-xs italic text-gray w-5/6 truncate">
             {lastMessage}
+          </span> */}
+          <span>
+            <MdMessage />
           </span>
         </ul>
       </div>
