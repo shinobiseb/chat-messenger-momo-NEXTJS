@@ -8,14 +8,14 @@ export default function Welcome() {
         <a
           id="SignInButton"
           className="bg-white button-hover rounded-xl text-lg font-semibold px-4 p-2 flex flex-row justify-center overflow-hidden items-center drop-shadow-md"
-          href='/SignIn'
+          href='/signin'
         >
           <p>Sign In</p>
         </a>
         <a
           id="SignInButton"
           className="bg-white button-hover rounded-xl text-lg font-semibold px-4 p-2 flex flex-row justify-center items-center drop-shadow-md text-center"
-        href='/SignUp'>
+        href='/signup'>
           Sign Up
         </a>
       </section>
