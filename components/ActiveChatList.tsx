@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ActiveChat from './ActiveChat';
-import { FaSearch } from 'react-icons/fa';
 import { FaCirclePlus } from 'react-icons/fa6';
-import { HiMenu } from 'react-icons/hi';
 import AddChat from './AddChat';
 import { ActiveChatListType } from '@/types/types';
 import { Chat } from '@/types/types';

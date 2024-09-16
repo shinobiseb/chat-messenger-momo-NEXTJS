@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ActiveChatType } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';

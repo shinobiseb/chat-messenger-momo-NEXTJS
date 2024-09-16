@@ -6,7 +6,6 @@ import useCookie from '@/lib/useCookie';
 
 export default function TextBox( { chatId, fetchMessagesFunction } : textBoxProps ) {
   const [content, setContent] = useState('');
-  const { userName } = useUserState();
   const { getUserNameFromCookies } = useCookie()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -5,7 +5,6 @@ import Header from './Header';
 import ChatBox from './ChatBox';
 import TextBox from './TextBox';
 import { ChatWindowProps } from '@/types/types';
-import { useEffect } from 'react';
 
 export default function ChatWindow({ messages, userName, chatID, fetchMessagesFunction }: ChatWindowProps) {
 

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { User } from '@/types/types';
 import { createUser } from '@/app/api/api';
+import Loading from './Loading';
 
 export default function SignUpForm() {
   const [showError, setShowError] = useState(false);
@@ -52,6 +53,12 @@ export default function SignUpForm() {
       setTimeout(() => setShowError(false), 3000);
     }
   };
+
+  if(loading){
+    return (
+      <Loading/>
+    )
+  }
 
   return (
     <div className="relative max-w-xl bg-orange w-11/12 h-72 rounded-xl flex flex-col justify-evenly items-center py-6 drop-shadow-md">

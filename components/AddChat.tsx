@@ -5,13 +5,10 @@ import { AddChatProps } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
 import { findUser } from '@/app/api/api';
 import { useState } from 'react';
-import { div, span } from 'framer-motion/client';
-import { error } from 'console';
 
 export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
 
   const { userName } = useUserState();
-  const [ errorMessage, showErrorMessage ] = useState(false)
 
   //-----------HANDLE-SUBMIT-----------//
   const handleSubmit = async (event: React.FormEvent) => {
@@ -21,7 +18,6 @@ export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
     const userExist = await findUser(targetUserName)
 
     if(!userExist){
-      showErrorMessage(true)
       return
     }
 

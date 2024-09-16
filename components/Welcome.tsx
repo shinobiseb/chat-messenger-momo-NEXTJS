@@ -1,6 +1,3 @@
-import { signInProps } from '@/types/types';
-import GoogleIcon from '../public/GoogleIcon';
-
 export default function Welcome() {
 
   return (

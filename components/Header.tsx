@@ -1,5 +1,5 @@
 import React from 'react'
-import { headerProps, signInProps } from '@/types/types';
+import { headerProps } from '@/types/types';
 import { FiMenu } from "react-icons/fi";
 import { IoChevronBack } from "react-icons/io5";
 import { useRouter } from 'next/navigation';

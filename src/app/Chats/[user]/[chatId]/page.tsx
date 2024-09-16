@@ -1,12 +1,9 @@
 'use client'
 
-import React, { use, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
 import { Chat, MessageReq } from '@/types/types'
 import useCookie from '@/lib/useCookie'
-import clientPromise from '@/lib/mongo/connect'
-import { Collection } from 'mongodb'
-import { watch } from 'fs'
 
 export default function page( { params }: { params: { chatId: string } }) {
   const [ messages, setMessages ] = useState<MessageReq[]>([])
