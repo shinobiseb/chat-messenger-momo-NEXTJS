@@ -3,23 +3,32 @@
 import React from 'react';
 import { AddChatProps } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
+import { findUser } from '@/app/api/api';
 
 export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
 
   const { userName } = useUserState();
+
+  //-----------HANDLE-SUBMIT-----------//
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
+    const targetUserName = formData.get('userName') as string
+    const userExist = await findUser(targetUserName)
+
+    if(!userExist){
+      console.error('User does not exist')
+      return
+    }
+
     const data = {
       participants: [
-        formData.get('userName') as string, 
+        targetUserName, 
         userName
       ]
     };
-    
-    console.log(data.participants);
 
-    const response = await fetch('http://localhost:3000/api/chats', {
+    const response = await fetch('/api/chats', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,8 +41,6 @@ export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
       return;
     };
 
-    const chat = await response.json();
-    console.log('Created chat');
     fetchChats();
     setIsOpen(false);
   };
