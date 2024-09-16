@@ -96,7 +96,7 @@ const SignUpForm = () => {
           </div>
         </div>
       )}
-      <span className='text-lightgray italic text-sm py-1'>DISCLAIMER: We're in beta — avoid using everyday passwords</span>
+      <span className='text-lightgray italic text-sm py-1'>DISCLAIMER: We are in beta — avoid using everyday passwords</span>
     </div>
   );
 }
