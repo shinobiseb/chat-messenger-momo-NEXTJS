@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import { User } from '@/types/types';
 import { createUser } from '@/app/api/api';
 import Loading from './Loading';
+import { useRouter } from 'next/router';
 
 export default function SignUpForm() {
   const [showError, setShowError] = useState(false);
   const [ loading, setLoading ] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -44,7 +46,7 @@ export default function SignUpForm() {
         setTimeout(() => setShowError(false), 3000);
       } else {
         setLoading(false)
-        history.back();
+        router.back();
       }
     } catch (error) {
       setLoading(false)
@@ -94,7 +96,7 @@ export default function SignUpForm() {
           value="Create"
         />
       </form>
-      <button onClick={() => history.back()} className="font-bold button-hover rounded-md bg-white py-1 px-4 mt-2">Back</button>
+      <button onClick={() => router.back()} className="font-bold button-hover rounded-md bg-white py-1 px-4 mt-2">Back</button>
       {showError && (
         <div className="popup-overlay show" onClick={() => setShowError(false)}>
           <div className="popup-content bg-yellow ">

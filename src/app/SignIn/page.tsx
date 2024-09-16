@@ -7,14 +7,12 @@ import { useRouter } from 'next/navigation';
 import { useUserState } from "@/lib/UserStateContext";
 
 function App() {
-
   const { getUserNameFromCookies } = useCookie()
   const { isSignedIn } = useUserState()
   const router = useRouter()
 
   useEffect(()=> {
     let userNameFromCookies = getUserNameFromCookies()
-
     if(userNameFromCookies && isSignedIn) {
       router.push(`/chats/${userNameFromCookies}`)
       console.log('Username Found')
