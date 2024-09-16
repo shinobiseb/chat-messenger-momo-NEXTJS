@@ -18,7 +18,7 @@ export type headerProps = {
 export type MessageReq = {
     id: string;
     content: string;
-    sent: boolean;
+    sender: string
 }
 
 export interface ChatBoxProps {

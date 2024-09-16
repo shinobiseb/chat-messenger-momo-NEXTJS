@@ -31,7 +31,7 @@ export default function ActiveChat(
         scale: 0.95
       }}
       onClick={handleClick}
-      className="cursor-pointer mx-1 max-w-lg">
+      className="cursor-pointer mx-1">
       <div className="transition bg-orange hover:bg-lightorange p-2 sm:py-5 flex flex-row m-2 rounded-lg items-center text-white">
         <ul className="w-full sm:w-full flex flex-col px-2">
           <li className="w-full flex flex-row justify-between items-center">
