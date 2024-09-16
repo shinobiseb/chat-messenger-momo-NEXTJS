@@ -17,14 +17,12 @@ const SignUpForm = () => {
     setLoading(true)
 
     const formData = new FormData(event.target as HTMLFormElement);
-    const emailInput = formData.get('email') as string;
     const userInput = formData.get('userName') as string;
     const passwordInput = formData.get('password') as string;
 
-    if (!emailInput || !userInput || !passwordInput) {
+    if (!userInput || !passwordInput) {
       console.error(
         `Input not found! \n 
-        emailInput: ${emailInput} \n 
         userInput: ${userInput} \n 
         passwordInput: ${passwordInput}`
       );
@@ -32,7 +30,7 @@ const SignUpForm = () => {
     }
 
     const data: User = {
-      email: emailInput,
+      email: 'mockemail@email.com',
       userName: userInput,
       password: passwordInput,
       profilePic: '',
@@ -64,19 +62,12 @@ const SignUpForm = () => {
   }
 
   return (
-    <div className="relative max-w-xl bg-orange w-11/12 h-72 rounded-xl flex flex-col justify-evenly items-center py-6 drop-shadow-md">
+    <div className="relative max-w-xl bg-orange w-11/12 rounded-xl flex flex-col justify-evenly items-center py-6 drop-shadow-md h-72">
       <h3 className="text-white py-1 text-2xl font-semibold">Create an Account</h3>
       <form 
         className="flex flex-col h-full justify-between" 
         onSubmit={handleSubmit}
       >
-        <input
-          required
-          className="rounded-md p-1 px-2"
-          type="email"
-          name="email"
-          placeholder="Email"
-        />
         <input
           required
           className="rounded-md p-1 px-2"
@@ -105,6 +96,7 @@ const SignUpForm = () => {
           </div>
         </div>
       )}
+      <span className='text-lightgray italic text-sm py-1'>DISCLAIMER: We're in beta — avoid using everyday passwords</span>
     </div>
   );
 }

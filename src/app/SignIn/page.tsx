@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 const SignInForm = dynamic(() => import('../../../components/SignInForm'), { ssr: false });
 
 
-function App() {
+export default function Page() {
   const { getUserNameFromCookies } = useCookie()
   const { isSignedIn } = useUserState()
   const router = useRouter()
@@ -29,5 +29,3 @@ function App() {
     </main>
   );
 }
-
-export default App;

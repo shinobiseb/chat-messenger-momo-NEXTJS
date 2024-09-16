@@ -14,6 +14,7 @@ export default function Loading() {
           color="white" 
         ></l-miyagi>
         <span className='text-gray text-sm mt-2'>One sec...</span>
+        <span className='text-gray text-sm mt-2'>This may take a minute...</span>
     </div>
   )
 }
