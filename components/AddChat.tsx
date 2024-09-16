@@ -5,8 +5,9 @@ import { AddChatProps } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
 import { findUser } from '@/app/api/api';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 
-export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
+const AddChat = ({ setIsOpen, fetchChats }: AddChatProps) => {
 
   const { userName } = useUserState();
 
@@ -72,3 +73,5 @@ export default function AddChat({ setIsOpen, fetchChats }: AddChatProps) {
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(AddChat), { ssr: false });

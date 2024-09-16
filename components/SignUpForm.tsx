@@ -5,8 +5,9 @@ import { User } from '@/types/types';
 import { createUser } from '@/app/api/api';
 import Loading from './Loading';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 
-export default function SignUpForm() {
+const SignUpForm = () => {
   const [showError, setShowError] = useState(false);
   const [ loading, setLoading ] = useState(false)
   const router = useRouter()
@@ -107,3 +108,5 @@ export default function SignUpForm() {
     </div>
   );
 }
+
+export default dynamic(()=> Promise.resolve(SignUpForm), { ssr:false })

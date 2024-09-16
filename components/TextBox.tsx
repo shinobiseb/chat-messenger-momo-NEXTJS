@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { textBoxProps } from '@/types/types';
 import useCookie from '@/lib/useCookie';
+import dynamic from 'next/dynamic';
 
-export default function TextBox( { chatId, fetchMessagesFunction } : textBoxProps ) {
+const TextBox = ( { chatId, fetchMessagesFunction } : textBoxProps ) => {
   const [content, setContent] = useState('');
   const { getUserNameFromCookies } = useCookie()
 
@@ -63,3 +64,5 @@ export default function TextBox( { chatId, fetchMessagesFunction } : textBoxProp
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(TextBox), { ssr: false });
