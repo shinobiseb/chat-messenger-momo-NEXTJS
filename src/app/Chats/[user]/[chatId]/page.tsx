@@ -5,7 +5,7 @@ import ChatWindow from '../../../../../components/ChatWindow'
 import { Chat, MessageReq } from '@/types/types'
 import useCookie from '@/lib/useCookie'
 
-export default function page( { params }: { params: { chatId: string } }) {
+export default function Page( { params }: { params: { chatId: string } }) {
   const [ messages, setMessages ] = useState<MessageReq[]>([])
   const { getUserNameFromCookies } = useCookie()
   const [currentUserName, setCurrentUserName] = useState<string>('');
