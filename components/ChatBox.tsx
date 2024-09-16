@@ -2,10 +2,9 @@ import { MessageReq } from "@/types/types";
 import Message from "./Message";
 import { ChatBoxProps } from '@/types/types';
 import useCookie from "@/lib/useCookie";
+import { ChangeStream } from "mongodb";
 
 export default function ChatBox({ messages }: ChatBoxProps) {
-
-
 
     function messageMapper(messages: MessageReq[]) {
             

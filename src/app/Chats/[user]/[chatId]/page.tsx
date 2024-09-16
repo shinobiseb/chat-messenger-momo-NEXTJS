@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
-import { Chat, Message, MessageReq } from '@/types/types'
+import { Chat, MessageReq } from '@/types/types'
 import useCookie from '@/lib/useCookie'
-import { InferGetStaticPropsType } from 'next'
-import { getServerSideProps } from 'next/dist/build/templates/pages'
+import clientPromise from '@/lib/mongo/connect'
+import { Collection } from 'mongodb'
+import { watch } from 'fs'
 
 export default function page( { params }: { params: { chatId: string } }) {
   const [ messages, setMessages ] = useState<MessageReq[]>([])
@@ -38,6 +39,7 @@ export default function page( { params }: { params: { chatId: string } }) {
       }
     }
   }
+
 
   useEffect(() => {
     async function fetchID(){

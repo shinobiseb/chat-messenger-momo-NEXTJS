@@ -38,14 +38,8 @@ function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChat
 
   return (
     <div className='w-full h-screen flex flex-col overflow-hidden bg-black'>
-      <header className='flex flex-row items-center justify-between w-full px-4 py-2 top-0 bg-orange text-white z-10 shadow-lg'>
-        <button>
-          <HiMenu size={30}/>
-        </button>
+      <header className='flex flex-row items-center justify-center w-full px-4 py-2 top-0 bg-orange text-white z-10 shadow-lg'>
         <h2 className='text-2xl font-semibold'>MauChat</h2>
-        <button>
-          <FaSearch size={21}/>
-        </button>
       </header>
       <ul className='overflow-y-auto overflow-x-hidden'>
         { chatMapper(filteredChats) }
