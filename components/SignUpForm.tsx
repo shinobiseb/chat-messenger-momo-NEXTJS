@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { User } from '@/types/types';
 import { createUser } from '@/app/api/api';
 import Loading from './Loading';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 const SignUpForm = () => {

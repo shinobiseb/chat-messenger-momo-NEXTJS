@@ -1,10 +1,14 @@
 'use client'
 
 import { useEffect } from "react";
-import SignInForm from "../../../components/SignInForm";
 import useCookie from "@/lib/useCookie";
 import { useRouter } from 'next/navigation';
 import { useUserState } from "@/lib/UserStateContext";
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const SignInForm = dynamic(() => import('../../../components/SignInForm'), { ssr: false });
+
 
 function App() {
   const { getUserNameFromCookies } = useCookie()

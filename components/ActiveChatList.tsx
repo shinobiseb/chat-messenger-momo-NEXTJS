@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ActiveChat from './ActiveChat';
 import { FaCirclePlus } from 'react-icons/fa6';
-import AddChat from './AddChat';
 import { ActiveChatListType } from '@/types/types';
 import { Chat } from '@/types/types';
+import dynamic from 'next/dynamic';
+
+const AddChat = dynamic(() => import('../components/AddChat'), { ssr: false });
 
 function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChatListType) {
   const [isOpen, setIsOpen] = useState(false);
