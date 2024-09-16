@@ -24,7 +24,7 @@ export default function ActiveChat(
   return (
     <motion.div
       whileHover={{ 
-        scale: 1.02,
+        scale: 1.01,
         transition: { duration: .2 } 
       }}
       whileTap={{ 
@@ -33,10 +33,10 @@ export default function ActiveChat(
       }}
       onClick={handleClick}
       className="cursor-pointer mx-1">
-      <div className="transition bg-orange p-2 flex flex-row m-2 rounded-lg items-center">
+      <div className="transition bg-orange hover:bg-lightorange p-2 sm:py-5 flex flex-row m-2 rounded-lg items-center text-white">
         <ul className="w-full sm:w-full flex flex-col px-2">
           <li className="w-full flex flex-row justify-between items-center">
-            <h5 className="text-white text-xl">
+            <h5 className="text-xl">
               {targetUserName}
             </h5>
             <span>
