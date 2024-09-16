@@ -94,10 +94,12 @@ export interface ChatWindowProps {
     messages: MessageReq[],
     userName: string;
     chatID: string;
+    fetchMessagesFunction: (chatId: string) => Promise<Chat | undefined>;
 }
 
 export interface textBoxProps {
     chatId: string;
+    fetchMessagesFunction: (chatId: string) => Promise<Chat | undefined>;
 }
 
 declare namespace JSX {

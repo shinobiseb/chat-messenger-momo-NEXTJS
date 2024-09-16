@@ -4,7 +4,7 @@ import { IoSend } from 'react-icons/io5';
 import { textBoxProps } from '@/types/types';
 import useCookie from '@/lib/useCookie';
 
-export default function TextBox( { chatId } : textBoxProps ) {
+export default function TextBox( { chatId, fetchMessagesFunction } : textBoxProps ) {
   const [content, setContent] = useState('');
   const { userName } = useUserState();
   const { getUserNameFromCookies } = useCookie()
@@ -37,16 +37,19 @@ export default function TextBox( { chatId } : textBoxProps ) {
       }
 
       const result = await response.json();
-      console.log('Message sent:', result);
+      //Get the Updated Messages
+      fetchMessagesFunction(chatId)
+      setContent('')
+      console.log(result);
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
 
   return (
-    <div className='w-full flex flex-row justify-center items-center'>
+    <div className='w-full flex flex-row justify-center items-center bg-black'>
       <input
-        className='w-5/6 p-3 rounded-lg shadow-lg self-center focus:outline-none my-2'
+        className='w-5/6 p-2 rounded-lg shadow-lg self-center focus:outline-none my-2'
         placeholder='Type Message...'
         type='text'
         value={content}
@@ -56,7 +59,7 @@ export default function TextBox( { chatId } : textBoxProps ) {
         className='p-2'
         onClick={sendMessage}
       >
-        <IoSend size={30} fill='orange' />
+        <IoSend size={35} fill='orange' />
       </button>
     </div>
   );

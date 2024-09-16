@@ -6,10 +6,12 @@ import { createUser } from '@/app/api/api';
 
 export default function SignUpForm() {
   const [showError, setShowError] = useState(false);
+  const [ loading, setLoading ] = useState(false)
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+    setLoading(true)
+
     const formData = new FormData(event.target as HTMLFormElement);
     const emailInput = formData.get('email') as string;
     const userInput = formData.get('userName') as string;
@@ -40,9 +42,11 @@ export default function SignUpForm() {
         setShowError(true);
         setTimeout(() => setShowError(false), 3000);
       } else {
+        setLoading(false)
         history.back();
       }
     } catch (error) {
+      setLoading(false)
       console.error('Error creating user:', error);
       setShowError(true);
       setTimeout(() => setShowError(false), 3000);

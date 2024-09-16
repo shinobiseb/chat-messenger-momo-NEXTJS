@@ -64,6 +64,7 @@ export default function page( { params }: { params: { chatId: string } }) {
   return (
     <div>
       <ChatWindow 
+      fetchMessagesFunction={fetchMessagesFromChat}
       chatID={params.chatId} 
       userName={currentUserName} 
       messages={messages}
