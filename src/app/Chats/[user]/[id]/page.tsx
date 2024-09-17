@@ -3,15 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
 import { Chat, Message } from '@/types/types'
-import { useUserState } from '@/lib/UserStateContext'
 import useCookie from '@/lib/useCookie'
-import { InferGetStaticPropsType } from 'next'
-import { getServerSideProps } from 'next/dist/build/templates/pages'
 
-export default function page( { data }: InferGetStaticPropsType<typeof getServerSideProps>) {
-  const [ messages, setMessages ] = useState<Message[]>([])
-  const [ chatId, setChatId ] = useState('66ce723ee28c7d9e74356e4e')
-  const { getUserNameFromCookies } = useCookie()
+export default function page( { params }: { params : { chatId: string }} ) {
+  const [ messages, setMessages ] = useState<Message[]>([]);
+  const { getUserNameFromCookies } = useCookie();
   const [currentUserName, setCurrentUserName] = useState<string>('');
 
   async function fetchMessagesFromChat(chatId: string) {
@@ -38,9 +34,9 @@ export default function page( { data }: InferGetStaticPropsType<typeof getServer
   }
 
   useEffect(() => {
-    fetchMessagesFromChat(chatId);
     let userNameFromCookies = getUserNameFromCookies()
     setCurrentUserName(userNameFromCookies)
+    fetchMessagesFromChat(params.chatId);
     console.log(`User is ${currentUserName}`)
 }, []);
 
