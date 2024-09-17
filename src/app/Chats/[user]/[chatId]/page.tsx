@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from 'react'
 import ChatWindow from '../../../../../components/ChatWindow'
-import { Chat, Message } from '@/types/types'
+import { Chat, MessageReq } from '@/types/types'
 import useCookie from '@/lib/useCookie'
 
-export default function page( { params }: { params : { chatId: string }} ) {
-  const [ messages, setMessages ] = useState<Message[]>([]);
-  const { getUserNameFromCookies } = useCookie();
+export default function Page( { params }: { params: { chatId: string } }) {
+  const [ messages, setMessages ] = useState<MessageReq[]>([])
+  const { getUserNameFromCookies } = useCookie()
   const [currentUserName, setCurrentUserName] = useState<string>('');
 
   async function fetchMessagesFromChat(chatId: string) {
@@ -16,6 +16,10 @@ export default function page( { params }: { params : { chatId: string }} ) {
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       const chats: Chat[] = data.chats;
+      if(!params.chatId){
+        console.error('No Chat Id found from params')
+      }
+      console.log('Params: ', params)
       const targetChat = chats.find((chat) => chat._id === chatId);
       if(!targetChat) {
         console.error('Target Chat not found')
@@ -33,7 +37,24 @@ export default function page( { params }: { params : { chatId: string }} ) {
     }
   }
 
+
   useEffect(() => {
+    async function fetchID(){
+      try {
+        const response = await fetch('/api/chats')
+        const { chats }: { chats: Array<Chat> } = await response.json();
+        const targetChatID = chats.find((chat: Chat)=> chat._id === params.chatId)
+        if(!targetChatID){
+          return 'No Chat Found'
+        }
+        return targetChatID
+      } catch (error) {
+        console.error('Error Occurred: ', error)
+      }
+    }
+    fetchID()
+
+    fetchMessagesFromChat(params.chatId);
     let userNameFromCookies = getUserNameFromCookies()
     setCurrentUserName(userNameFromCookies)
     fetchMessagesFromChat(params.chatId);
@@ -42,7 +63,12 @@ export default function page( { params }: { params : { chatId: string }} ) {
 
   return (
     <div>
-      <ChatWindow userName={currentUserName} messages={messages}/>
+      <ChatWindow 
+      fetchMessagesFunction={fetchMessagesFromChat}
+      chatID={params.chatId} 
+      userName={currentUserName} 
+      messages={messages}
+      />
     </div>
   )
 }

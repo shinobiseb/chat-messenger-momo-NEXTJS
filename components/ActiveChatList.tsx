@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ActiveChat from './ActiveChat';
-import { FaSearch } from 'react-icons/fa';
 import { FaCirclePlus } from 'react-icons/fa6';
-import { HiMenu } from 'react-icons/hi';
-import AddChat from './AddChat';
 import { ActiveChatListType } from '@/types/types';
 import { Chat } from '@/types/types';
+import dynamic from 'next/dynamic';
+
+const AddChat = dynamic(() => import('../components/AddChat'), { ssr: false });
 
 function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChatListType) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,7 @@ function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChat
         <li key={chat._id}>
           <ActiveChat 
             targetUserName={ chat.participants[0] === user?.userName ? chat.participants[1] : chat.participants[0] } 
-            profilePic='https://i.pinimg.com/474x/2b/aa/60/2baa60f0bc5ff69ff16ce5b40e63e377.jpg'
+            profilePic=''
             chatId={chat._id}
             onClickFunction={handleChatClick}
           />
@@ -38,16 +38,10 @@ function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChat
 
   return (
     <div className='w-full h-screen flex flex-col overflow-hidden bg-black'>
-      <header className='flex flex-row items-center justify-between w-full px-4 py-2 top-0 bg-orange text-white z-10 shadow-lg'>
-        <button>
-          <HiMenu size={30}/>
-        </button>
+      <header className='flex flex-row items-center justify-center w-full px-4 py-2 top-0 bg-orange text-white z-10 shadow-lg'>
         <h2 className='text-2xl font-semibold'>MauChat</h2>
-        <button>
-          <FaSearch size={21}/>
-        </button>
       </header>
-      <ul className='overflow-y-auto'>
+      <ul className='overflow-y-auto overflow-x-hidden'>
         { chatMapper(filteredChats) }
       </ul>
 

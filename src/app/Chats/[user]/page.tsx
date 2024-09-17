@@ -7,8 +7,6 @@ import { useRouter } from 'next/navigation';
 import useCookie from '@/lib/useCookie';
 import 'ldrs/ring'
 import { User, Chat } from '@/types/types';
-import { GetServerSideProps } from 'next';
-import { ChatInfo } from '@/types/types';
 
 //------- Custom JSX Stuff -------
 declare namespace JSX {
@@ -34,7 +32,6 @@ export default function Page() {
       }
       const data = await response.json()
       const { chats } = data
-      const targetChat = chats.find((chat: Chat) => chat._id === chatId)
       return {
         props: {
           chats

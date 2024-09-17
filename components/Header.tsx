@@ -1,5 +1,5 @@
 import React from 'react'
-import { headerProps, signInProps } from '@/types/types';
+import { headerProps } from '@/types/types';
 import { FiMenu } from "react-icons/fi";
 import { IoChevronBack } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
@@ -16,12 +16,12 @@ export default function Header( { profilePic, userName } : headerProps) {
         <button 
         className='px-1 cursor-pointer hover:fill-yellow'
         onClick={()=> router.push(`/chats/${currentUserName}`)}><IoChevronBack size={30} /></button>
-          <img 
+          {/* <img 
             className='min-w-10 w-10 overflow-hidden rounded-full' 
             src={profilePic} 
             alt="Profile Picture" 
-          />
-          <h3 className='text-2xl ml-3 truncate'>{userName}</h3>
+          /> */}
+          <h3 className='text-2xl ml-3 truncate'>Chat Window</h3>
         </div>
         <button>
           <FiMenu 

@@ -3,14 +3,16 @@ import Message from "./Message";
 import { ChatBoxProps } from '@/types/types';
 
 export default function ChatBox({ messages }: ChatBoxProps) {
+
     function messageMapper(messages: MessageReq[]) {
+            
         if (messages.length > 0) {
-            console.log(messages)
+            console.log(messages[0])
             return messages.map((message, index) => (
                 <Message 
                 id={index.toString()}
-                key={index} 
-                sent={message.sent} 
+                key={index}
+                sender={message.sender}
                 content={message.content}
                 />
             ));

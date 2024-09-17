@@ -1,20 +1,21 @@
 'use client'
 
 import { useEffect } from "react";
-import SignInForm from "../../../components/SignInForm";
 import useCookie from "@/lib/useCookie";
 import { useRouter } from 'next/navigation';
 import { useUserState } from "@/lib/UserStateContext";
+import React from 'react';
+import dynamic from 'next/dynamic';
 
-function App() {
+const SignInForm = dynamic(() => import('../../../components/SignInForm'), { ssr: false });
 
+export default function Page() {
   const { getUserNameFromCookies } = useCookie()
   const { isSignedIn } = useUserState()
   const router = useRouter()
 
   useEffect(()=> {
     let userNameFromCookies = getUserNameFromCookies()
-
     if(userNameFromCookies && isSignedIn) {
       router.push(`/chats/${userNameFromCookies}`)
       console.log('Username Found')
@@ -27,5 +28,3 @@ function App() {
     </main>
   );
 }
-
-export default App;

@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+'use client'
+
+import React from 'react';
 import { ActiveChatType } from '@/types/types';
 import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
+import { MdMessage } from "react-icons/md";
+import { motion } from 'framer-motion'
 
 export default function ActiveChat(
-  { targetUserName, profilePic, chatId, onClickFunction }: ActiveChatType,
+  { targetUserName, chatId, onClickFunction }: ActiveChatType,
 ) {
 
-  const [lastMessage, setLastMessage] = useState('Get Chatting!');
-  const [time, setTime] = useState('8:88 AM');
   const { userName } = useUserState();
   const router = useRouter();
 
@@ -20,27 +22,28 @@ export default function ActiveChat(
   };
 
   return (
-    <div onClick={handleClick} className="cursor-pointer">
-      <div className="transition bg-orange p-2 flex flex-row m-2 rounded-lg items-center">
-        <img
-          src={profilePic}
-          alt="Profile Picture"
-          className="overflow-hidden rounded-full aspect-square w-14 h-14"
-        />
-        <ul className="w-5/6 sm:w-full flex flex-col px-2">
-          <div className="w-full flex flex-row justify-between items-center">
-            <h5 className="text-white text-xl">
+    <motion.div
+      whileHover={{ 
+        scale: 1.01,
+        transition: { duration: .2 } 
+      }}
+      whileTap={{
+        scale: 0.95
+      }}
+      onClick={handleClick}
+      className="cursor-pointer mx-1">
+      <div className="transition bg-orange hover:bg-lightorange p-2 sm:py-5 flex flex-row m-2 rounded-lg items-center text-white">
+        <ul className="w-full sm:w-full flex flex-col px-2">
+          <li className="w-full flex flex-row justify-between items-center">
+            <h5 className="text-xl">
               {targetUserName}
             </h5>
-            <span className="text-gray text-sm">
-              {time}
+            <span>
+              <MdMessage size={30} fill="white" />
             </span>
-          </div>
-          <span className="text-xs italic text-gray w-5/6 truncate">
-            {lastMessage}
-          </span>
+          </li>
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 }

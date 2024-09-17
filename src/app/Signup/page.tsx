@@ -1,5 +1,9 @@
+'use client'
+
 import React from 'react';
-import SignUpForm from '../../../components/SignUpForm';
+import dynamic from 'next/dynamic';
+
+const SignUpForm = dynamic(() => import('../../../components/SignUpForm'), { ssr: false });
 
 export default function Page() {
   return (
