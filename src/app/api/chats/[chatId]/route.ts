@@ -1,7 +1,6 @@
 import clientPromise from "@/lib/mongo/connect";
 import { NextRequest, NextResponse } from "next/server";
-import { ObjectId } from "mongodb";
-import { Collection } from "mongodb";
+import { ObjectId, Collection } from "mongodb";
 import { Message } from "@/types/types";
 
 export async function GET(request: NextRequest, { params }: { params: { chatId: string } }) {
