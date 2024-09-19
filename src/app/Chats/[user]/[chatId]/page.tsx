@@ -39,6 +39,7 @@ export default function Page( { params }: { params: { chatId: string } }) {
 
 
   useEffect(() => {
+
     async function fetchID(){
       try {
         const response = await fetch('/api/chats')

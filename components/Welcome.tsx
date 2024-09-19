@@ -17,7 +17,7 @@ export default function Welcome() {
           <p>Sign In</p>
         </button>
         <button
-          id="SignInButton"
+          id="SignUpButton"
           className="bg-white button-hover rounded-xl text-lg font-semibold px-4 p-2 flex flex-row justify-center items-center drop-shadow-md text-center"
           onClick={()=>router.push('/Signup')}
           >
