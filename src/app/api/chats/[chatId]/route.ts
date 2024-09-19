@@ -58,7 +58,6 @@ export async function PUT(request: NextRequest, { params }: { params: { chatId: 
       { $set: { messages: updatedMessages } }
     );
 
-
     if (result.modifiedCount > 0) {
       return NextResponse.json({ success: true, message: 'Chat updated successfully' });
     } else {
