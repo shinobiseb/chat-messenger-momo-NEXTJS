@@ -16,8 +16,8 @@ const TextBox = ( { chatId, fetchMessagesFunction } : textBoxProps ) => {
 
   const sendMessage = async () => {
     if(content === ''){
-      console.warn('Empty Message')
-      return
+      console.warn('Empty Message');
+      return;
     }
 
     try {
@@ -37,12 +37,19 @@ const TextBox = ( { chatId, fetchMessagesFunction } : textBoxProps ) => {
       }
 
       const result = await response.json();
-      //Get the Updated Messages
-      fetchMessagesFunction(chatId)
-      setContent('')
+      // Get the updated messages
+      fetchMessagesFunction(chatId);
+      setContent('');
       console.log(result);
     } catch (error) {
       console.error('Error sending message:', error);
+    }
+  };
+
+  // Handle "Enter" key press
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      sendMessage();
     }
   };
 
@@ -54,6 +61,7 @@ const TextBox = ( { chatId, fetchMessagesFunction } : textBoxProps ) => {
         type='text'
         value={content}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
       <button
         className='p-2'

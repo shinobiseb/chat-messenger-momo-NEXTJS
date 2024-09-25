@@ -37,7 +37,6 @@ export default function Page( { params }: { params: { chatId: string } }) {
     }
   }
 
-
   useEffect(() => {
 
     async function fetchID(){
