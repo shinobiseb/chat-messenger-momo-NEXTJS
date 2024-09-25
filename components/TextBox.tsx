@@ -11,7 +11,6 @@ const TextBox = ( { chatId, fetchMessagesFunction } : textBoxProps ) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
-    console.log('Content: ' + e.target.value);
   };
 
   const sendMessage = async () => {
