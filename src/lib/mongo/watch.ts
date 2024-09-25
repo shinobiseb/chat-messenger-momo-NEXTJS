@@ -17,7 +17,6 @@ export async function watchMessages() {
 
         changeStream.on("change", (change) => {
             console.log('Change detected in messages:', change);
-            
         });
     } catch (err) {
         console.error('Error occurred watching messages:', err);
