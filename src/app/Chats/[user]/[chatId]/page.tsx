@@ -60,27 +60,27 @@ export default function Page( { params }: { params: { chatId: string } }) {
 
   useEffect(() => {
     const socket = new WebSocket('wss://express-websocket-momochat-server.onrender.com');
-  
+
     socket.onopen = () => {
         console.log('WebSocket connection established');
         setWs(socket);
     };
-  
+
     socket.onmessage = (event) => {
         const response = JSON.parse(event.data);
         if (response.action === 'refetch') {
             fetchMessagesFromChat(params.chatId);
         }
     };
-  
+
     socket.onclose = () => {
         console.warn('WebSocket connection closed');
     };
-  
+
     socket.onerror = (error) => {
         console.error('WebSocket error:', error);
     };
-  
+
     return () => {
         socket.close();
     };
