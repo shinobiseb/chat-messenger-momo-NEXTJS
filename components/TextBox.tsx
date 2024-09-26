@@ -5,7 +5,7 @@ import { textBoxProps } from '@/types/types';
 import useCookie from '@/lib/useCookie';
 import dynamic from 'next/dynamic';
 
-const TextBox = ( { chatId, fetchMessagesFunction } : textBoxProps ) => {
+const TextBox = ( { chatId, fetchMessagesFunction, currentWebSocket } : textBoxProps ) => {
   const [content, setContent] = useState('');
   const { getUserNameFromCookies } = useCookie()
 
@@ -18,6 +18,8 @@ const TextBox = ( { chatId, fetchMessagesFunction } : textBoxProps ) => {
       console.warn('Empty Message');
       return;
     }
+
+
 
     try {
       const response = await fetch(`/api/chats/${chatId}`, {

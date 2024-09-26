@@ -95,11 +95,13 @@ export interface ChatWindowProps {
     userName: string;
     chatID: string;
     fetchMessagesFunction: (chatId: string) => Promise<Chat | undefined>;
+    currentWebSocket: WebSocket | null;
 }
 
 export interface textBoxProps {
     chatId: string;
     fetchMessagesFunction: (chatId: string) => Promise<Chat | undefined>;
+    currentWebSocket: WebSocket | null;
 }
 
 declare namespace JSX {
