@@ -58,25 +58,33 @@ export default function Page( { params }: { params: { chatId: string } }) {
     console.log(`User is ${currentUserName}`)
 }, []);
 
-  useEffect(()=> {
-    const socket = new WebSocket('wss://express-websocket-momochat-server.onrender.com')
-
-    socket.onopen =()=> {
-      console.log('WebSocket Connection Established!')
+  useEffect(() => {
+    const socket = new WebSocket('wss://express-websocket-momochat-server.onrender.com');
+  
+    socket.onopen = () => {
+        console.log('WebSocket connection established');
+        setWs(socket);
     };
-
+  
     socket.onmessage = (event) => {
-      const message = JSON.parse(event.data)
-      console.log(`Message sent from client: ${message}`)
-    }
-
-    setWs(socket)
-
-    return ()=> {
-      socket.close()
-    }
-  }, [])
-
+        const response = JSON.parse(event.data);
+        if (response.action === 'refetch') {
+            fetchMessagesFromChat(params.chatId);
+        }
+    };
+  
+    socket.onclose = () => {
+        console.warn('WebSocket connection closed');
+    };
+  
+    socket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+    };
+  
+    return () => {
+        socket.close();
+    };
+  }, []);
 
 
   return (
