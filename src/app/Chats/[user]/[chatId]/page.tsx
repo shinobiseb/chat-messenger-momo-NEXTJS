@@ -59,7 +59,7 @@ export default function Page( { params }: { params: { chatId: string } }) {
 }, []);
 
   useEffect(() => {
-    const socket = new WebSocket('wss://express-websocket-momochat-server.onrender.com');
+    let socket = new WebSocket('wss://express-websocket-momochat-server.onrender.com');
 
     socket.onopen = () => {
         console.log('WebSocket connection established');
