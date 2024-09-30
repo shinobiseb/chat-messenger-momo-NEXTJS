@@ -12,9 +12,7 @@ export default function Page({ params }: { params: { chatId: string } }) {
   const [ws, setWs] = useState<WebSocket | null>(null)
   const isDevelopment = process.env.NODE_ENV === 'development'
   const expressServer = process.env.NEXT_PUBLIC_EXPRESS_URL
-  if (!expressServer) {
-    return console.error('Express Server Not Defined')
-  } 
+
   const primaryUrl = isDevelopment ? 'ws://localhost:3005' : expressServer
 
   async function fetchMessagesFromChat(chatId: string) {
@@ -60,9 +58,14 @@ export default function Page({ params }: { params: { chatId: string } }) {
     const userNameFromCookies = getUserNameFromCookies()
     setCurrentUserName(userNameFromCookies)
     console.log(`User is ${userNameFromCookies}`)
-  }, [params.chatId]) // Adding params.chatId as a dependency
+  }, [params.chatId, getUserNameFromCookies, fetchMessagesFromChat]) // Add dependencies
 
   useEffect(() => {
+    if (!primaryUrl) {
+      console.error('WebSocket URL is undefined');
+      return;
+    }
+
     const socket = new WebSocket(primaryUrl)
 
     socket.onopen = () => {
@@ -89,7 +92,7 @@ export default function Page({ params }: { params: { chatId: string } }) {
     return () => {
       socket.close()
     }
-  }, [primaryUrl, params.chatId]) // Adding dependencies
+  }, [primaryUrl, params.chatId, fetchMessagesFromChat]) // Add dependencies
 
   return (
     <div>
