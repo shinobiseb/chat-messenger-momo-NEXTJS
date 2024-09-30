@@ -67,7 +67,6 @@ export default function Page( { params }: { params: { chatId: string } }) {
 
   useEffect(() => {
     let socket = new WebSocket(primaryUrl);
-    console.log(`Socket at ${primaryUrl}`)
 
     socket.onopen = () => {
         console.log('%cWebSocket connection established', 'color: green; font-weight: bold; font-size: 14px;');
