@@ -13,6 +13,8 @@ const TextBox = ({ chatId, fetchMessagesFunction, currentWebSocket }: textBoxPro
     setContent(e.target.value);
   };
 
+  //Save content to cookies after close until sent?
+
   const sendMessage = async () => {
     const user = getUserNameFromCookies();
 

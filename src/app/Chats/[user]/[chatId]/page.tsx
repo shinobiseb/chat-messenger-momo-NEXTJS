@@ -10,6 +10,9 @@ export default function Page( { params }: { params: { chatId: string } }) {
   const { getUserNameFromCookies } = useCookie()
   const [currentUserName, setCurrentUserName] = useState<string>('');
   const [ws, setWs] = useState<WebSocket | null>(null)
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const primaryUrl = isDevelopment ? 'ws://localhost:3005' : 'wss://express-websocket-momochat-server.onrender.com';
+
 
   async function fetchMessagesFromChat(chatId: string) {
     try {
@@ -61,17 +64,18 @@ export default function Page( { params }: { params: { chatId: string } }) {
 }, []);
 
   useEffect(() => {
-    let socket = new WebSocket('wss://express-websocket-momochat-server.onrender.com');
+    let socket = new WebSocket(primaryUrl);
+    console.log(`Socket at ${primaryUrl}`)
 
     socket.onopen = () => {
-        console.log('WebSocket connection established');
+        console.log('%cWebSocket connection established', 'color: green; font-weight: bold; font-size: 14px;');
         setWs(socket);
     };
 
     socket.onmessage = (event) => {
         const response = JSON.parse(event.data);
-        if (response.action === 'refetch') {
-          console.log('%c Refetch Response Received', '')
+        if (response.action === 'refetch' && response.chatToRefresh === params.chatId) {
+          console.log('Refetch Response Received', response)
           fetchMessagesFromChat(params.chatId);
         }
     };
