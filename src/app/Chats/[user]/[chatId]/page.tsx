@@ -58,7 +58,7 @@ export default function Page({ params }: { params: { chatId: string } }) {
     const userNameFromCookies = getUserNameFromCookies()
     setCurrentUserName(userNameFromCookies)
     console.log(`User is ${userNameFromCookies}`)
-  }, [params.chatId, getUserNameFromCookies, fetchMessagesFromChat]) // Add dependencies
+  }, [])
 
   useEffect(() => {
     if (!primaryUrl) {
@@ -92,7 +92,7 @@ export default function Page({ params }: { params: { chatId: string } }) {
     return () => {
       socket.close()
     }
-  }, [primaryUrl, params.chatId, fetchMessagesFromChat]) // Add dependencies
+  }, [primaryUrl]) // Add dependencies
 
   return (
     <div>
