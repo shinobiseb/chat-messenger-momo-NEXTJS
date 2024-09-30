@@ -9,6 +9,7 @@ export default function Page( { params }: { params: { chatId: string } }) {
   const [ messages, setMessages ] = useState<MessageReq[]>([])
   const { getUserNameFromCookies } = useCookie()
   const [currentUserName, setCurrentUserName] = useState<string>('');
+  const [ws, setWs] = useState<WebSocket | null>(null)
 
   async function fetchMessagesFromChat(chatId: string) {
     try {
@@ -19,13 +20,12 @@ export default function Page( { params }: { params: { chatId: string } }) {
       if(!params.chatId){
         console.error('No Chat Id found from params')
       }
-      console.log('Params: ', params)
       const targetChat = chats.find((chat) => chat._id === chatId);
       if(!targetChat) {
         console.error('Target Chat not found')
       } else {
         setMessages(targetChat.messages)
-        console.log(messages)
+        console.log('%c FetchMessagesFromChat Fired!', 'font-size: 19px; color: green;')
         return targetChat; 
       }
     } catch (err: unknown) {
@@ -37,12 +37,10 @@ export default function Page( { params }: { params: { chatId: string } }) {
     }
   }
 
-
   useEffect(() => {
-
     async function fetchID(){
       try {
-        const response = await fetch('/api/chats')
+        const response = await fetch('ws://localhost:3000/api/socket')
         const { chats }: { chats: Array<Chat> } = await response.json();
         const targetChatID = chats.find((chat: Chat)=> chat._id === params.chatId)
         if(!targetChatID){
@@ -62,6 +60,36 @@ export default function Page( { params }: { params: { chatId: string } }) {
     console.log(`User is ${currentUserName}`)
 }, []);
 
+  useEffect(() => {
+    let socket = new WebSocket('wss://express-websocket-momochat-server.onrender.com');
+
+    socket.onopen = () => {
+        console.log('WebSocket connection established');
+        setWs(socket);
+    };
+
+    socket.onmessage = (event) => {
+        const response = JSON.parse(event.data);
+        if (response.action === 'refetch') {
+          console.log('%c Refetch Response Received', '')
+          fetchMessagesFromChat(params.chatId);
+        }
+    };
+
+    socket.onclose = () => {
+        console.warn('WebSocket connection closed');
+    };
+
+    socket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+    };
+
+    return () => {
+        socket.close();
+    };
+  }, []);
+
+
   return (
     <div>
       <ChatWindow 
@@ -69,6 +97,7 @@ export default function Page( { params }: { params: { chatId: string } }) {
       chatID={params.chatId} 
       userName={currentUserName} 
       messages={messages}
+      currentWebSocket={ws}
       />
     </div>
   )

@@ -1,12 +1,12 @@
 'use client'
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './Header';
 import ChatBox from './ChatBox';
 import TextBox from './TextBox';
 import { ChatWindowProps } from '@/types/types';
 
-export default function ChatWindow({ messages, userName, chatID, fetchMessagesFunction }: ChatWindowProps) {
+export default function ChatWindow({ messages, userName, chatID, currentWebSocket, fetchMessagesFunction }: ChatWindowProps) {
 
   return (
     <main className='w-full h-screen font-roboto-black'>
@@ -16,7 +16,11 @@ export default function ChatWindow({ messages, userName, chatID, fetchMessagesFu
       />
       <section className='h-full w-full flex-col flex overflow-auto'>
         <ChatBox messages={messages}/>
-        <TextBox fetchMessagesFunction={fetchMessagesFunction} chatId={chatID}/>
+        <TextBox 
+        fetchMessagesFunction={fetchMessagesFunction} 
+        chatId={chatID}
+        currentWebSocket={currentWebSocket}
+        />
       </section>
     </main>
   );

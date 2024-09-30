@@ -10,8 +10,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/ws": "^8.5.12",
     "axios": "^1.7.3",
     "dotenv": "^16.4.5",
+    "express": "^4.21.0",
     "framer-motion": "^11.5.4",
     "git-filter-repo": "^0.0.30",
     "js-cookie": "^3.0.5",
@@ -21,7 +23,8 @@
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.2.1"
+    "react-icons": "^5.2.1",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
