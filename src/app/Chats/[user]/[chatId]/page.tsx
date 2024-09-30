@@ -25,6 +25,7 @@ export default function Page( { params }: { params: { chatId: string } }) {
         console.error('Target Chat not found')
       } else {
         setMessages(targetChat.messages)
+        console.log('%c FetchMessagesFromChat Fired!', 'font-size: 19px; color: green;')
         return targetChat; 
       }
     } catch (err: unknown) {
@@ -69,7 +70,8 @@ export default function Page( { params }: { params: { chatId: string } }) {
     socket.onmessage = (event) => {
         const response = JSON.parse(event.data);
         if (response.action === 'refetch') {
-            fetchMessagesFromChat(params.chatId);
+          console.log('%c Refetch Response Received', '')
+          fetchMessagesFromChat(params.chatId);
         }
     };
 
