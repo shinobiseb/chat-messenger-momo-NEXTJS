@@ -11,7 +11,9 @@ export default function Page( { params }: { params: { chatId: string } }) {
   const [currentUserName, setCurrentUserName] = useState<string>('');
   const [ws, setWs] = useState<WebSocket | null>(null)
   const isDevelopment = process.env.NODE_ENV === 'development';
-  const primaryUrl = isDevelopment ? 'ws://localhost:3005' : 'wss://express-websocket-momochat-server.onrender.com';
+  const expressServer = process.env.NEXT_PUBLIC_EXPRESS_URL
+  if(!expressServer) return console.error('Express Server Not Defined')
+  const primaryUrl = isDevelopment ? 'ws://localhost:3005' : expressServer;
 
 
   async function fetchMessagesFromChat(chatId: string) {
