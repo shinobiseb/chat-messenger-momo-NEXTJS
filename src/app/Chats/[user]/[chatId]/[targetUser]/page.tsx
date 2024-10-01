@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import ChatWindow from '../../../../../components/ChatWindow'
+import ChatWindow from '../../../../../../components/ChatWindow'
 import { Chat, MessageReq } from '@/types/types'
 import useCookie from '@/lib/useCookie'
 
-export default function Page({ params }: { params: { chatId: string } }) {
+export default function Page({ params }: { params: { chatId: string, targetUser: string } }) {
   const [messages, setMessages] = useState<MessageReq[]>([])
   const { getUserNameFromCookies } = useCookie()
   const [currentUserName, setCurrentUserName] = useState<string>('')
@@ -57,7 +57,7 @@ export default function Page({ params }: { params: { chatId: string } }) {
     fetchMessagesFromChat(params.chatId)
     const userNameFromCookies = getUserNameFromCookies()
     setCurrentUserName(userNameFromCookies)
-    console.log(`User is ${userNameFromCookies}`)
+    // console.log(`User is ${userNameFromCookies}`)
   }, [])
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export default function Page({ params }: { params: { chatId: string } }) {
       <ChatWindow
         fetchMessagesFunction={fetchMessagesFromChat}
         chatID={params.chatId}
-        userName={currentUserName}
+        userName={params.targetUser}
         messages={messages}
         currentWebSocket={ws}
       />

@@ -12,7 +12,7 @@ export default function ChatWindow({ messages, userName, chatID, currentWebSocke
     <main className='w-full h-screen font-roboto-black'>
       <Header 
         profilePic={''}
-        userName={''}
+        userName={userName}
       />
       <section className='h-full w-full flex-col flex overflow-auto'>
         <ChatBox messages={messages}/>

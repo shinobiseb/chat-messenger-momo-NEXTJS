@@ -18,7 +18,7 @@ export default function ActiveChat(
     if(chatId){
       onClickFunction(chatId)
     }
-    router.push(`/chats/${userName}/${chatId}`);
+    router.push(`/chats/${userName}/${chatId}/${targetUserName}`);
   };
 
   return (
