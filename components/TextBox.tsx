@@ -9,6 +9,10 @@ const TextBox = ({ chatId, fetchMessagesFunction, currentWebSocket }: textBoxPro
   const { getUserNameFromCookies } = useCookie();
   const [loading, setLoading] = useState(false); // Added loading state
 
+  function focusTextBox() {
+    document.getElementById('chatTextBox')?.focus()
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
@@ -71,6 +75,7 @@ const TextBox = ({ chatId, fetchMessagesFunction, currentWebSocket }: textBoxPro
       fetchMessagesFunction(chatId); // Fetch new messages
       setContent(''); // Clear input after sending
       console.log(result);
+      focusTextBox()
     } catch (error) {
       console.error('Error sending message:', error);
     } finally {
@@ -89,6 +94,7 @@ const TextBox = ({ chatId, fetchMessagesFunction, currentWebSocket }: textBoxPro
       <input
         className='w-5/6 p-2 rounded-lg shadow-lg self-center focus:outline-none my-2'
         placeholder='Type Message...'
+        id='chatTextBox'
         type='text'
         value={content}
         onChange={handleChange}
