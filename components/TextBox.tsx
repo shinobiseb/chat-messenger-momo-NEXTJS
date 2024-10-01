@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+'use client'
+
+import React, { useEffect, useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { textBoxProps } from '@/types/types';
 import useCookie from '@/lib/useCookie';
@@ -9,15 +11,27 @@ const TextBox = ({ chatId, fetchMessagesFunction, currentWebSocket }: textBoxPro
   const { getUserNameFromCookies } = useCookie();
   const [loading, setLoading] = useState(false); // Added loading state
 
-  function focusTextBox() {
-    document.getElementById('chatTextBox')?.focus()
+  const chatterBox = document.getElementById('chatTextBox')
+
+  const focusTextBox = () => {
+    if(!chatterBox){
+      return console.error('chatterBox does not exist')
+    }
+
+    chatterBox?.focus()
   }
+
+  focusTextBox()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
 
-  //Save content to cookies after close until sent?
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  };
 
   const sendMessage = async () => {
     const user = getUserNameFromCookies();
@@ -54,7 +68,6 @@ const TextBox = ({ chatId, fetchMessagesFunction, currentWebSocket }: textBoxPro
       return;
     }
 
-    // Send message to the API
     try {
       const response = await fetch(`/api/chats/${chatId}`, {
         method: 'PUT',
@@ -83,11 +96,6 @@ const TextBox = ({ chatId, fetchMessagesFunction, currentWebSocket }: textBoxPro
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
-  };
 
   return (
     <div className='w-full flex flex-row justify-center items-center bg-black'>
