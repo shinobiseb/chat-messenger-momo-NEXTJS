@@ -41,6 +41,8 @@ function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChat
       <header className='flex flex-row items-center justify-center w-full px-4 py-2 top-0 bg-orange text-white z-10 shadow-lg'>
         <h2 className='text-2xl font-semibold'>MauChat</h2>
       </header>
+      <span className='text-gray text-center italic py-2'>ATTENTION: Our servers take up to a minute to spin up. Try refreshing if your messages are not sending!</span>
+      <span className='text-gray text-center italic py-1'>This is a prototype - please do not send sensitive data</span>
       <ul className='overflow-y-auto overflow-x-hidden'>
         { chatMapper(filteredChats) }
       </ul>
