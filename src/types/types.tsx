@@ -51,12 +51,7 @@ export type Chat = {
     _id?: string;
     messages: MessageReq[];
     participants: User['userName'];
-}
-
-export type ChatInfo = {
-    chatId: string ;
-    messages: Message[];
-    targetUser: string;
+    lastMessage?: String;
 }
 
 // export interface ChatPreview extends Chat {
