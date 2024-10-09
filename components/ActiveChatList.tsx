@@ -21,6 +21,7 @@ function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChat
             profilePic=''
             chatId={chat._id}
             onClickFunction={handleChatClick}
+            lastMessage={ chat.messages[chat.messages.length - 1].content }
           />
         </li>
       ));

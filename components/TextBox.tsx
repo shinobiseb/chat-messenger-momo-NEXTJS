@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { textBoxProps } from '@/types/types';
 import useCookie from '@/lib/useCookie';
@@ -17,8 +17,7 @@ const TextBox = ({ chatId, fetchMessagesFunction, currentWebSocket }: textBoxPro
     if(!chatterBox){
       return console.error('chatterBox does not exist')
     }
-
-    chatterBox?.focus()
+    chatterBox.focus()
   }
 
   focusTextBox()

@@ -43,7 +43,6 @@ export default function Page() {
   }
 
 //---------- Fetchers ----------
-
   async function fetchUser() {
     try {
       const response = await fetch('/api/users');
