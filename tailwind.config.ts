@@ -20,7 +20,7 @@ export default {
     },
     extend: {
       backgroundImage: {
-        'background-svg': "url('https://svgshare.com/i/19gW.svg')",
+        'background-svg': "url('https://jmp.sh/s/ExStKL76XzmRfeFFZtkB')",
       },
       fontFamily: {
         'roboto-thin': ['Roboto', 'sans-serif'],
