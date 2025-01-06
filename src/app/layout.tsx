@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <UserStateProvider>
-      <html lang="en" className="bg-background-svg">
+      <html lang="en" className="bg-background-svg bg-cover">
         <body className={inter.className}>{children}</body>
       </html>
     </UserStateProvider>
