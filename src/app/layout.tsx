@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <UserStateProvider>
-      <html lang="en">
+      <html lang="en" className="bg-black">
         <body className={inter.className}>{children}</body>
       </html>
     </UserStateProvider>
