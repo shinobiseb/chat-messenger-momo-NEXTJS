@@ -20,7 +20,7 @@ export default {
     },
     extend: {
       backgroundImage: {
-        'background-svg': "url('https://images-ext-1.discordapp.net/external/zmsStY5FRnc-eyJ8QAFZiCVZuk8xJUsIkS-mG8epLJU/https/pouch.jumpshare.com/preview/b00EgR-45vJ8z9q0NGpW1kg6k8hs4VHkNjLSBN-N2DRCJfNCVs602Ck5jw6i_k0xpDaZ-yacXHkgYIk9EWBE6DOc-Fkr9NeYWUC7ON5uciI?format=webp&width=1420&height=946')",
+        'background-svg': "url('https://pouch.jumpshare.com/preview/b00EgR-45vJ8z9q0NGpW1kg6k8hs4VHkNjLSBN-N2DRCJfNCVs602Ck5jw6i_k0xO2bFvJ4967zfpKWdsqVPPDuRxHYUE1IokZijfXhr5Io')",
       },
       fontFamily: {
         'roboto-thin': ['Roboto', 'sans-serif'],
