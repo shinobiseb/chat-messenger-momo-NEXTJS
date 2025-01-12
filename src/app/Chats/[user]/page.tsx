@@ -71,6 +71,19 @@ export default function Page() {
     }
   }
 
+  async function wakeUpSocketServer() {
+    try {
+      const response = await fetch('https://express-websocket-momochat-server.onrender.com/');
+      if (!response.ok){
+        throw new Error('Socket Server not Responding');
+      } 
+    } catch (err) {
+      console.error(`Error Waking Server: ${err}`);
+    }
+  }
+
+//----------- UseEffects --------------
+
   useEffect(() => {
     const currentUserName = getUserNameFromCookies();
     if (!currentUserName) {
@@ -79,6 +92,7 @@ export default function Page() {
       console.error('User tried to access chats before User was authenticated')
     } else {
       setUserNameFromCookies(currentUserName);
+      wakeUpSocketServer();
       fetchUser();
       fetchChats();
       console.log(`Current User Name: ${currentUserName}`);
@@ -108,7 +122,7 @@ export default function Page() {
   }
 
   return (
-    <div>
+    <div className=''>
       <ActiveChatList
         handleChatClick={getChatFromChatId}
         user={userData} 
