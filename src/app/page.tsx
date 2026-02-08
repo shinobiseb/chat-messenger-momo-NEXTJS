@@ -1,6 +1,5 @@
 "use client"
 
-import './globals.css'
 import Welcome from '../../components/Welcome';
 
 function App() {
