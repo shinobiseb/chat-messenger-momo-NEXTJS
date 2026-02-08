@@ -19,12 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-black bg-cover">
-      <body className={inter.className}>
-        <UserStateProvider>
-          {children}
-        </UserStateProvider>
-      </body>
-    </html>
+    <UserStateProvider>
+      <html lang="en" className="bg-black">
+        <body className={inter.className}>{children}</body>
+      </html>
+    </UserStateProvider>
   );
 }

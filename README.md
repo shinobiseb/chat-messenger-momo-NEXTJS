@@ -29,6 +29,12 @@ The primary purpose of MauChat is to provide the general public with a more visu
 
 - [Figma Prototype](https://www.figma.com/design/jG3oYXDV9mtIA69u72ORWv/Chat-UI-Mockup?node-id=0-1&t=7RYocUvqcU3u22Qm-1)
 
+## Known Issues
+**Messages not sending/Send Button not working**  
+The servers for MauChat often take some time to start up. If messages are not sending directly after opening a chat, try waiting a few seconds or check console for the **"WebSocket connection established"** message.
+
+
+
 ## Acknowledgements
 
 - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
