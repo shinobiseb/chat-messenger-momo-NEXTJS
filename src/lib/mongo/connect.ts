@@ -1,6 +1,4 @@
-// src/lib/mongo/connect.ts
-import mongoose from 'mongoose';
-import { MongoClient, ServerApiVersion, MongoClientOptions } from 'mongodb';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
 // Ensure the URI is set in the environment variables
 const uri = process.env.NEXT_PUBLIC_URI;
@@ -28,6 +26,7 @@ if (process.env.NODE_ENV === 'development') {
     client = new MongoClient(uri, options)
     globalWithMongo._mongoClientPromise = client.connect()
   }
+  
   clientPromise = globalWithMongo._mongoClientPromise
 } else {
   // In production mode, it's best to not use a global variable.
