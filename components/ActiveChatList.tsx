@@ -50,7 +50,7 @@ function ActiveChatList({ user, chats, fetchChats, handleChatClick }: ActiveChat
 
       { 
         isOpen || chats.length === 0 ? 
-        <AddChat setIsOpen={setIsOpen} fetchChats={fetchChats}/> : 
+        <AddChat setIsOpen={setIsOpen}/> : 
         null
       }
 

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 // @ts-ignore
 import "@/app/globals.css";
-import { UserStateProvider } from "../lib/UserStateContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <UserStateProvider>
       <html lang="en" className="bg-black">
         <body className={inter.className}>{children}</body>
       </html>
-    </UserStateProvider>
   );
 }

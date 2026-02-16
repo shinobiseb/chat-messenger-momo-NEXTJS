@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { ActiveChatType } from '@/types/types';
-import { useUserState } from '@/lib/UserStateContext';
 import { useRouter } from 'next/navigation';
 import { MdMessage } from "react-icons/md";
 import { motion } from 'framer-motion';
@@ -10,15 +9,7 @@ import { motion } from 'framer-motion';
 export default function ActiveChat(
   { targetUserName, chatId, onClickFunction, lastMessage }: ActiveChatType,
 ) {
-  const { userName } = useUserState();
   const router = useRouter();
-
-  const handleClick = () => {
-    if (chatId) {
-      onClickFunction(chatId);
-      router.push(`/chats/${userName}/${chatId}/${targetUserName}`);
-    }
-  };
 
   return (
     <motion.div
@@ -27,7 +18,7 @@ export default function ActiveChat(
         transition: { duration: 0.2 } 
       }}
       whileTap={{ scale: 0.95 }}
-      onClick={handleClick}
+      // onClick={handleClick}
       className="cursor-pointer mx-1"
     >
       <div className="transition bg-orange hover:bg-lightorange p-2 sm:py-5 flex flex-row m-2 rounded-lg items-center text-white">

@@ -27,7 +27,7 @@ export interface ChatBoxProps {
 
 export interface AddChatProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    fetchChats: () => void;
+    fetchChats?: () => void;
 }
 
 export type Message = {
@@ -81,7 +81,7 @@ export interface ActiveChatType {
 export interface ActiveChatListType {
   user: User | null;
   chats: Chat[];
-  fetchChats: () => void;
+  fetchChats?: () => void;
   handleChatClick: (chatId: string) => void;
 }
 
