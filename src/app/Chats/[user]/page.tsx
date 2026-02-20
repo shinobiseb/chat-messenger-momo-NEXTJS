@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useState, useEffect } from 'react';
 import ActiveChatList from '../../../../components/ActiveChatList';
 import { useRouter } from 'next/navigation';
@@ -17,7 +15,7 @@ export default function Page() {
 
   return (
     <div className=''>
-
+      
     </div>
   );
 }
