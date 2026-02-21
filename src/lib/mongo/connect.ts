@@ -1,7 +1,7 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 // Ensure the URI is set in the environment variables
-const uri = process.env.NEXT_PUBLIC_URI;
+const uri = process.env.MONGODB_URI;
 if (!uri) throw new Error('MongoDB URI is missing in environment variables');
 
 let client

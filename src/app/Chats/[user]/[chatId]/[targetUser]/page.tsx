@@ -3,11 +3,9 @@
 import React, { useEffect, useState } from 'react'
 import ChatWindow from '../../../../../../components/ChatWindow'
 import { Chat, MessageReq } from '@/types/types'
-import useCookie from '@/lib/useCookie'
 
 export default function Page({ params }: { params: { chatId: string, targetUser: string } }) {
   const [messages, setMessages] = useState<MessageReq[]>([])
-  const { getUserNameFromCookies } = useCookie()
   const [currentUserName, setCurrentUserName] = useState<string>('')
   const [ws, setWs] = useState<WebSocket | null>(null)
   const isDevelopment = process.env.NODE_ENV === 'development'
@@ -55,8 +53,6 @@ export default function Page({ params }: { params: { chatId: string, targetUser:
     fetchID()
 
     fetchMessagesFromChat(params.chatId)
-    const userNameFromCookies = getUserNameFromCookies()
-    setCurrentUserName(userNameFromCookies)
     // console.log(`User is ${userNameFromCookies}`)
   }, [])
 

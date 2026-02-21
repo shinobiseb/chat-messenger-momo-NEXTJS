@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import ActiveChatList from '../../../../components/ActiveChatList';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import 'ldrs/ring'
-import { User, Chat } from '@/types/types';
+import Sidebar from '../../../../components/Sidebar';
+import clientPromise from '@/lib/mongo/connect';
 
 //------- Custom JSX Stuff -------
 declare namespace JSX {
@@ -13,9 +12,22 @@ declare namespace JSX {
 
 export default function Page() {
 
+  async function getUserInfo(  ) {
+    const client = await clientPromise;
+
+    const db = client.db("MauChat")
+    const usersCollection = db.collection("users")
+
+    const allUsers = await usersCollection.find({}).toArray();
+    
+    console.log(allUsers)
+  }
+
+  getUserInfo()
+
   return (
-    <div className=''>
-      
-    </div>
+    <main className='border border-black w-full h-full'>
+      <Sidebar/>
+    </main>
   );
 }

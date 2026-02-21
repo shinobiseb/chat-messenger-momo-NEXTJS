@@ -54,11 +54,19 @@ export type Chat = {
     lastMessage?: String;
 }
 
-// export interface ChatPreview extends Chat {
-//     _id: string;
-//     id: string;
-//     targetUsers: string | string[];
-// };
+export interface IAuthSession {
+    user : {
+        id: string,
+        name: string,
+        email: string,
+        image: string,
+        emailverified: boolean | null
+    },
+    id: string,
+    sessionToken: string,
+    userId: string,
+    expires: string
+}
 
 export interface IUser extends Document {
     email: string;
