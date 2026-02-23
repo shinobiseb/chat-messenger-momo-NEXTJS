@@ -2,6 +2,7 @@ import React from 'react';
 import 'ldrs/ring'
 import Sidebar from '../../../../components/Sidebar';
 import clientPromise from '@/lib/mongo/connect';
+import ChatWindow from '../../../../components/ChatWindow';
 
 //------- Custom JSX Stuff -------
 declare namespace JSX {
@@ -12,22 +13,23 @@ declare namespace JSX {
 
 export default function Page() {
 
-  async function getUserInfo(  ) {
-    const client = await clientPromise;
+  // async function getUserInfo(  ) {
+  //   const client = await clientPromise;
 
-    const db = client.db("MauChat")
-    const usersCollection = db.collection("users")
+  //   const db = client.db("MauChat")
+  //   const usersCollection = db.collection("users")
 
-    const allUsers = await usersCollection.find({}).toArray();
+  //   const allUsers = await usersCollection.find({}).toArray();
     
-    console.log(allUsers)
-  }
+  //   console.log(allUsers)
+  // }
 
-  getUserInfo()
+  // getUserInfo()
 
   return (
     <main className='border border-black w-full h-full'>
       <Sidebar/>
+      <ChatWindow/>
     </main>
   );
 }

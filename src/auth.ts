@@ -7,9 +7,11 @@ import { z } from "zod"
 const envSchema = z.object({
   AUTH0_CLIENT_ID: z.string().min(1, "AUTH0_CLIENT_ID is required"),
   AUTH0_CLIENT_SECRET: z.string().min(1, "AUTH0_CLIENT_SECRET is required"),
-  AUTH0_ISSUER: z.string().url("AUTH0_ISSUER must be a valid URL"),
+  AUTH0_ISSUER: z.string().min(1, "AUTH0_ISSUER must be a valid URL"),
   AUTH_SECRET: z.string().min(1, "AUTH_SECRET is required"), 
 });
+
+console.log("Validating Issuer:", process.env.AUTH0_ISSUER);
 
 const env = envSchema.parse(process.env);
 

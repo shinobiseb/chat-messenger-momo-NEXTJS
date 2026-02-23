@@ -18,7 +18,8 @@ export type headerProps = {
 export type MessageReq = {
     id: string;
     content: string;
-    sender: string
+    sender: string;
+    currentUser: string;
 }
 
 export interface ChatBoxProps {
@@ -72,7 +73,7 @@ export interface IUser extends Document {
     email: string;
     userName: string;
     password: string;
-    chats: Chat[]; // Adjust this type based on your data structure
+    chats: Chat[]; 
     profilePic: string;
     _id?: string;
 }
@@ -83,7 +84,7 @@ export interface ActiveChatType {
     lastMessage?: string,
     timeSent?: string,
     chatId?: string,
-    onClickFunction: (chatId: string )=> void
+    onClickFunction?: (chatId: string )=> void
 }
 
 export interface ActiveChatListType {
@@ -107,7 +108,7 @@ export interface textBoxProps {
     currentWebSocket: WebSocket | null;
 }
 
-declare namespace JSX {
+export declare namespace JSX {
     interface IntrinsicElements {
       'l-ping': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     }

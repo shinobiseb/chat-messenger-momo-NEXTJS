@@ -1,12 +1,8 @@
 import React from 'react';
 import { MessageReq } from '@/types/types';
-import useCookie from '@/lib/useCookie';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Message({ content, sender }: MessageReq) {
-  const { getUserNameFromCookies } = useCookie();
-  const currentUser = getUserNameFromCookies();
-
+export default function Message({ content, sender, currentUser }: MessageReq) {
   const baseClasses = "p-3 mb-2 text-md max-w-80 sm:max-w-3/4 sm:w-3/4 rounded-md w-full";
 
   const messageVariant = {

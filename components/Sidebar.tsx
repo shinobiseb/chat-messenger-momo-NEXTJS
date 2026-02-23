@@ -1,9 +1,69 @@
 import React from 'react'
+import ActiveChat from './ActiveChat'
 
-export default function Sidebar() {
+export default function Sidebar(  ) {
   return (
-    <section className='border border-orange w-full sm:w-2/5 h-full flex flex-col overflow-y-auto'>
-        
+    <section className='w-full sm:w-2/5 h-full flex flex-col overflow-y-auto'>
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
+      <ActiveChat
+        targetUserName='Mau'
+        profilePic=''
+        lastMessage=''
+      />
     </section>
   )
 }

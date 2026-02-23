@@ -9,11 +9,8 @@ import { ChatWindowProps } from '@/types/types';
 export default function ChatWindow({ messages, userName, chatID, currentWebSocket, fetchMessagesFunction }: ChatWindowProps) {
 
   return (
-    <main className='w-full h-screen font-roboto-black'>
-      <Header 
-        profilePic={''}
-        userName={userName}
-      />
+    <main className='w-full font-roboto-black'>
+
       <section className='h-full w-full flex-col flex overflow-auto'>
         <ChatBox messages={messages}/>
         <TextBox 
