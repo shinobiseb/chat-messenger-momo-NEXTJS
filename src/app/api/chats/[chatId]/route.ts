@@ -8,15 +8,12 @@ export async function GET(request: NextRequest, { params }: { params: { chatId: 
     const client = await clientPromise;
     const { chatId } = params;
 
-    // Check if the chatId is a valid ObjectId
     if (!ObjectId.isValid(chatId)) {
       return NextResponse.json({ success: false, error: 'Invalid chat ID' });
     }
 
-    // Find the chat with the specific chatId
     const chat = await client.db('Momo-Data').collection('chats').findOne({ _id: new ObjectId(chatId) });
 
-    // If no chat is found, return an error response
     if (!chat) {
       return NextResponse.json({ success: false, error: 'Chat not found' });
     }

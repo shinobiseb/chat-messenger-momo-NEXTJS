@@ -37,45 +37,39 @@ export type Message = {
     sender: string;
     // sent: boolean;
     // timestamp: Date;
-  };
+  }
 
+export interface SidebarProps {
+  user: IAuthSession['user']; // This grabs the user shape specifically from your session type
+}
 
-export type User = {
-    _id?: string;
-    userName: string;
-    profilePic: string;
+export type IUser = {
+    id?: string;
+    name: string;
     email: string;
-    password: string;
+    image: string;
+    emailVerified?: boolean | null;
 }
 
 export type Chat = {
     _id?: string;
     messages: MessageReq[];
-    participants: User['userName'];
+    participants: string[];
     lastMessage?: String;
 }
 
 export interface IAuthSession {
     user : {
-        id: string,
-        name: string,
-        email: string,
-        image: string,
-        emailverified: boolean | null
+        id?: string;
+        name?: string | null | undefined;
+        email?: string | null | undefined;
+        image?: string | null | undefined;
+        emailVerified?: boolean | null;
     },
     id: string,
     sessionToken: string,
     userId: string,
     expires: string
-}
-
-export interface IUser extends Document {
-    email: string;
-    userName: string;
-    password: string;
-    chats: Chat[]; 
-    profilePic: string;
-    _id?: string;
 }
 
 export interface ActiveChatType {
@@ -88,7 +82,7 @@ export interface ActiveChatType {
 }
 
 export interface ActiveChatListType {
-  user: User | null;
+  user: IUser | null;
   chats: Chat[];
   fetchChats?: () => void;
   handleChatClick: (chatId: string) => void;

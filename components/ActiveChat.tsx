@@ -20,7 +20,7 @@ export default function ActiveChat(
       // whileTap={{ scale: 0.95 }}
       className="cursor-pointer"
     >
-      <div className="transition bg-darkgray hover:bg-orange p-2 sm:py-5 flex flex-row mr-2 items-center text-white">
+      <div className="transition bg-darkgray hover:bg-orange p-2 sm:py-5 flex flex-row items-center text-white">
         <div className="w-full sm:w-full flex flex-row px-2">
           <div className="w-full flex flex-row justify-between items-center">
             <div>
