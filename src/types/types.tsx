@@ -74,7 +74,6 @@ export interface IAuthSession {
 
 export interface ActiveChatType {
     targetUserName: string,
-    profilePic: string,
     lastMessage?: string,
     timeSent?: string,
     chatId?: string,

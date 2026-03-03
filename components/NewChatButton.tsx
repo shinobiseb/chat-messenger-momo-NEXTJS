@@ -1,9 +1,16 @@
 "use client"
 import { useState } from 'react'
+import { LuMessageCircle } from "react-icons/lu";
+import { useRef } from 'react';
 
-export default function NewChatButton({ currentUserEmail }: { currentUserEmail: string }) {
+interface INewChatButton {
+  currentUserEmail : string,
+  fetchSidebarData : Function
+}
+
+export default function NewChatButton({ currentUserEmail, fetchSidebarData }: INewChatButton) {
   const [recipientEmail, setRecipientEmail] = useState("");
-
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleCreateChat = async () => {
     try {
       const response = await fetch('/api/chats', {
@@ -12,35 +19,44 @@ export default function NewChatButton({ currentUserEmail }: { currentUserEmail: 
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          recipientEmail: recipientEmail, // This matches your API's body.recipientEmail
+          recipientEmail: recipientEmail,
         }),
       });
       const data = await response.json();
 
-      if (data.success) {
-        alert("Chat created! ID: " + data.id);
-        // Logic to redirect or refresh the list
+        if (data.success) {
+          fetchSidebarData();
+        
+        // 2. Clear the state (the logic)
+        setRecipientEmail(""); 
+        
+        // 3. Clear the Ref (the UI)
+        if (inputRef.current) {
+          inputRef.current.value = "";
+        }
       } else {
         console.error("Error:", data.error);
       }
+      inputRef.current ? inputRef.current.value = "" : null
     } catch (err) {
       console.error("Failed to send POST request", err);
     }
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow">
+    <div className="flex w-full justify-between py-4">
       <input 
         type="email" 
         placeholder="Friend's email..."
-        className="border p-2 mr-2"
+        className="px-3 p-1 rounded-md w-5/6"
         onChange={(e) => setRecipientEmail(e.target.value)}
+        ref={inputRef}
       />
       <button 
         onClick={handleCreateChat}
-        className="px-4 py-2 rounded"
+        className="bg-white w-7 rounded flex justify-center items-center"
       >
-        Start Chat
+        <LuMessageCircle/>
       </button>
     </div>
   );

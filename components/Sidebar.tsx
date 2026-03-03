@@ -1,29 +1,24 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { auth } from '@/auth'
-import clientPromise from '@/lib/mongo/connect'
-import ActiveChat from './ActiveChat'
-import ActiveChatList from './ActiveChatList'
-import { IAuthSession } from '@/types/types'
 import { SidebarProps } from '@/types/types'
 import NewChatButton from './NewChatButton'
-
-
+import { Chat } from '@/types/types'
+import ActiveChat from './ActiveChat'
 
 export default function Sidebar( { user }: SidebarProps ) {  
   const [ loading, setLoading ] = useState(false)
-  const [ chats, setChats ] = useState([])
+  const [ chats, setChats ] = useState<Chat[]>([])
   const [ email, setEmail ] = useState("")
 
-  useEffect(()=> {
-    const fetchSidebarData  = async () => {
+  const fetchSidebarData  = async () => {
       try {
         setLoading(true);
         const response = await fetch(`/api/chats/`);
         if (!response.ok) throw new Error("Failed to load");
         const data = await response.json()
         setChats(data)
-
+        console.log(data)
       } catch (error) {
         console.error("Error fetching chats:", error);
       } finally {
@@ -31,6 +26,7 @@ export default function Sidebar( { user }: SidebarProps ) {
       }
     }
 
+  useEffect(()=> {
     fetchSidebarData()
 
     if(user.email){
@@ -43,13 +39,21 @@ export default function Sidebar( { user }: SidebarProps ) {
       <section className='flex flex-col'>
         <NewChatButton
           currentUserEmail={email}
+          fetchSidebarData={fetchSidebarData}
         />
       </section>
+      { loading ? <span>Loading</span> : null }
       {
         chats.length > 0 ? 
-        <div>
-          Chats
-        </div> :
+        <ul>
+          {
+            chats.map((chat, key : number)=> (
+              <ActiveChat
+              targetUserName={chat.participants[0] !== user.email ? chat.participants[0] : chat.participants[1]}
+              />
+            ))
+          }
+        </ul> :
         <div>
           no chats
         </div>
