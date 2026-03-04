@@ -11,6 +11,7 @@ interface INewChatButton {
 export default function NewChatButton({ currentUserEmail, fetchSidebarData }: INewChatButton) {
   const [recipientEmail, setRecipientEmail] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
   const handleCreateChat = async () => {
     try {
       const response = await fetch('/api/chats', {
@@ -24,13 +25,9 @@ export default function NewChatButton({ currentUserEmail, fetchSidebarData }: IN
       });
       const data = await response.json();
 
-        if (data.success) {
-          fetchSidebarData();
-        
-        // 2. Clear the state (the logic)
+      if (data.success) {
+        fetchSidebarData();
         setRecipientEmail(""); 
-        
-        // 3. Clear the Ref (the UI)
         if (inputRef.current) {
           inputRef.current.value = "";
         }
@@ -48,13 +45,13 @@ export default function NewChatButton({ currentUserEmail, fetchSidebarData }: IN
       <input 
         type="email" 
         placeholder="Friend's email..."
-        className="px-3 p-1 rounded-md w-5/6"
+        className="px-3 p-1 rounded-md w-full"
         onChange={(e) => setRecipientEmail(e.target.value)}
         ref={inputRef}
       />
       <button 
         onClick={handleCreateChat}
-        className="bg-white w-7 rounded flex justify-center items-center"
+        className="bg-white mx-1 rounded-full p-2 w-7 flex justify-center items-center"
       >
         <LuMessageCircle/>
       </button>

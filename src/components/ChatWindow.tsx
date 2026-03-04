@@ -6,18 +6,18 @@ import ChatBox from './ChatBox';
 import TextBox from './TextBox';
 import { ChatWindowProps } from '@/types/types';
 
-export default function ChatWindow({ messages, userName, chatID, currentWebSocket, fetchMessagesFunction }: ChatWindowProps) {
+export default function ChatWindow({ chatID }: ChatWindowProps) {
 
   return (
     <main className='w-full font-roboto-black'>
 
       <section className='h-full w-full flex-col flex overflow-auto'>
-        <ChatBox messages={messages}/>
+        {/* <ChatBox messages={messages}/>
         <TextBox 
         fetchMessagesFunction={fetchMessagesFunction} 
         chatId={chatID}
         currentWebSocket={currentWebSocket}
-        />
+        /> */}
       </section>
     </main>
   );

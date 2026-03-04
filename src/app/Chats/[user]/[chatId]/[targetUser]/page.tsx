@@ -1,7 +1,6 @@
 'use client'
-
 import React, { useEffect, useState } from 'react'
-import ChatWindow from '../../../../../../components/ChatWindow'
+import ChatWindow from '../../../../../components/ChatWindow'
 import { Chat, MessageReq } from '@/types/types'
 
 export default function Page({ params }: { params: { chatId: string, targetUser: string } }) {

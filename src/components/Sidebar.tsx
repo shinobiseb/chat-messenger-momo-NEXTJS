@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { auth } from '@/auth'
 import { SidebarProps } from '@/types/types'
 import NewChatButton from './NewChatButton'
 import { Chat } from '@/types/types'
@@ -35,7 +34,7 @@ export default function Sidebar( { user }: SidebarProps ) {
   }, [])
 
   return (
-    <section className='w-full p-2 sm:w-2/5 h-full flex flex-col overflow-y-auto bg-lightorange'>
+    <section className='w-full p-2 sm:w-2/5 h-full flex flex-col overflow-y-auto bg-lightorange rounded-r-xl'>
       <section className='flex flex-col'>
         <NewChatButton
           currentUserEmail={email}
@@ -54,9 +53,7 @@ export default function Sidebar( { user }: SidebarProps ) {
             ))
           }
         </ul> :
-        <div>
-          no chats
-        </div>
+        null
       }
     </section>
   )
