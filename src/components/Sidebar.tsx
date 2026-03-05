@@ -4,6 +4,9 @@ import { SidebarProps } from '@/types/types'
 import NewChatButton from './NewChatButton'
 import { Chat } from '@/types/types'
 import ActiveChat from './ActiveChat'
+import { useParams } from 'next/navigation'
+
+
 
 export default function Sidebar( { user }: SidebarProps ) {  
   const [ loading, setLoading ] = useState(false)
@@ -33,6 +36,8 @@ export default function Sidebar( { user }: SidebarProps ) {
     } 
   }, [])
 
+  let params = useParams()
+  const currentUser = typeof params.user === "string" ? params.user : "";
   return (
     <section className='w-full p-2 sm:w-2/5 h-full flex flex-col overflow-y-auto bg-lightorange rounded-r-xl'>
       <section className='flex flex-col'>
@@ -46,9 +51,13 @@ export default function Sidebar( { user }: SidebarProps ) {
         chats.length > 0 ? 
         <ul>
           {
-            chats.map((chat, key : number)=> (
+            chats.map((chat : Chat, key : number)=> (
               <ActiveChat
+              key={key}
+              currentUser={currentUser}
+              lastMessage={chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].content : "Get Chatting"}
               targetUserName={chat.participants[0] !== user.email ? chat.participants[0] : chat.participants[1]}
+              chatId={chat._id}
               />
             ))
           }

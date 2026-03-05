@@ -55,7 +55,6 @@ export type Chat = {
     _id?: string;
     messages: MessageReq[];
     participants: string[];
-    lastMessage?: String;
 }
 
 export interface IAuthSession {
@@ -73,8 +72,9 @@ export interface IAuthSession {
 }
 
 export interface ActiveChatType {
+    currentUser: string,
     targetUserName: string,
-    lastMessage?: string,
+    lastMessage?: String,
     timeSent?: string,
     chatId?: string,
     onClickFunction?: (chatId: string )=> void
@@ -88,17 +88,17 @@ export interface ActiveChatListType {
 }
 
 export interface ChatWindowProps {
-    messages: MessageReq[],
-    userName: string;
-    chatID: string;
-    fetchMessagesFunction: (chatId: string) => Promise<Chat | undefined>;
-    currentWebSocket: WebSocket | null;
+    messages?: MessageReq[],
+    recipient?: string;
+    chatID?: string;
+    fetchMessagesFunction?: (chatId: string) => Promise<Chat | undefined>;
+    currentWebSocket?: WebSocket | null;
 }
 
 export interface textBoxProps {
     chatId: string;
     fetchMessagesFunction: (chatId: string) => Promise<Chat | undefined>;
-    currentWebSocket: WebSocket | null;
+    currentWebSocket?: WebSocket | null;
 }
 
 export declare namespace JSX {

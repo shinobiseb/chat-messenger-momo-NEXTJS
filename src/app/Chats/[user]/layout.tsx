@@ -1,0 +1,30 @@
+import Sidebar from '@/components/Sidebar';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
+import { SessionProvider } from "next-auth/react"
+
+export default async function ChatLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { user: string, email: string };
+}) {
+  const session = await auth();
+
+  // Security check: Ensure the session user matches the URL user
+  if (!session?.user) {
+    redirect('/login');
+  }
+
+  return (
+    <div className="flex h-screen w-full overflow-hidden">
+    <Sidebar user={session.user} />
+      <section className="flex-1 h-full overflow-hidden">
+        <SessionProvider>
+            {children}
+        </SessionProvider>
+      </section>
+    </div>
+  );
+}

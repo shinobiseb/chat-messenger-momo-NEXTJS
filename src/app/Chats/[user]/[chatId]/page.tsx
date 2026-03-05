@@ -1,58 +1,43 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import ChatWindow from '../../../../../components/ChatWindow'
+import React, { useEffect, useState, useCallback } from 'react'
+import ChatWindow from '../../../../components/ChatWindow'
 import { Chat, MessageReq } from '@/types/types'
 
 export default function Page({ params }: { params: { chatId: string, targetUser: string } }) {
   const [messages, setMessages] = useState<MessageReq[]>([])
-  const [currentUserName, setCurrentUserName] = useState<string>('')
   const [ws, setWs] = useState<WebSocket | null>(null)
   const isDevelopment = process.env.NODE_ENV === 'development'
   const expressServer = process.env.NEXT_PUBLIC_EXPRESS_URL
-
   const primaryUrl = isDevelopment ? 'ws://localhost:3005' : expressServer
 
-  async function fetchMessagesFromChat(chatId: string) {
+  const fetchMessagesFromChat = useCallback(async (id: string) => {
+    if (!id) return;
+
     try {
-      const response = await fetch('/api/chats')
-      if (!response.ok) throw new Error('Network response was not ok')
-      const data = await response.json()
-      const chats: Chat[] = data.chats
-      const targetChat = chats.find((chat) => chat._id === chatId)
+      const response = await fetch('/api/chats');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch chats: ${response.statusText}`);
+      }
+      const data = await response.json();
+      const targetChat = data?.find((chat : Chat) => chat._id === id);
+
       if (!targetChat) {
-        console.error('Target Chat not found')
-      } else {
-        setMessages(targetChat.messages)
-        console.log('%c FetchMessagesFromChat Fired!', 'font-size: 19px; color: green;')
-        return targetChat
+        console.warn(`Chat ${id} not found in the current list.`);
+        return;
       }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error(`Error fetching chats: ${err.message}`)
-      } else {
-        console.error('An unexpected error occurred:', err)
-      }
+      setMessages(targetChat.messages);
+
+      console.log('%c Chat Synced!', 'color: #2ecc71; font-weight: bold; font-size: 14px;');
+      return targetChat;
+
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      console.error(`[fetchMessagesFromChat]: ${errorMessage}`);
     }
-  }
+  }, []); 
 
   useEffect(() => {
-    async function fetchID() {
-      try {
-        const response = await fetch('ws://localhost:3000/api/socket')
-        const { chats }: { chats: Array<Chat> } = await response.json()
-        const targetChatID = chats.find((chat: Chat) => chat._id === params.chatId)
-        if (!targetChatID) {
-          console.error('No Chat Found')
-        }
-      } catch (error) {
-        console.error('Error Occurred: ', error)
-      }
-    }
-
-    fetchID()
-
     fetchMessagesFromChat(params.chatId)
-    // console.log(`User is ${userNameFromCookies}`)
   }, [])
 
   useEffect(() => {
@@ -89,12 +74,20 @@ export default function Page({ params }: { params: { chatId: string, targetUser:
     }
   }, [primaryUrl]) // Add dependencies
 
+  if(params.chatId && params.targetUser && messages && ws){
+    return(
+      <div>
+        nothing
+      </div>
+    )
+  }
+
   return (
     <div>
       <ChatWindow
         fetchMessagesFunction={fetchMessagesFromChat}
         chatID={params.chatId}
-        userName={params.targetUser}
+        recipient={params.targetUser}
         messages={messages}
         currentWebSocket={ws}
       />

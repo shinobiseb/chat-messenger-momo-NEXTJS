@@ -2,7 +2,8 @@
 import { useState } from 'react'
 import { LuMessageCircle } from "react-icons/lu";
 import { useRef } from 'react';
-
+import { MessageReq } from '@/types/types';
+import { stringify } from 'querystring';
 interface INewChatButton {
   currentUserEmail : string,
   fetchSidebarData : Function

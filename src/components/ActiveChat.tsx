@@ -2,22 +2,25 @@
 
 import React from 'react';
 import { ActiveChatType } from '@/types/types';
-import { MdMessage } from "react-icons/md";
-import { motion } from 'framer-motion';
 import { IoMdClose } from "react-icons/io";
+import Link from 'next/link';
 
 export default function ActiveChat(
-  { targetUserName, chatId, onClickFunction, lastMessage }: ActiveChatType,
+  { currentUser, targetUserName, chatId, onClickFunction, lastMessage }: ActiveChatType,
 ) {
 
+  const chatUrl = `/chats/${currentUser}/${chatId}`;
+
   return (
-  <motion.div className="cursor-pointer">
+  <Link 
+  href={chatUrl} className="cursor-pointer"
+  scroll={false}
+  >
     <div className="transition bg-lightorange hover:bg-orange py-4 px-3 flex flex-col gap-1 text-white border-b border-orange/20">
       
-      {/* Row 1: Name and Message Icon */}
       <div className="flex flex-row justify-between items-center">
         <h5 className="text-md font-semibold truncate pr-4">
-          {targetUserName ? targetUserName : "New Chat"}
+          {targetUserName ? targetUserName : "No User"}
         </h5>
         {/* <MdMessage size={20} fill="white" className="flex-shrink-0" /> */}
       </div>
@@ -36,8 +39,7 @@ export default function ActiveChat(
           <IoMdClose />
         </button>
       </div>
-
     </div>
-  </motion.div>
+  </Link>
 );
 }

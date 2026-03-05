@@ -4,10 +4,13 @@ import React, { useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { textBoxProps } from '@/types/types';
 import dynamic from 'next/dynamic';
+import { useSession } from 'next-auth/react';
 
-const TextBox = ({ }) => {
+const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxProps) => {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false); // Added loading state
+
+  const { data } = useSession();
 
   const chatterBox = document.getElementById('chatTextBox')
 
@@ -24,77 +27,77 @@ const TextBox = ({ }) => {
     setContent(e.target.value);
   };
 
-  // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === 'Enter') {
-  //     sendMessage();
-  //   }
-  // };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  };
 
-  // const sendMessage = async () => {
+  const sendMessage = async () => {
 
-  //   if (content.trim() === '') {
-  //     console.warn('Empty Message');
-  //     return;
-  //   }
+    if (content.trim() === '') {
+      console.warn('Empty Message');
+      return;
+    }
 
-  //   if (!currentWebSocket) {
-  //     console.error('Textbox Component: WebSocket is: ', currentWebSocket);
-  //     return;
-  //   }
+    if (!currentWebSocket) {
+      console.error('Textbox Component: WebSocket is: ', currentWebSocket);
+      return;
+    }
 
-  //   setLoading(true); // Set loading state
+    setLoading(true); // Set loading state
 
-  //   // Create the message object
-  //   const newMessage = {
-  //     type: 'NEW_MESSAGE',
-  //     data: {
-  //         chatId: chatId, 
-  //         sender: user,  
-  //         content: content 
-  //     }
-  //   };
+    // Create the message object
+    const newMessage = {
+      type: 'NEW_MESSAGE',
+      data: {
+          chatId: chatId, 
+          sender: user,  
+          content: content 
+      }
+    };
 
-    // // Send message via WebSocket
-    // if (currentWebSocket.readyState === WebSocket.OPEN) {
-    //   currentWebSocket.send(JSON.stringify(newMessage));
-    //   console.log('WebSocket Message Sent:', newMessage);
-    // } else {
-    //   console.error("WebSocket is not open. Ready state: ", currentWebSocket.readyState);
-    //   setLoading(false); // Reset loading state on error
-    //   return;
-    // }
+    // Send message via WebSocket
+    if (currentWebSocket.readyState === WebSocket.OPEN) {
+      currentWebSocket.send(JSON.stringify(newMessage));
+      console.log('WebSocket Message Sent:', newMessage);
+    } else {
+      console.error("WebSocket is not open. Ready state: ", currentWebSocket.readyState);
+      setLoading(false); // Reset loading state on error
+      return;
+    }
 
-    // try {
-    //   const response = await fetch(`/api/chats/${chatId}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       sender: user,
-    //       content,
-    //     }),
-    //   });
+    try {
+      const response = await fetch(`/api/chats/${chatId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sender: user,
+          content,
+        }),
+      });
 
-    //   if (!response.ok) {
-    //     throw new Error('Network response was not ok');
-    //   }
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-  //     const result = await response.json();
-  //     fetchMessagesFunction(chatId); // Fetch new messages
-  //     setContent(''); // Clear input after sending
-  //     console.log(result);
-  //     focusTextBox()
-  //   } catch (error) {
-  //     console.error('Error sending message:', error);
-  //   } finally {
-  //     setLoading(false); // Reset loading state
-  //   }
-  // };
+      const result = await response.json();
+      fetchMessagesFunction(chatId); // Fetch new messages
+      setContent(''); // Clear input after sending
+      console.log(result);
+      focusTextBox()
+    } catch (error) {
+      console.error('Error sending message:', error);
+    } finally {
+      setLoading(false); // Reset loading state
+    }
+  };
 
 
   return (
-    <div className='border w-full flex flex-row justify-center items-center bg-black'>
+    <div className='w-full flex flex-row justify-center items-center bg-black'>
       <input
         className='w-5/6 p-2 rounded-lg shadow-lg self-center focus:outline-none my-2'
         placeholder='Type Message...'

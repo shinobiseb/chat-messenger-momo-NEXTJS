@@ -1,30 +1,12 @@
-import React from 'react';
-import 'ldrs/ring'
-import { auth } from '@/auth';
-import Sidebar from '../../../components/Sidebar';
-import clientPromise from '@/lib/mongo/connect';
-import ChatWindow from '../../../components/ChatWindow';
-import { IAuthSession } from '@/types/types';
+import { auth } from "@/auth";
 
-//------- Custom JSX Stuff -------
-declare namespace JSX {
-  interface IntrinsicElements {
-    'l-ping': any;
-  }
-}
-
-export default async function Page( ) {
-
-  const session = await auth()
-  console.log(session)
-
-  if(!session?.user) return <>No user Found</>
-
+export default async function EmptyChatPage() {  
   return (
-    <main className='border border-black w-full h-full'>
-      <Sidebar
-      user={session.user}
-      />
-    </main>
+    <div className="flex items-center justify-center h-full bg-gray-50 text-gray-500">
+      <div className="text-center">
+        <h3 className="text-xl font-semibold">Your Messages</h3>
+        <p>Select a conversation to start talking</p>
+      </div>
+    </div>
   );
 }

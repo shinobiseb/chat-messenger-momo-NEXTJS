@@ -37,7 +37,6 @@ export async function POST(request: NextRequest) {
       messages: [],
       participants: [ session.user.email, body.recipientEmail ],
       createdAt: new Date(),
-      lastMessage: null
     })
 
     return NextResponse.json({ id: newChat.insertedId, success: true });
