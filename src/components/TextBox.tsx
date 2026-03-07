@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { textBoxProps } from '@/types/types';
 import dynamic from 'next/dynamic';
@@ -8,20 +8,11 @@ import { useSession } from 'next-auth/react';
 
 const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxProps) => {
   const [content, setContent] = useState('');
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false); 
 
   const { data } = useSession();
 
-  const chatterBox = document.getElementById('chatTextBox')
-
-  const focusTextBox = () => {
-    if(!chatterBox){
-      return console.error('chatterBox does not exist')
-    }
-    chatterBox.focus()
-  }
-
-  focusTextBox()
+  const chatTextBoxRef = useRef(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
@@ -52,7 +43,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
       type: 'NEW_MESSAGE',
       data: {
           chatId: chatId, 
-          sender: user,  
+          sender: data?.user?.email,  
           content: content 
       }
     };
@@ -74,7 +65,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          sender: user,
+          sender: data?.user?.email,
           content,
         }),
       });
@@ -84,14 +75,16 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
       }
 
       const result = await response.json();
-      fetchMessagesFunction(chatId); // Fetch new messages
-      setContent(''); // Clear input after sending
+      fetchMessagesFunction(chatId);
+      setContent('');
       console.log(result);
-      focusTextBox()
+      if(result.success == false){
+        console.error("Something went wrong: ", result.error)
+      }
     } catch (error) {
       console.error('Error sending message:', error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
@@ -102,20 +95,25 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
         className='w-5/6 p-2 rounded-lg shadow-lg self-center focus:outline-none my-2'
         placeholder='Type Message...'
         id='chatTextBox'
+        ref={chatTextBoxRef}
         type='text'
         value={content}
         onChange={handleChange}
-        // onKeyDown={handleKeyDown}
+        onKeyDown={handleKeyDown}
         disabled={loading} // Disable input while loading
       />
-      <button
+      {
+        loading ? 
+        null :
+        <button
         className='p-2'
-        // onClick={sendMessage}
+        onClick={sendMessage}
         disabled={loading} 
       >
         <IoSend size={35} fill='orange' />
       </button>
-      {loading && <span className='ml-2 text-white'>Sending...</span>} {/* Optional loading feedback */}
+      }
+      
     </div>
   );
 };

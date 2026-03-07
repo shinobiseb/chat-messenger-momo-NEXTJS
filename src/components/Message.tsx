@@ -1,8 +1,8 @@
 import React from 'react';
-import { MessageReq } from '@/types/types';
+import { IMessage } from '@/types/types';
 import { motion, AnimatePresence } from 'framer-motion';
-
-export default function Message({ content, sender, currentUser }: MessageReq) {
+import { useSession } from 'next-auth/react';
+export default function Message({ content, sender }: IMessage) {
   const baseClasses = "p-3 mb-2 text-md max-w-80 sm:max-w-3/4 sm:w-3/4 rounded-md w-full";
 
   const messageVariant = {
@@ -10,6 +10,9 @@ export default function Message({ content, sender, currentUser }: MessageReq) {
     visible: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 20 }
   };
+
+  const sessionData = useSession()
+  const currentUser = sessionData.data?.user?.email
 
   return (
     <AnimatePresence>

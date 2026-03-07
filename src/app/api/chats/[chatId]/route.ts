@@ -1,7 +1,7 @@
 import clientPromise from "@/lib/mongo/connect";
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId, Collection } from "mongodb";
-import { Message } from "@/types/types";
+import { Chat, Message } from "@/types/types";
 
 export async function GET(request: NextRequest, { params }: { params: { chatId: string } }) {
   try {
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, { params }: { params: { chatId: 
       return NextResponse.json({ success: false, error: 'Invalid chat ID' });
     }
 
-    const chat = await client.db('Momo-Data').collection('chats').findOne({ _id: new ObjectId(chatId) });
+    const chat = await client.db('MauChat').collection('chats').findOne({ _id: new ObjectId(chatId) });
 
     if (!chat) {
       return NextResponse.json({ success: false, error: 'Chat not found' });
@@ -26,43 +26,29 @@ export async function GET(request: NextRequest, { params }: { params: { chatId: 
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { chatId: string } }): Promise<NextResponse> {
-  try {
-    const client = await clientPromise;
-    const db = client.db('Momo-Data');
-    const collection: Collection = db.collection('chats');
+export async function PUT(request: NextRequest, { params }: { params: { chatId: string } }) {
+  const { chatId } = params;
+  const { sender, content } = await request.json();
 
-    const chatId = params.chatId;
-    const newMessage : Message = await request.json();
+  const client = await clientPromise;
+  const db = client.db('MauChat');
 
-    if (!newMessage || typeof newMessage.sender !== 'string' || typeof newMessage.content !== 'string') {
-      return NextResponse.json({ success: false, error: 'Invalid message format' });
+  // Explicitly typing the collection prevents the "ArrayOperator" confusion
+  const collection = db.collection<Chat>('chats');
+
+  const result = await collection.updateOne(
+    { _id: new ObjectId(chatId) as any }, // 'as any' bypasses the _id type conflict we saw earlier
+    { 
+      $push: { 
+        messages: { 
+          id: new ObjectId().toString(),
+          sender, 
+          content, 
+          timestamp: new Date()
+        } 
+      } 
     }
+  );
 
-    // Fetch the current document
-    const currentDoc = await collection.findOne({ _id: new ObjectId(chatId) });
-
-    if (!currentDoc) {
-      return NextResponse.json({ success: false, error: 'Chat not found' });
-    }
-
-    // Modify the messages array
-    const updatedMessages = currentDoc.messages ? [...currentDoc.messages, newMessage] : [newMessage];
-
-    // Update the document
-    const result = await collection.updateOne(
-      { _id: new ObjectId(chatId) },
-      { $set: { messages: updatedMessages } }
-    );
-
-
-    if (result.modifiedCount > 0) {
-      return NextResponse.json({ success: true, message: 'Chat updated successfully' });
-    } else {
-      return NextResponse.json({ success: false, error: 'No chat found to update' });
-    }
-  } catch (error) {
-    console.error('Error updating chat:', error);
-    return NextResponse.json({ success: false, error: 'Failed to update chat' });
-  }
+  return NextResponse.json({ success: true });
 }

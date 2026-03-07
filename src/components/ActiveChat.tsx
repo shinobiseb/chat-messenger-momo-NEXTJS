@@ -6,7 +6,7 @@ import { IoMdClose } from "react-icons/io";
 import Link from 'next/link';
 
 export default function ActiveChat(
-  { currentUser, targetUserName, chatId, onClickFunction, lastMessage }: ActiveChatType,
+  { currentUser, targetUserName, chatId, lastMessage }: ActiveChatType,
 ) {
 
   const chatUrl = `/chats/${currentUser}/${chatId}`;

@@ -1,6 +1,6 @@
 'use client'
 
-import { MessageReq } from "@/types/types";
+import { IMessage } from "@/types/types";
 import Message from "./Message";
 import { ChatBoxProps } from '@/types/types';
 import { useEffect, useRef } from "react";
@@ -22,15 +22,16 @@ export default function ChatBox({ messages }: ChatBoxProps) {
         scrollToBottom();
     }, [messages]);
 
-    function messageMapper(messages: MessageReq[]) {
+    function messageMapper(messages: IMessage[]) {
         if (messages.length) {
+            console.log(messages)
             return messages.map((message, index) => (
                 <Message 
-                    currentUser={currentUser}
                     id={index.toString()}
                     key={index}
                     sender={message.sender}
                     content={message.content}
+                    timestamp={message.timestamp}
                 />
             ));
         } else {
@@ -41,8 +42,6 @@ export default function ChatBox({ messages }: ChatBoxProps) {
     return (
         <div className='w-full h-full text-white px-3 flex flex-col overflow-auto pt-16'>
             {messages ? messageMapper(messages) : null}
-            {/* Ref element for scrolling */}
-            {/* <div ref={messagesEndRef}/> */}
         </div>
     );
 }

@@ -1,10 +1,10 @@
 'use client'
 import React, { useEffect, useState, useCallback } from 'react'
 import ChatWindow from '../../../../components/ChatWindow'
-import { Chat, MessageReq } from '@/types/types'
+import { Chat, IMessage } from '@/types/types'
 
 export default function Page({ params }: { params: { chatId: string, targetUser: string } }) {
-  const [messages, setMessages] = useState<MessageReq[]>([])
+  const [messages, setMessages] = useState<IMessage[]>([])
   const [ws, setWs] = useState<WebSocket | null>(null)
   const isDevelopment = process.env.NODE_ENV === 'development'
   const expressServer = process.env.NEXT_PUBLIC_EXPRESS_URL

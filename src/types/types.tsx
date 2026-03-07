@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react"
+import { ObjectId } from "mongodb";
 
 export type svgProps = {
     widthString: string;
@@ -15,20 +16,15 @@ export type headerProps = {
     userName : string;
 }
 
-export type MessageReq = {
+export interface IMessage {
     id: string;
     content: string;
     sender: string;
-    currentUser: string;
+    timestamp: Date;
 }
 
 export interface ChatBoxProps {
-    messages: MessageReq[] | null;
-}
-
-export interface AddChatProps {
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
-    fetchChats?: () => void;
+    messages: IMessage[] | null;
 }
 
 export type Message = {
@@ -52,9 +48,10 @@ export type IUser = {
 }
 
 export type Chat = {
-    _id?: string;
-    messages: MessageReq[];
+    _id?: ObjectId | string;
+    messages: IMessage[];
     participants: string[];
+    timestamp: Date;
 }
 
 export interface IAuthSession {
@@ -88,7 +85,7 @@ export interface ActiveChatListType {
 }
 
 export interface ChatWindowProps {
-    messages?: MessageReq[],
+    messages?: IMessage[],
     recipient?: string;
     chatID?: string;
     fetchMessagesFunction?: (chatId: string) => Promise<Chat | undefined>;

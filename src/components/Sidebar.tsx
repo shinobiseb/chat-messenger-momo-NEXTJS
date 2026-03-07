@@ -13,14 +13,13 @@ export default function Sidebar( { user }: SidebarProps ) {
   const [ chats, setChats ] = useState<Chat[]>([])
   const [ email, setEmail ] = useState("")
 
-  const fetchSidebarData  = async () => {
+  const fetchSidebarChats  = async () => {
       try {
         setLoading(true);
         const response = await fetch(`/api/chats/`);
         if (!response.ok) throw new Error("Failed to load");
-        const data = await response.json()
-        setChats(data)
-        console.log(data)
+        const Chats = await response.json()
+        setChats(Chats)
       } catch (error) {
         console.error("Error fetching chats:", error);
       } finally {
@@ -29,7 +28,7 @@ export default function Sidebar( { user }: SidebarProps ) {
     }
 
   useEffect(()=> {
-    fetchSidebarData()
+    fetchSidebarChats()
 
     if(user.email){
       setEmail(user.email)
@@ -43,26 +42,30 @@ export default function Sidebar( { user }: SidebarProps ) {
       <section className='flex flex-col'>
         <NewChatButton
           currentUserEmail={email}
-          fetchSidebarData={fetchSidebarData}
+          fetchSidebarData={fetchSidebarChats}
         />
       </section>
       { loading ? <span>Loading</span> : null }
       {
-        chats.length > 0 ? 
-        <ul>
-          {
-            chats.map((chat : Chat, key : number)=> (
-              <ActiveChat
-              key={key}
-              currentUser={currentUser}
-              lastMessage={chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].content : "Get Chatting"}
-              targetUserName={chat.participants[0] !== user.email ? chat.participants[0] : chat.participants[1]}
-              chatId={chat._id}
-              />
-            ))
-          }
-        </ul> :
-        null
+        chats.map((chat: Chat) => (
+          <ActiveChat
+            // 1. Use the ID as the key for better React performance
+            key={chat._id?.toString()} 
+            currentUser={currentUser}
+            lastMessage={
+              chat.messages.length > 0 
+                ? chat.messages[chat.messages.length - 1].content 
+                : "Get Chatting"
+            }
+            targetUserName={
+              chat.participants[0] !== user.email 
+                ? chat.participants[0] 
+                : chat.participants[1]
+            }
+            // 2. Convert the MongoDB ObjectId to a string here
+            chatId={chat._id?.toString()} 
+          />
+        ))
       }
     </section>
   )
