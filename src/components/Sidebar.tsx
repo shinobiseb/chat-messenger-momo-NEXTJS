@@ -38,7 +38,7 @@ export default function Sidebar( { user }: SidebarProps ) {
   let params = useParams()
   const currentUser = typeof params.user === "string" ? params.user : "";
   return (
-    <section className='w-full p-2 sm:w-2/5 h-full flex flex-col overflow-y-auto bg-lightorange rounded-r-xl'>
+    <section className='w-full p-2 sm:w-2/5 sm:max-w-sm h-full flex flex-col overflow-y-auto bg-lightorange'>
       <section className='flex flex-col'>
         <NewChatButton
           currentUserEmail={email}
@@ -62,7 +62,6 @@ export default function Sidebar( { user }: SidebarProps ) {
                 ? chat.participants[0] 
                 : chat.participants[1]
             }
-            // 2. Convert the MongoDB ObjectId to a string here
             chatId={chat._id?.toString()} 
           />
         ))

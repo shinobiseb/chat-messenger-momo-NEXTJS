@@ -45,13 +45,13 @@ export default function NewChatButton({ currentUserEmail, fetchSidebarData }: IN
       <input 
         type="email" 
         placeholder="Friend's email..."
-        className="px-3 p-1 rounded-md w-full"
+        className="px-3 p-1 w-full"
         onChange={(e) => setRecipientEmail(e.target.value)}
         ref={inputRef}
       />
       <button 
         onClick={handleCreateChat}
-        className="bg-white mx-1 rounded-full p-2 w-7 flex justify-center items-center"
+        className="mx-1 p-2 w-7 flex justify-center items-center"
       >
         <LuMessageCircle/>
       </button>

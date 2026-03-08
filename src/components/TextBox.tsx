@@ -36,7 +36,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
       return;
     }
 
-    setLoading(true); // Set loading state
+    setLoading(true);
 
     // Create the message object
     const newMessage = {
@@ -54,7 +54,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
       console.log('WebSocket Message Sent:', newMessage);
     } else {
       console.error("WebSocket is not open. Ready state: ", currentWebSocket.readyState);
-      setLoading(false); // Reset loading state on error
+      setLoading(false); 
       return;
     }
 
@@ -92,7 +92,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
   return (
     <div className='w-full flex flex-row justify-center items-center bg-black'>
       <input
-        className='w-5/6 p-2 rounded-lg shadow-lg self-center focus:outline-none my-2'
+        className='w-5/6 p-2 shadow-lg self-center focus:outline-none my-2'
         placeholder='Type Message...'
         id='chatTextBox'
         ref={chatTextBoxRef}
@@ -100,7 +100,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
         value={content}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        disabled={loading} // Disable input while loading
+        disabled={loading}
       />
       {
         loading ? 

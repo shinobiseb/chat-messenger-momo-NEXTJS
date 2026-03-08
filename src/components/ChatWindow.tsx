@@ -11,7 +11,7 @@ export default function ChatWindow({
 }: ChatWindowProps) {
 
   if(messages && chatID && fetchMessagesFunction) return (
-    <main className='w-full font-roboto-black'>
+    <main className='w-full h-full'>
       <header className='w-full bg-lightorange h-12 flex items-center justify-center '>
         <h4 className='text-white text-xl'>
           Contact
