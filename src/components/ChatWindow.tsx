@@ -12,12 +12,12 @@ export default function ChatWindow({
 
   if(messages && chatID && fetchMessagesFunction) return (
     <main className='w-full h-full'>
-      <header className='w-full bg-lightorange h-12 flex items-center justify-center '>
+      <section className='h-full w-full max-h-screen flex-col flex'>
+              <header className='w-full bg-lightorange h-12 flex items-center justify-center z-20 sticky'>
         <h4 className='text-white text-xl'>
           Contact
         </h4>
       </header>
-      <section className='h-full w-full flex-col flex overflow-auto'>
         <ChatBox messages={messages}/>
         <TextBox 
         fetchMessagesFunction={fetchMessagesFunction} 

@@ -40,7 +40,7 @@ export default function ChatBox({ messages }: ChatBoxProps) {
     }
 
     return (
-        <div className='w-full text-white px-3 flex flex-col overflow-auto pt-16'>
+        <div className='w-full text-white px-3 pt-3 flex flex-col overflow-y-scroll h-screen'>
             {messages ? messageMapper(messages) : null}
         </div>
     );
