@@ -15,16 +15,12 @@ export default function ChatBox({ messages }: ChatBoxProps) {
         }
     }
 
-    const params = useParams()
-    const currentUser = typeof params.user === "string" ? params.user : "";
-    
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
 
     function messageMapper(messages: IMessage[]) {
         if (messages.length) {
-            console.log(messages)
             return messages.map((message, index) => (
                 <Message 
                     id={index.toString()}

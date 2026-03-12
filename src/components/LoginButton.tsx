@@ -6,7 +6,7 @@ export default function LoginButton() {
     <form
       action={async () => {
         "use server"
-        await signIn("auth0", { redirectTo : "/chats"})
+        await signIn("auth0", { redirectTo: "/chats" }, { prompt: "login"});
       }}
     >
       <button

@@ -12,8 +12,8 @@ export default async function ChatLayout({
 }) {
   const session = await auth();
 
-  // Security check: Ensure the session user matches the URL user
   if (!session?.user) {
+    console.warn("No Session")
     redirect('/login');
   }
 

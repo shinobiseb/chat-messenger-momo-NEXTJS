@@ -1,11 +1,21 @@
 'use client'
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, use } from 'react' // 1. Import 'use'
 import ChatWindow from '../../../../components/ChatWindow'
 import { Chat, IMessage } from '@/types/types'
 
-export default function Page({ params }: { params: { chatId: string, targetUser: string } }) {
+// 2. Update the type to expect a Promise
+interface PageProps {
+  params: Promise<{ chatId: string, targetUser: string }>
+}
+
+export default function Page({ params }: PageProps) {
+  const unwrappedParams = use(params);
+  const chatId = unwrappedParams.chatId || "";
+  const targetUser = unwrappedParams.targetUser || "";
+
   const [messages, setMessages] = useState<IMessage[]>([])
   const [ws, setWs] = useState<WebSocket | null>(null)
+  
   const isDevelopment = process.env.NODE_ENV === 'development'
   const expressServer = process.env.NEXT_PUBLIC_EXPRESS_URL
   const primaryUrl = isDevelopment ? 'ws://localhost:3005' : expressServer
@@ -26,68 +36,45 @@ export default function Page({ params }: { params: { chatId: string, targetUser:
         return;
       }
       setMessages(targetChat.messages);
-
-      console.log('%c Chat Synced!', 'color: #2ecc71; font-weight: bold; font-size: 14px;');
       return targetChat;
 
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
-      console.error(`[fetchMessagesFromChat]: ${errorMessage}`);
+      console.error(`[fetchMessagesFromChat]: ${err}`);
     }
   }, []); 
 
+  // 4. Update dependency array to use the unwrapped chatId
   useEffect(() => {
-    fetchMessagesFromChat(params.chatId)
-  }, [])
+    fetchMessagesFromChat(chatId)
+  }, [chatId, fetchMessagesFromChat])
 
   useEffect(() => {
-    if (!primaryUrl) {
-      console.error('WebSocket URL is undefined');
-      return;
-    }
+    if (!primaryUrl) return;
 
     const socket = new WebSocket(primaryUrl)
 
     socket.onopen = () => {
-      console.log('%cWebSocket connection established', 'color: green; font-weight: bold; font-size: 14px;')
       setWs(socket)
     }
 
     socket.onmessage = (event) => {
       const response = JSON.parse(event.data)
-      if (response.action === 'refetch' && response.chatToRefresh === params.chatId) {
-        console.log('Refetch Response Received', response)
-        fetchMessagesFromChat(params.chatId)
+      if (response.action === 'refetch' && response.chatToRefresh === chatId) {
+        fetchMessagesFromChat(chatId)
       }
     }
 
-    socket.onclose = () => {
-      console.warn('WebSocket connection closed')
-    }
-
-    socket.onerror = (event) => {
-      console.error('WebSocket error:', event)
-    }
-
-    return () => {
-      socket.close()
-    }
-  }, [primaryUrl]) // Add dependencies
-
-  if(params.chatId && params.targetUser && messages && ws){
-    return(
-      <div>
-        nothing
-      </div>
-    )
-  }
+    socket.onclose = () => console.warn('WebSocket connection closed')
+    
+    return () => socket.close()
+  }, [primaryUrl, chatId, fetchMessagesFromChat]) 
 
   return (
     <div>
       <ChatWindow
         fetchMessagesFunction={fetchMessagesFromChat}
-        chatID={params.chatId}
-        recipient={params.targetUser}
+        chatID={chatId}
+        recipient={targetUser}
         messages={messages}
         currentWebSocket={ws}
       />
