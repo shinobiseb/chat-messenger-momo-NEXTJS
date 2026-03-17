@@ -13,7 +13,7 @@ export type signInProps = {
 
 export type headerProps = {
     profilePic : string;
-    userName : string;
+    recipient : string;
 }
 
 export interface IMessage {
@@ -86,8 +86,8 @@ export interface ActiveChatListType {
 
 export interface ChatWindowProps {
     messages?: IMessage[],
-    recipient?: string;
-    chatID?: string;
+    recipient: string;
+    chatID: string;
     fetchMessagesFunction?: (chatId: string) => Promise<Chat | undefined>;
     currentWebSocket?: WebSocket | null;
 }

@@ -39,9 +39,15 @@ export default function Sidebar( { user }: SidebarProps ) {
   const currentUser = typeof params.user === "string" ? params.user : "";
 
   return (
-    <section className='w-full p-2 sm:w-2/5 sm:max-w-sm h-full flex flex-col overflow-y-auto bg-lightorange'>
+    <section className='w-full p-2 sm:w-2/5 sm:max-w-sm h-full flex flex-col overflow-y-auto bg-gray'>
       <section className='flex flex-col'>
-        
+        <aside className='flex items-center'>
+          <img className='w-16 rounded-full ' src={user.image ? user?.image : ""} alt="" />
+          <div className='ml-2'>
+            <h3 className='text-xl'>{user.name}</h3>
+            <p>{user.email}</p>
+          </div>
+        </aside>
         <NewChatButton
           currentUserEmail={email}
           fetchSidebarData={fetchSidebarChats}
@@ -63,6 +69,7 @@ export default function Sidebar( { user }: SidebarProps ) {
                 ? chat.participants[0] 
                 : chat.participants[1]
             }
+
             fetchSidebarChats={fetchSidebarChats}
             chatId={chat._id?.toString()} 
           />

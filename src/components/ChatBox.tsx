@@ -4,7 +4,6 @@ import { IMessage } from "@/types/types";
 import Message from "./Message";
 import { ChatBoxProps } from '@/types/types';
 import { useEffect, useRef } from "react";
-import { useParams } from "next/navigation";
 
 export default function ChatBox({ messages }: ChatBoxProps) {
     const messagesEndRef = useRef<HTMLDivElement | null>(null);

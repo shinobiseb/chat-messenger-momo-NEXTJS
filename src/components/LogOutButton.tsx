@@ -17,8 +17,8 @@ export default function LogOutButton() {
   };
 
   return (
-    <button onClick={handleLogout} className="bg-white px-4 py-2 rounded shadow">
-      Sign out completely
+    <button onClick={handleLogout} className="bg-white px-4 py-2 shadow mt-4">
+      Sign out
     </button>
   );
 }

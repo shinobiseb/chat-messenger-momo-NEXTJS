@@ -21,13 +21,12 @@ export default function ActiveChat(
   href={chatUrl} className="cursor-pointer"
   scroll={false}
   >
-    <div className="transition bg-lightorange hover:bg-orange py-4 px-3 flex flex-col gap-1 text-white border-b border-orange/20">
+    <div className="transition bg-orange hover:bg-darkgray py-4 px-3 flex flex-col gap-1 text-white border-b border-orange/20">
       
       <div className="flex flex-row justify-between items-center">
         <h5 className="text-md font-semibold truncate pr-4">
-          {targetUserName ? targetUserName : "No User"}
+          {targetUserName}
         </h5>
-        {/* <MdMessage size={20} fill="white" className="flex-shrink-0" /> */}
       </div>
 
       <div className="flex flex-row justify-between items-center">
