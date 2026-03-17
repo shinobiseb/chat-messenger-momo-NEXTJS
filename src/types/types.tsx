@@ -74,6 +74,7 @@ export interface ActiveChatType {
     lastMessage?: String,
     timeSent?: string,
     chatId?: string,
+    fetchSidebarChats: Function
     onClickFunction?: (chatId: string )=> void
 }
 
@@ -81,7 +82,6 @@ export interface ActiveChatListType {
   user: IUser | null;
   chats: Chat[];
   fetchChats?: () => void;
-  handleChatClick: (chatId: string) => void;
 }
 
 export interface ChatWindowProps {

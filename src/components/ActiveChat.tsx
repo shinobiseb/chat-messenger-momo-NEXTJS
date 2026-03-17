@@ -6,7 +6,7 @@ import DeleteChatButton from './DeleteChatButton';
 
 
 export default function ActiveChat(
-  { currentUser, targetUserName, chatId, lastMessage }: ActiveChatType,
+  { currentUser, targetUserName, chatId, lastMessage, fetchSidebarChats }: ActiveChatType,
 ) {
 
   if(!chatId){
@@ -35,6 +35,7 @@ export default function ActiveChat(
           {lastMessage ? lastMessage : 'Get Chatting!'}
         </span>
         <DeleteChatButton
+          fetchSidebarChats={fetchSidebarChats}
           chatId={chatId}
         />
       </div>

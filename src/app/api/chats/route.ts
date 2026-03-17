@@ -46,21 +46,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function DELETE(request: NextRequest) {
-  try {
-    const client = await clientPromise;
-    const result = await client.db('MauChat').collection('chats').deleteMany({});
-    
-    if (result.deletedCount > 0) {
-      return NextResponse.json({ success: true, message: 'All chats deleted successfully' });
-    } else {
-      return NextResponse.json({ success: false, message: 'No chats found to delete' });
-    }
-  } catch (error) {
-    console.error('Error deleting chats:', error);
-    return NextResponse.json({ success: false, error: 'Failed to delete chats' });
-  }
-}
 
 export async function PUT(request: NextRequest) {
   const session = await auth();

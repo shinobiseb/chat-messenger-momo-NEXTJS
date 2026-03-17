@@ -20,6 +20,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
       sendMessage();
     }
   };
@@ -71,6 +72,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
       });
 
       if (!response.ok) {
+        console.error(response)
         throw new Error('Network response was not ok');
       }
 
@@ -109,9 +111,9 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
         className='p-2'
         onClick={sendMessage}
         disabled={loading} 
-      >
-        <IoSend size={35} fill='orange' />
-      </button>
+        >
+          <IoSend size={35} fill='orange'/>
+        </button>
       }
       
     </div>

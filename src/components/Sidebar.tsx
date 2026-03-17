@@ -24,7 +24,7 @@ export default function Sidebar( { user }: SidebarProps ) {
       } finally {
         setLoading(false);
       }
-    }
+  }
 
   useEffect(()=> {
     fetchSidebarChats()
@@ -51,7 +51,6 @@ export default function Sidebar( { user }: SidebarProps ) {
       {
         chats.map((chat: Chat) => (
           <ActiveChat
-            // 1. Use the ID as the key for better React performance
             key={chat._id?.toString()} 
             currentUser={currentUser}
             lastMessage={
@@ -64,6 +63,7 @@ export default function Sidebar( { user }: SidebarProps ) {
                 ? chat.participants[0] 
                 : chat.participants[1]
             }
+            fetchSidebarChats={fetchSidebarChats}
             chatId={chat._id?.toString()} 
           />
         ))
