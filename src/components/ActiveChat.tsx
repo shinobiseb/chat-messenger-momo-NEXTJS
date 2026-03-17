@@ -1,13 +1,18 @@
 'use client'
 
-import React from 'react';
 import { ActiveChatType } from '@/types/types';
-import { IoMdClose } from "react-icons/io";
 import Link from 'next/link';
+import DeleteChatButton from './DeleteChatButton';
+
 
 export default function ActiveChat(
   { currentUser, targetUserName, chatId, lastMessage }: ActiveChatType,
 ) {
+
+  if(!chatId){
+    console.error("No Chat ID")
+    return
+  }
 
   const chatUrl = `/chats/${currentUser}/${chatId}`;
 
@@ -29,15 +34,9 @@ export default function ActiveChat(
         <span className="text-white/80 italic text-sm truncate pr-4">
           {lastMessage ? lastMessage : 'Get Chatting!'}
         </span>
-        <button 
-          className="hover:bg-white/30 rounded transition-colors"
-          onClick={(e) => {
-            e.stopPropagation(); // Prevents clicking 'X' from opening the chat
-            // Add delete logic here
-          }}
-        >
-          <IoMdClose />
-        </button>
+        <DeleteChatButton
+          chatId={chatId}
+        />
       </div>
     </div>
   </Link>

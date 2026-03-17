@@ -1,5 +1,4 @@
-import { url } from "inspector";
-
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -21,20 +20,10 @@ export default {
     extend: {
       backgroundImage: {
         'background-svg': "url('https://pouch.jumpshare.com/preview/b00EgR-45vJ8z9q0NGpW1kg6k8hs4VHkNjLSBN-N2DRCJfNCVs602Ck5jw6i_k0xO2bFvJ4967zfpKWdsqVPPDuRxHYUE1IokZijfXhr5Io')",
+        'grid-pattern': `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23e6e8e6' fill-opacity='0.12'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
       },
       fontFamily: {
-        'roboto-thin': ['Roboto', 'sans-serif'],
-        'roboto-light': ['Roboto', 'sans-serif'],
-        'roboto-regular': ['Roboto', 'sans-serif'],
-        'roboto-medium': ['Roboto', 'sans-serif'],
-        'roboto-bold': ['Roboto', 'sans-serif'],
-        'roboto-black': ['Roboto', 'sans-serif'],
-        'roboto-thin-italic': ['Roboto', 'sans-serif'],
-        'roboto-light-italic': ['Roboto', 'sans-serif'],
-        'roboto-regular-italic': ['Roboto', 'sans-serif'],
-        'roboto-medium-italic': ['Roboto', 'sans-serif'],
-        'roboto-bold-italic': ['Roboto', 'sans-serif'],
-        'roboto-black-italic': ['Roboto', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif'],
       },
       fontWeight: {
         'thin': 100,
@@ -43,10 +32,6 @@ export default {
         'medium': 500,
         'bold': 700,
         'black': 900,
-      },
-      fontStyle: {
-        'normal': 'normal',
-        'italic': 'italic',
       },
     },
   },

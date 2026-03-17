@@ -10,10 +10,15 @@ export default function ChatWindow({
   fetchMessagesFunction 
 }: ChatWindowProps) {
 
-  if(messages && chatID && fetchMessagesFunction) return (
+  if(!messages || !chatID || !fetchMessagesFunction) {
+    console.error("Something's Wrong: ", messages, chatID, fetchMessagesFunction)
+    return
+  } 
+
+  return (
     <main className='w-full h-full'>
       <section className='h-full w-full max-h-screen flex-col flex'>
-              <header className='w-full bg-lightorange h-12 flex items-center justify-center z-20 sticky'>
+        <header className='w-full bg-lightorange h-12 flex items-center justify-center z-20 sticky'>
         <h4 className='text-white text-xl'>
           Contact
         </h4>
@@ -26,5 +31,5 @@ export default function ChatWindow({
         />
       </section>
     </main>
-  );
+  )
 }

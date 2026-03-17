@@ -11,7 +11,7 @@ export default function LogOutButton() {
 
     const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN
     const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID
-    const returnTo = "http://localhost:3000"
+    const returnTo = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://mauchat.vercel.app/"
 
     window.location.href = `${domain}/v2/logout?client_id=${clientId}&returnTo=${encodeURIComponent(returnTo)}`;
   };
