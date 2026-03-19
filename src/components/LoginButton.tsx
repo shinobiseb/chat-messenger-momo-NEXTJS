@@ -11,7 +11,7 @@ export default function LoginButton() {
     >
       <button
         type="submit"
-        className="bg-white button-hover rounded-xl text-lg font-semibold px-4 p-2 flex flex-row justify-center items-center drop-shadow-md text-center"
+        className="bg-orange text-white transition-colors hover:bg-darkgray text-lg px-10 p-2 flex flex-row justify-center items-center drop-shadow-md text-center"
       >
         Sign In With Auth0
       </button>

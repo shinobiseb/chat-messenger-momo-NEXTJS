@@ -8,7 +8,7 @@ interface INewChatButton {
   fetchSidebarData : Function
 }
 
-export default function NewChatButton({ currentUserEmail, fetchSidebarData }: INewChatButton) {
+export default function NewChatButton({ fetchSidebarData }: INewChatButton) {
   const [recipientEmail, setRecipientEmail] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -41,7 +41,7 @@ export default function NewChatButton({ currentUserEmail, fetchSidebarData }: IN
   };
 
   return (
-    <div className="flex w-full justify-between py-4">
+    <div className="flex justify-between py-4 mx-2">
       <input 
         type="email" 
         placeholder="Friend's email..."

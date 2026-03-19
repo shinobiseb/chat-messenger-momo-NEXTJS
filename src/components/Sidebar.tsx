@@ -30,7 +30,6 @@ export default function Sidebar( { user }: SidebarProps ) {
     fetchSidebarChats()
 
     if(user.email){
-      // console.log(user.email)
       setEmail(user.email)
     } 
   }, [])
@@ -39,7 +38,7 @@ export default function Sidebar( { user }: SidebarProps ) {
   const currentUser = typeof params.user === "string" ? params.user : "";
 
   return (
-    <section className='w-full p-2 sm:w-2/5 sm:max-w-sm h-full flex flex-col overflow-y-auto bg-gray'>
+    <section className='w-full sm:w-2/5 sm:max-w-sm h-full flex flex-col overflow-y-auto bg-gray py-4'>
       <section className='flex flex-col'>
         <aside className='flex items-center'>
           <img className='w-16 rounded-full ' src={user.image ? user?.image : ""} alt="" />
@@ -69,7 +68,6 @@ export default function Sidebar( { user }: SidebarProps ) {
                 ? chat.participants[0] 
                 : chat.participants[1]
             }
-
             fetchSidebarChats={fetchSidebarChats}
             chatId={chat._id?.toString()} 
           />
