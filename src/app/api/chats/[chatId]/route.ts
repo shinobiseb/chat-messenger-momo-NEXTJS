@@ -23,9 +23,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { chatId: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ chatId: string }> }) {
   try {
-    const { chatId } = await params;
+    const { chatId } = await params; 
     const client = await clientPromise;
     
     if (!chatId || !ObjectId.isValid(chatId)) {
