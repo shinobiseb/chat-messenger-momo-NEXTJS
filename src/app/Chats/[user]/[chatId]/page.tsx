@@ -46,7 +46,6 @@ export default function Page({ params }: PageProps) {
     }
   }, []); 
 
-  // 4. Update dependency array to use the unwrapped chatId
   useEffect(() => {
     fetchMessagesFromChat(chatId)
   }, [chatId, fetchMessagesFromChat])

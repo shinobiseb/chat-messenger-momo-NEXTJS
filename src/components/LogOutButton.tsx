@@ -12,12 +12,11 @@ export default function LogOutButton() {
     const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN
     const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID
     const returnTo = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://mauchat.vercel.app/"
-
     window.location.href = `${domain}/v2/logout?client_id=${clientId}&returnTo=${encodeURIComponent(returnTo)}`;
   };
 
   return (
-    <button onClick={handleLogout} className="bg-white hover:bg-orange hover px-4 py-2 shadow mt-4 transition-colors w-40 self-center">
+    <button onClick={handleLogout} className="bg-gray hover:bg-orange hover:text-white hover px-4 py-2 shadow mt-4 transition-colors w-40 self-center">
       Sign out
     </button>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoMdClose } from 'react-icons/io';
+import { FaTrashAlt } from "react-icons/fa";
 
 interface DeleteButtonProps {
     chatId: string;
@@ -39,11 +39,11 @@ export default function DeleteChatButton({ chatId, fetchSidebarChats }: DeleteBu
 
   return (
     <button 
-      className="p-1 hover:bg-white/30 rounded transition-colors flex items-center justify-center text-white"
+      className="px-2 hover:bg-white/30 rounded transition-colors flex items-center justify-center text-white"
       onClick={handleDelete}
       aria-label="Delete Chat"
     >
-      <IoMdClose size={20} />
+      <FaTrashAlt size={15} />
     </button>
   );
 }

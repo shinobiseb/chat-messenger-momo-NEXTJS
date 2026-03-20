@@ -1,13 +1,13 @@
 "use client"
 import { useEffect, useState } from 'react'
-import { SidebarProps } from '@/types/types'
+import { IUser, SidebarProps } from '@/types/types'
 import NewChatButton from './NewChatButton'
 import { Chat } from '@/types/types'
-import ActiveChat from './ActiveChat'
 import { useParams } from 'next/navigation'
 import SignOutButton from './LogOutButton'
+import ActiveChatList from './ActiveChatList'
 
-export default function Sidebar( { user }: SidebarProps ) {  
+export default function Sidebar( {user} : SidebarProps ) {  
   const [ loading, setLoading ] = useState(false)
   const [ chats, setChats ] = useState<Chat[]>([])
   const [ email, setEmail ] = useState("")
@@ -28,7 +28,6 @@ export default function Sidebar( { user }: SidebarProps ) {
 
   useEffect(()=> {
     fetchSidebarChats()
-
     if(user.email){
       setEmail(user.email)
     } 
@@ -38,10 +37,10 @@ export default function Sidebar( { user }: SidebarProps ) {
   const currentUser = typeof params.user === "string" ? params.user : "";
 
   return (
-    <section className='w-full sm:w-2/5 sm:max-w-sm h-full flex flex-col overflow-y-auto bg-gray py-4'>
-      <section className='flex flex-col'>
+    <section className='w-full sm:w-2/5 sm:max-w-sm h-full flex flex-col bg-white py-4 px-4'>
+      <section className='flex flex-col w-full'>
         <aside className='flex items-center'>
-          <img className='w-16 rounded-full ' src={user.image ? user?.image : ""} alt="" />
+          <img className='w-16 rounded-full ' src={user.image ? user?.image : undefined} alt=""/>
           <div className='ml-2'>
             <h3 className='text-xl'>{user.name}</h3>
             <p>{user.email}</p>
@@ -52,27 +51,16 @@ export default function Sidebar( { user }: SidebarProps ) {
           fetchSidebarData={fetchSidebarChats}
         />
       </section>
-      { loading ? <span>Loading</span> : null }
-      {
-        chats.map((chat: Chat) => (
-          <ActiveChat
-            key={chat._id?.toString()} 
-            currentUser={currentUser}
-            lastMessage={
-              chat.messages.length > 0 
-                ? chat.messages[chat.messages.length - 1].content 
-                : "Get Chatting"
-            }
-            targetUserName={
-              chat.participants[0] !== user.email 
-                ? chat.participants[0] 
-                : chat.participants[1]
-            }
-            fetchSidebarChats={fetchSidebarChats}
-            chatId={chat._id?.toString()} 
-          />
-        ))
-      }
+
+      <h2 className='text-xl  font-semibold'>Chats</h2>
+      <ActiveChatList
+        chats={chats}
+        currentUser={currentUser}
+        loading={loading}
+        user={user}
+        fetchSidebarChats={fetchSidebarChats}
+      />
+      
       <SignOutButton/>
     </section>
   )

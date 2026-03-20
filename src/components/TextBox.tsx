@@ -26,7 +26,6 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
   };
 
   const sendMessage = async () => {
-
     if (content.trim() === '') {
       console.warn('Empty Message');
       return;
@@ -112,7 +111,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
         onClick={sendMessage}
         disabled={loading} 
         >
-          <IoSend size={35} fill='orange'/>
+          <IoSend size={35} fill='#F15025'/>
         </button>
       }
       

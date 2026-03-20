@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react'
-import { LuMessageCircle } from "react-icons/lu";
+import { BiSend } from "react-icons/bi";
+import { TbMessagePlus } from "react-icons/tb";
 import { useRef } from 'react';
 
 interface INewChatButton {
@@ -8,11 +9,24 @@ interface INewChatButton {
   fetchSidebarData : Function
 }
 
+
+
 export default function NewChatButton({ fetchSidebarData }: INewChatButton) {
   const [recipientEmail, setRecipientEmail] = useState("");
+  const [ isOpen, setIsOpen ] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleCreateChat();
+    }
+  };
+
   const handleCreateChat = async () => {
+    setIsOpen(false)
+    if(recipientEmail === "" || null) return
+
     try {
       const response = await fetch('/api/chats', {
         method: 'POST',
@@ -28,9 +42,6 @@ export default function NewChatButton({ fetchSidebarData }: INewChatButton) {
       if (data.success) {
         fetchSidebarData();
         setRecipientEmail(""); 
-        if (inputRef.current) {
-          inputRef.current.value = "";
-        }
       } else {
         console.error("Error:", data.error);
       }
@@ -40,21 +51,31 @@ export default function NewChatButton({ fetchSidebarData }: INewChatButton) {
     }
   };
 
-  return (
-    <div className="flex justify-between py-4 mx-2">
+  if(isOpen) return (
+    <div className="flex justify-between py-4">
       <input 
         type="email" 
         placeholder="Friend's email..."
-        className="px-3 p-1 w-full"
+        className="p-3 w-full bg-gray"
         onChange={(e) => setRecipientEmail(e.target.value)}
         ref={inputRef}
+        onKeyDown={handleKeyDown}
+        autoFocus={true}
       />
       <button 
         onClick={handleCreateChat}
-        className="mx-1 p-2 w-7 flex justify-center items-center"
+        className="flex justify-center items-center px-2"
       >
-        <LuMessageCircle/>
+        <BiSend size={25}/>
       </button>
     </div>
   );
+  else return (
+    <button onClick={()=> setIsOpen(true)} className='p-3 my-4 flex justify-between transition-colors hover:bg-orange hover:text-white bg-gray'>
+      <span className='mr-2'>New Chat</span>
+      <TbMessagePlus
+        size={25}
+      />
+    </button>
+  )
 }

@@ -30,7 +30,6 @@ export default function ChatWindow({
         chatId={chatID}
         currentWebSocket={currentWebSocket}
         />
-        {/* <ProfileChatSidebar/> */}
       </section>
     </main>
   )

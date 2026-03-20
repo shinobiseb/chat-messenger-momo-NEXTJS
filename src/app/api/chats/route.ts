@@ -4,12 +4,11 @@ import { ObjectId } from "mongodb";
 import { auth } from "@/auth";
 
 export async function GET(request: NextRequest) {
+  const session = await auth()
+  if (!session || !session.user) {
+    return NextResponse.json({ error: "Not Authorized" }, { status: 401 });
+  }
   try {
-    const session = await auth()
-    if (!session?.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const client = await clientPromise;
     const chats = await client
       .db('MauChat')

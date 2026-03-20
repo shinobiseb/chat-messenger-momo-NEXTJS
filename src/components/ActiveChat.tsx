@@ -22,27 +22,22 @@ export default function ActiveChat(
   return (
   <Link 
   href={chatUrl} 
-  className="cursor-pointer"
+  className="cursor-pointer w-full"
   scroll={false}
   >
-    <div
-    className={`transition hover:bg-orange ${isActive ? "bg-orange text-white" : null} py-4 px-3 flex flex-col gap-1 hover:text-white`}>
-      
-      <div className="flex flex-row justify-between items-center">
+    <div className={`transition hover:bg-orange ${isActive ? "bg-orange text-white" : "bg-gray"} py-4 px-4 flex gap-1 hover:text-white justify-between`}>
+      <div className="flex flex-col items-start">
         <h5 className="text-md font-semibold truncate pr-4">
           {targetUserName}
         </h5>
-      </div>
-
-      <div className="flex flex-row justify-between items-center">
         <span className="italic text-sm truncate pr-4">
           {lastMessage ? lastMessage : 'Get Chatting!'}
         </span>
-        <DeleteChatButton
-          fetchSidebarChats={fetchSidebarChats}
-          chatId={chatId}
-        />
       </div>
+      <DeleteChatButton
+        fetchSidebarChats={fetchSidebarChats}
+        chatId={chatId}
+      />
     </div>
   </Link>
 );
