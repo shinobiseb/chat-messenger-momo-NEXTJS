@@ -8,9 +8,11 @@ export default async function ChatLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { user: string, email: string };
+  params: Promise<{ user: string }>; 
 }) {
   const session = await auth();
+
+  const { user } = await params;
 
   if (!session?.user) {
     console.warn("No Session")
@@ -19,9 +21,10 @@ export default async function ChatLayout({
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
-    <Sidebar user={session.user} />
+      <Sidebar user={session.user} />
       <section className="flex-1 h-full overflow-hidden">
-        <SessionProvider>
+        {/* Pass the session to the provider so client components can use useSession() */}
+        <SessionProvider session={session}>
             {children}
         </SessionProvider>
       </section>
