@@ -14,7 +14,6 @@ export async function GET() {
     const chats = await client
       .db('MauChat')
       .collection('chats')
-      // Only find chats where the logged-in user is a participant
       .find({ participants: session.user.email }) 
       .toArray();
 
