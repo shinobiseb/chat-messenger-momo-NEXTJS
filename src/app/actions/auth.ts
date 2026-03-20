@@ -2,16 +2,20 @@
 import { signOut } from "@/auth";
 
 export async function handleSignOut() {
-  // Use your Auth0 domain (e.g. dev-xxxx.us.auth0.com)
   const domain = process.env.AUTH0_DOMAIN; 
   const clientId = process.env.AUTH0_CLIENT_ID;
   
-  // This must match exactly what you put in "Allowed Logout URLs"
-  const returnTo = encodeURIComponent("http://localhost:3000/");
+  // Ensure this matches your Auth0 "Allowed Logout URLs" exactly
+  const returnTo = process.env.NODE_ENV === "development" 
+    ? "http://localhost:3000" 
+    : "https://mauchat.vercel.app";
 
-  // Construct the "Federated Logout" URL
-  const auth0LogoutUrl = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${returnTo}`;
+  // Construct the Auth0 Federated Logout URL
+  const auth0LogoutUrl = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${encodeURIComponent(returnTo)}`;
 
-  // This clears your local cookie AND sends the user to Auth0 to clear theirs
-  await signOut({ redirectTo: auth0LogoutUrl });
+  // 1. Clear the local Next.js session
+  // 2. Redirect the user's BROWSER to the Auth0 logout endpoint
+  await signOut({ 
+    redirectTo: auth0LogoutUrl 
+  });
 }
