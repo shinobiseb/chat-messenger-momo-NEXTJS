@@ -1,4 +1,4 @@
-import { Chat, IUser } from '@/types/types'
+import { Chat, IAuthSession, IUser } from '@/types/types'
 import { BlinkBlur } from 'react-loading-indicators'
 import ActiveChat from './ActiveChat'
 
@@ -6,13 +6,7 @@ interface IActiveChatList {
     loading: boolean,
     chats: Chat[],
     currentUser: string,
-    user: {
-        id?: string | undefined;
-        name?: string | null | undefined;
-        email?: string | null | undefined;
-        image?: string | null | undefined;
-        emailVerified?: boolean | null | undefined;
-    },
+    user: IAuthSession['user']
     fetchSidebarChats: () => Promise<void>
 }
 

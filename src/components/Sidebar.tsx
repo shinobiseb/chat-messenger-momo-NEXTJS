@@ -1,11 +1,12 @@
 "use client"
 import { useEffect, useState } from 'react'
-import { IUser, SidebarProps } from '@/types/types'
+import { SidebarProps } from '@/types/types'
 import NewChatButton from './NewChatButton'
 import { Chat } from '@/types/types'
 import { useParams } from 'next/navigation'
 import SignOutButton from './LogOutButton'
 import ActiveChatList from './ActiveChatList'
+import UserProfile from './UserProfile'
 
 export default function Sidebar( {user} : SidebarProps ) {  
   const [ loading, setLoading ] = useState(false)
@@ -39,13 +40,9 @@ export default function Sidebar( {user} : SidebarProps ) {
   return (
     <section className='w-full sm:w-2/5 sm:max-w-sm h-full flex flex-col bg-white py-4 px-4'>
       <section className='flex flex-col w-full'>
-        <aside className='flex items-center'>
-          <img className='w-16 rounded-full ' src={user.image ? user?.image : undefined} alt=""/>
-          <div className='ml-2'>
-            <h3 className='text-xl'>{user.name}</h3>
-            <p>{user.email}</p>
-          </div>
-        </aside>
+        <UserProfile
+        user={user}
+        />
         <NewChatButton
           currentUserEmail={email}
           fetchSidebarData={fetchSidebarChats}
