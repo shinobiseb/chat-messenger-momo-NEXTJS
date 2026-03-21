@@ -18,19 +18,17 @@ export default function ChatWindow({
   } 
 
   return (
-    <main className='w-full h-full'>
-      <section className='h-full w-full max-h-screen flex-col flex'>
-        <Header
-        recipient={recipient ? recipient : "No User"}
-        profilePic={""}
-        />
-        <ChatBox messages={messages}/>
-        <TextBox 
-        fetchMessagesFunction={fetchMessagesFunction} 
-        chatId={chatID}
-        currentWebSocket={currentWebSocket}
-        />
-      </section>
-    </main>
+    <section className='h-full w-full max-h-screen flex-col flex'>
+      <Header
+      recipient={recipient ? recipient : "No User"}
+      profilePic={""}
+      />
+      <ChatBox messages={messages}/>
+      <TextBox 
+      fetchMessagesFunction={fetchMessagesFunction} 
+      chatId={chatID}
+      currentWebSocket={currentWebSocket}
+      />
+    </section>
   )
 }
