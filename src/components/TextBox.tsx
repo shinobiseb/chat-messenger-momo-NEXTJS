@@ -32,6 +32,7 @@ const TextBox = ({ fetchMessagesFunction, currentWebSocket, chatId } : textBoxPr
     }
 
     if (!currentWebSocket) {
+      window.alert("No Websocket Component Connected. Please contact Support")
       console.error('Textbox Component: WebSocket is: ', currentWebSocket);
       return;
     }

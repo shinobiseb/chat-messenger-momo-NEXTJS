@@ -36,7 +36,7 @@ export type Message = {
   }
 
 export interface SidebarProps {
-  user: IAuthSession['user']; // This grabs the user shape specifically from your session type
+  user: IAuthSession['user'];
 }
 
 export type IUser = {

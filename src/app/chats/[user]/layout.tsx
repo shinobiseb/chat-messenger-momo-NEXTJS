@@ -10,14 +10,15 @@ export default async function ChatLayout({
   children: React.ReactNode;
   params: Promise<{ user: string }>; 
 }) {
-  const session = await auth();
 
-  const { user } = await params;
+  const session = await auth();
 
   if (!session?.user) {
     console.warn("No Session")
     redirect('/login');
   }
+
+
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
